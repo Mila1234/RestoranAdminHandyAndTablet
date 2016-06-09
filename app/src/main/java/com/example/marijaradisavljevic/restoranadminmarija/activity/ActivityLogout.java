@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.marijaradisavljevic.restoran.R;
+import com.example.marijaradisavljevic.restoranadminmarija.R;
+
 
 /**
  * Created by marija.radisavljevic on 6/8/2016.
@@ -33,7 +34,7 @@ public class ActivityLogout extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(ActivityLogout.this, "Odjava", Toast.LENGTH_LONG).show();
 
-                Intent intent2 = new Intent(getApplicationContext(), ActivityFirst.class);
+                Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
                 intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent2);
 

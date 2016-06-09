@@ -1,11 +1,12 @@
 package com.example.marijaradisavljevic.restoranadminmarija.servis;
 
-import com.example.marijaradisavljevic.restoran.database.FoodMenuItem;
-import com.example.marijaradisavljevic.restoran.database.Order;
-import com.example.marijaradisavljevic.restoran.database.Rezervation;
-import com.example.marijaradisavljevic.restoran.database.SelecionRegulations;
-import com.example.marijaradisavljevic.restoran.database.UserInfo;
-import com.example.marijaradisavljevic.restoran.fragments.FreagmentAddOrder;
+import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityAddOrder;
+import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
+import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
+import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
+import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
+import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -231,8 +232,8 @@ public class Servis {
         Integer i = r.getId();
         return String.valueOf(i);
     }
-
-    public void AddRezervation(String id,String typeAndName, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<FreagmentAddOrder.ItemOrder> listaOrder ){
+/*
+    public void AddRezervation(String id,String typeAndName, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<ActivityAddOrder.ItemOrder> listaOrder ){
 
         for(Rezervation rez: listOfRezervations){
             if(rez.getId()== Integer.parseInt(id)){
@@ -246,7 +247,7 @@ public class Servis {
                 rez.setPaidOrNot(ispaidnOrnot);
                 rez.setNumberTable(Integer.parseInt(nuberTable));
                 ArrayList<Order> lista = new ArrayList<Order>();
-                for(FreagmentAddOrder.ItemOrder curOrder : listaOrder){
+                for(ActivityAddOrder.ItemOrder curOrder : listaOrder){
                     lista.add(curOrder.getOrder());
                 }
                 rez.setOrders(lista);
@@ -256,7 +257,7 @@ public class Servis {
         }
 
 
-    }
+    }*/
 
     public void addOrder(int id, String numberOfItems, String Kategory) {
 
