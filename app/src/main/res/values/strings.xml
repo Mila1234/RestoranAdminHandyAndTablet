@@ -69,5 +69,6 @@
     <string name="add_menu_item">dodaj stavku</string>
     <string name="menu_time_list">lista stavki</string>
     <string name="logout_string">odjavi se</string>
+    <string name="password">sifra</string>
 
 </resources>

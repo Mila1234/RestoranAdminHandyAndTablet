@@ -5,36 +5,42 @@
 
 
     <TextView
+        android:id="@+id/userinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/userinfo"
         android:gravity="center"
         android:layout_weight="1"/>
     <TextView
+        android:id="@+id/addUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_new_user"
         android:gravity="center"
         android:layout_weight="1"/>
     <TextView
+        android:id="@+id/listusers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/users_list"
         android:gravity="center"
         android:layout_weight="1"/>
     <TextView
+        android:id="@+id/listrezervations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list_rezervation"
         android:gravity="center"
         android:layout_weight="1"/>
     <TextView
+        android:id="@+id/additem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_menu_item"
         android:gravity="center"
         android:layout_weight="1"/>
     <TextView
+        android:id="@+id/listitems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/menu_time_list"
@@ -42,6 +48,7 @@
         android:layout_weight="1"
         android:textSize="@dimen/abc_floating_window_z" />
     <TextView
+        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/logout_string"

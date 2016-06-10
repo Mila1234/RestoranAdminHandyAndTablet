@@ -10,13 +10,13 @@ import com.example.marijaradisavljevic.restoranadminmarija.R;
 /**
  * Created by marija.radisavljevic on 6/9/2016.
  */
-public class ActivityAddmenuItem  extends AppCompatActivity {
+public class ActivityAddUser  extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
 
-        setContentView(R.layout.activity_add_menu_item);
+        setContentView(R.layout.activity_add_user);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // toolbar.setNavigationIcon(R.drawable.back);

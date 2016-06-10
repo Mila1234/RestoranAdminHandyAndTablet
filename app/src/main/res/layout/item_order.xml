@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/rezervation_color_background"
+    android:padding="@dimen/padding_margin">
+
+    <TextView android:id = "@+id/item_order"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="koka kola bla bla bla"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        />
+
+    <TextView android:id = "@+id/number_item_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:layout_toEndOf="@+id/item_order"
+
+        android:layout_toRightOf="@+id/item_order" />
+
+
+
+
+    <Button  android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remove"
+        android:background="@drawable/shape_of_button"
+        android:textColor="@color/white"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_toRightOf="@+id/number_item_order"
+
+        />
+
+    <CheckedTextView
+        android:id="@+id/in_new_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/in_new_order"
+        android:checked="false"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:shadowColor="#1132ec"
+        android:layout_toLeftOf="@+id/remove"
+        android:layout_toStartOf="@+id/remove"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

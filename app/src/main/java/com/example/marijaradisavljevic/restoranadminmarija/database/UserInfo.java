@@ -4,11 +4,30 @@ package com.example.marijaradisavljevic.restoranadminmarija.database;
  * Created by marija.radisavljevic on 6/6/2016.
  */
 public class UserInfo {
-   private String username;
+    private String username;
     private String name;
     private String surname ;
     private String number ;
     private String email ;
+    private String type;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 
     public String getUsername() {
         return username;
@@ -48,5 +67,13 @@ public class UserInfo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getnameAndSurname() {
+        return name+" "+surname;
+    }
+
+    public String getNameSurnameType() {
+        return type +" : "+name+" "+surname;
     }
 }

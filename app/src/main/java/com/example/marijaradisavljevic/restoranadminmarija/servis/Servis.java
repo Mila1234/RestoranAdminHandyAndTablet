@@ -1,12 +1,12 @@
 package com.example.marijaradisavljevic.restoranadminmarija.servis;
 
-import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityAddOrder;
+
+
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
 import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
-
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +32,9 @@ public class Servis {
         userInfo.setName("Marija");
         userInfo.setSurname("Radisavljevic");
         userInfo.setNumber("060123789");
+        userInfo.setUsername("marijarad89@gmail.com");
+        userInfo.setType("konobar");
+        userInfo.setPassword("sifra");
 
         numberItemssStrignList = new String[7];
         numberItemssStrignList[0] = "broj komada";
@@ -139,17 +142,13 @@ public class Servis {
     }
 
     public  Boolean logIN(String mEmail, String mPassword) {
+
         return true;
     }
 
-    public String UserType(){
-        return "konobar";
-    }
-    public String NameOfUser (){
-        return "Pera Peric";
-    }
 
-    public UserInfo getUserInfo(){
+
+    public UserInfo getUserInfo(String username, String password){
         return userInfo;
     }
     public void setUserInfo(UserInfo ui){
@@ -232,8 +231,8 @@ public class Servis {
         Integer i = r.getId();
         return String.valueOf(i);
     }
-/*
-    public void AddRezervation(String id,String typeAndName, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<ActivityAddOrder.ItemOrder> listaOrder ){
+
+   /* public void AddRezervation(String id,String typeAndName, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<FreagmentAddOrder.ItemOrder> listaOrder ){
 
         for(Rezervation rez: listOfRezervations){
             if(rez.getId()== Integer.parseInt(id)){
@@ -247,7 +246,7 @@ public class Servis {
                 rez.setPaidOrNot(ispaidnOrnot);
                 rez.setNumberTable(Integer.parseInt(nuberTable));
                 ArrayList<Order> lista = new ArrayList<Order>();
-                for(ActivityAddOrder.ItemOrder curOrder : listaOrder){
+                for(FreagmentAddOrder.ItemOrder curOrder : listaOrder){
                     lista.add(curOrder.getOrder());
                 }
                 rez.setOrders(lista);
