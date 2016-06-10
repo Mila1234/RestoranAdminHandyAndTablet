@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="numbers">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>broj stola</item>
+    </string-array>
+    <string-array name="paidNotpaid">
+        <item>placena</item>
+        <item>ne placena</item>
+        <item>placena ,ne placena</item>
+    </string-array>
+    <string-array name="kategory_array">
+        <item>pice</item>
+        <item>kafa</item>
+        <item>turska kafa</item>
+        <item>topli napici</item>
+        <item>caj</item>
+        <item>kategorija</item>
+    </string-array>
+    <string-array name="number_item_spiner">
+        <item>Broj komada</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3 </item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item></string-array>
+</resources>
