@@ -14,7 +14,28 @@ public class SelecionRegulations {
     private String kategory;
     private boolean kategory_selected=false;
 
+    private String user;
+    private boolean user_selected=false;
+
     private boolean all=false;
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public boolean isUser_selected() {
+        return user_selected;
+    }
+
+    public void setUser_selected(boolean user_selected) {
+        this.user_selected = user_selected;
+    }
+
+
 
 
     public boolean isAll() {

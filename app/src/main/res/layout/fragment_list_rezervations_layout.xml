@@ -6,12 +6,43 @@
     android:layout_height="match_parent"
     android:background="@color/rezervation_color_background"
     android:padding="@dimen/padding_margin"
+
     >
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/numbreOfTable_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <Spinner
+            android:id="@+id/isItPaid_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/kategory_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+        <Spinner
+            android:id="@+id/user_spiner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+    </LinearLayout>
 
         <ListView android:id = "@+id/list_reservations"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:cacheColorHint="@color/transparent"
             android:divider="@color/transparent"
             android:dividerHeight="5dp"

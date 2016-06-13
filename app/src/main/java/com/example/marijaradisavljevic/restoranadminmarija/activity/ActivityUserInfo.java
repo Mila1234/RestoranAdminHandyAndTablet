@@ -3,6 +3,7 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +37,13 @@ public class ActivityUserInfo extends AppCompatActivity {
 
         setContentView(R.layout.fragment_user_info_layout);
 
-        setTitle(R.string.fragmentUserInfo);
-
+        //setTitle(R.string.fragmentUserInfo);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // toolbar.setNavigationIcon(R.drawable.back);
+        //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
+        // toolbar.setLogo(R.drawable.help);
+        toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
         ///////////////////////////////////////////////////////////////////////
         username = (EditText) findViewById(R.id.username);
         name = (EditText) findViewById(R.id.name);
@@ -67,10 +73,11 @@ public class ActivityUserInfo extends AppCompatActivity {
                 ui.setSurname(surname.getText().toString());
                 ui.setNumber(number.getText().toString());
                 ui.setEmail(email.getText().toString());
+                ui.setPassword(password.getText().toString());
                 Servis.getInstance().setUserInfo(ui);
 
                 UserData.getInstance().setUsername(ui.getUsername());
-                //  UserData.getInstance().setUsername(ui.getPasseord());
+                UserData.getInstance().setUsername(ui.getPassword());
 
                 Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

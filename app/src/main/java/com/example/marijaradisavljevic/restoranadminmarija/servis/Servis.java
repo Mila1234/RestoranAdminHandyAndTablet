@@ -18,7 +18,8 @@ public class Servis {
     private static Servis instance = new Servis();
     public static Servis getInstance() {return instance; }
 
-    private UserInfo userInfo;
+    private UserInfo userInfo; //current user
+    private  ArrayList<UserInfo> listUsers;
     private String[] listaTable;
     private String[] numberItemssStrignList;
     private ArrayList<FoodMenuItem> listFoodMenuItem;
@@ -26,6 +27,8 @@ public class Servis {
 
 
     public Servis() {
+        listUsers = new ArrayList<UserInfo>();
+
 
         userInfo = new UserInfo();
         userInfo.setEmail("marijarad89@gmail.com");
@@ -35,6 +38,8 @@ public class Servis {
         userInfo.setUsername("marijarad89@gmail.com");
         userInfo.setType("konobar");
         userInfo.setPassword("sifra");
+
+        listUsers.add(userInfo);
 
         numberItemssStrignList = new String[7];
         numberItemssStrignList[0] = "broj komada";
@@ -232,31 +237,7 @@ public class Servis {
         return String.valueOf(i);
     }
 
-   /* public void AddRezervation(String id,String typeAndName, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<FreagmentAddOrder.ItemOrder> listaOrder ){
 
-        for(Rezervation rez: listOfRezervations){
-            if(rez.getId()== Integer.parseInt(id)){
-                //update info
-                int index = typeAndName.indexOf(":");
-
-
-                rez.setNameType(typeAndName.substring(0,index));
-                rez.setName_user(typeAndName.substring(index + 1, typeAndName.length()));
-                rez.setTime(time);
-                rez.setPaidOrNot(ispaidnOrnot);
-                rez.setNumberTable(Integer.parseInt(nuberTable));
-                ArrayList<Order> lista = new ArrayList<Order>();
-                for(FreagmentAddOrder.ItemOrder curOrder : listaOrder){
-                    lista.add(curOrder.getOrder());
-                }
-                rez.setOrders(lista);
-
-            }
-
-        }
-
-
-    }*/
 
     public void addOrder(int id, String numberOfItems, String Kategory) {
 
@@ -377,5 +358,46 @@ public class Servis {
             }
 
         }
+    }
+
+    public void makeuser(UserInfo ui) {
+        listUsers.add(ui);
+
+    }
+
+    public ArrayList<UserInfo> getUserList(String username, String password) {
+        return listUsers;
+    }
+
+    public void removeUser(String username, String password) {
+
+        for(UserInfo rez: listUsers){
+            if(rez.getUsername().equals(username) && rez.getPassword().equals(password)){
+                listUsers.remove(rez);
+                return;
+            }
+
+        }
+    }
+
+    public void updateUserame(UserInfo ui, String usernameString, String passordSrting) {
+        for(UserInfo rez: listUsers){
+            if(rez.getUsername().equals(usernameString) && rez.getPassword().equals(passordSrting)){
+                rez = ui;
+                return;
+            }
+
+        }
+    }
+
+    public String[] stringlistUserNames() {
+        ArrayList<String> returnStringList = new ArrayList<String>();
+        returnStringList.add("kategory");
+        for(UserInfo ui: listUsers){
+            returnStringList.add(ui.getUsername());
+        }
+        String[] stringList = new String[returnStringList.size()];
+        stringList = returnStringList.toArray(stringList);
+        return  stringList;
     }
 }

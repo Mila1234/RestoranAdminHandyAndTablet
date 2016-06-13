@@ -70,5 +70,7 @@
     <string name="menu_time_list">lista stavki</string>
     <string name="logout_string">odjavi se</string>
     <string name="password">sifra</string>
+    <string name="activity_list_users">lista korisnika</string>
+    <string name="title_edtiUsername">izmena podataka</string>
 
 </resources>

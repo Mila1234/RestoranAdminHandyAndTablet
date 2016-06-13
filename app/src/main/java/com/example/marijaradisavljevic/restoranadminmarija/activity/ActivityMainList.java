@@ -64,7 +64,7 @@ public class ActivityMainList  extends AppCompatActivity implements View.OnClick
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
                 break;
-            case R.id.list_reservations:
+            case R.id.listrezervations:
                  intent = new Intent(getApplicationContext(), ActivityListRezer.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
