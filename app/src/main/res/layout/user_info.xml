@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/rezervation_color_background"
+    android:padding="@dimen/padding_margin"
+    android:orientation="vertical">
+
+    <TextView android:id = "@+id/typAndName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Konobar : Marija"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+
+        />
+
+    <TextView android:id = "@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mairjadsdfsdf.com"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+
+
+      />
+
+
+
+    <TextView android:id = "@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="brojasdasd"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+
+
+
+      />
+
+    <TextView android:id = "@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="marija@asdalksd.com"
+
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+         />
+
+
+
+    <TextView android:id = "@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123789"
+
+
+        />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_below="@id/number">
+
+    <Button  android:id="@+id/edit"
+        android:layout_marginLeft="@dimen/activity_small_padding"
+        android:layout_marginRight="@dimen/activity_small_padding"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit"
+        android:background="@drawable/shape_of_button"
+        android:textColor="@color/white"
+
+        style="@style/Widget.AppCompat.Button.Colored" />
+
+    <Button  android:id="@+id/remove"
+        android:layout_marginLeft="@dimen/activity_small_padding"
+        android:layout_marginRight="@dimen/activity_small_padding"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remove"
+        android:background="@drawable/shape_of_button"
+        android:textColor="@color/white"
+
+
+        android:layout_marginEnd="60dp"
+
+        style="@style/Widget.AppCompat.Button.Colored" />
+
+
+</LinearLayout>
+
+
+
+
+</LinearLayout>
