@@ -48,14 +48,14 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
         SelecionRegulations sr = new SelecionRegulations();
 
-        sr.setAll(all) ;
+        /*sr.setAll(all) ;
         sr.setNumberOfTable(numberOfTable);
         sr.setNumberOfTable_selectied(numberOfTable_selectied);
         sr.setPaidOrNot(paidOrNot) ;
         sr.setPaidOrNot_selected(paidOrNot_selected) ;
         sr.setKategory(kategory);
         sr.setKategory_selected(kategory_selected) ;
-        sr.setUser(user);
+        sr.setUser(user);*/
         ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(sr);
         for(Rezervation rez:myList){
             adapter.addItem(new ItemForRezervationsList(rez));
