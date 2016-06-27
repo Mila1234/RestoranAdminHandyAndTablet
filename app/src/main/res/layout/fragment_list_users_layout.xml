@@ -39,7 +39,13 @@
             android:id="@+id/listusers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/blue"
+            android:dividerHeight="5dp"
 
+            android:layout_marginLeft="@dimen/activity_small_padding"
+            android:layout_marginRight="@dimen/activity_small_padding"
+            android:listSelector="@android:color/transparent"
             android:paddingBottom="?attr/actionBarSize"
             >
 

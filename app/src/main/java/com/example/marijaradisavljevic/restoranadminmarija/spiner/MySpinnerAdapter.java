@@ -16,11 +16,13 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
    // private String tittle;
     //private String subtittle;
 
+    private Boolean showUndefined;
 
-    public MySpinnerAdapter(Context context, int textViewResourceId, String[] value) {
+    public MySpinnerAdapter(Boolean su,Context context, int textViewResourceId, String[] value) {
   super(context, textViewResourceId,value);
   // TODO Auto-generated constructor stub
         mContext = context;
+        showUndefined = su;
 
  }
 
@@ -37,8 +39,12 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
 	  
   // TODO Auto-generated method stub
   int count = super.getCount();
-  
-  return count>0 ? count-1 : count ;
+
+      if (showUndefined){
+          return count;
+      }else {
+          return count > 0 ? count - 1 : count;
+      }
   
   
  }

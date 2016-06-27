@@ -45,6 +45,24 @@ public class Servis {
         userInfo.setPassword("sifra");
 
         listUsers.add(userInfo);
+         userInfo = new UserInfo();
+        userInfo.setEmail("anailic@gmail.com");
+        userInfo.setName("Ana");
+        userInfo.setSurname("Ilic");
+        userInfo.setNumber("060123789");
+        userInfo.setUsername("anailic@gmail.com");
+        userInfo.setType("konobar");
+        userInfo.setPassword("sifra");
+        listUsers.add(userInfo);
+         userInfo = new UserInfo();
+        userInfo.setEmail("paja@gmail.com");
+        userInfo.setName("Pavle");
+        userInfo.setSurname("Stojanovic");
+        userInfo.setNumber("060123789");
+        userInfo.setUsername("paja@gmail.com");
+        userInfo.setType("konobar");
+        userInfo.setPassword("sifra");
+        listUsers.add(userInfo);
 
         numberItemssStrignList = new String[7];
         numberItemssStrignList[0] = "1";
@@ -65,16 +83,16 @@ public class Servis {
 
 
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
-
-        FoodMenuItem fmt1 = new FoodMenuItem("1 type food", 100);
+        FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
+        FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"1 type food", 100);
         listFoodMenuItem.add(fmt1);
-        FoodMenuItem fmt2 = new FoodMenuItem("2 type food", 100);
+        FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"2 type food", 100);
         listFoodMenuItem.add(fmt2);
 
-        FoodMenuItem fmt3 = new FoodMenuItem("3 type food", 100);
+        FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"3 type food", 100);
         listFoodMenuItem.add(fmt3);
 
-        FoodMenuItem fmt4 = new FoodMenuItem("4 type food", 100);
+        FoodMenuItem fmt4 = new FoodMenuItem(nadtavka,"4 type food", 100);
         listFoodMenuItem.add(fmt4);
 
 
@@ -87,8 +105,9 @@ public class Servis {
 
 
         Rezervation ld = new Rezervation();
-        ld.setNameType("konobar");
-        ld.setName_user("milica jelic");
+        ld.setUsername("marijarad89@gmail.com");
+        ld.setNameType("admin");
+        ld.setName_user("marija radisavljevic");
         // ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
         ArrayList<Order>listOrders = new ArrayList<Order>();
         listOrders.add(new Order(1,fmt1,1));
@@ -104,6 +123,7 @@ public class Servis {
         listOfRezervations.add(ld);
 
         ld = new Rezervation();
+        ld.setUsername("anailic@gmail.com");
         ld.setNameType("konobar");
         ld.setName_user("Ana Ilic");
         //ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
@@ -118,25 +138,13 @@ public class Servis {
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
 
-        ld = new Rezervation();
-        ld.setNameType("konobar");
-        ld.setName_user("milanka rajicic");
-        // ld.setItemsOrder(new ArrayList(Arrays.asList("koka kola , koka kola, lenja pita sa jabukama")));
-        listOrders = new ArrayList<Order>();
-        listOrders.add(new Order(1,fmt1,71));
-        listOrders.add(new Order(3,fmt2,17));
-        listOrders.add(new Order(4,fmt3,17));
-        ld.setOrders(listOrders);
-        ld.setNumberTable(2);
-        ld.setId(40);
-        ld.setPaidOrNot(true);
-        ld.setTime("5.5.2016. 18:00");
-        listOfRezervations.add(ld);
+
 
 
         ld = new Rezervation();
         ld.setNameType("konobar");
-        ld.setName_user("novak stojanovic");
+        ld.setUsername("paja@gmail.com");
+        ld.setName_user("pavle stojanovic");
         //  ld.setItemsOrder(new ArrayList(Arrays.asList("jelen pivo ,crveno vino , lenja pita sa jabukama")));
         listOrders = new ArrayList<Order>();
         listOrders.add(new Order(1,fmt1,12));
@@ -468,5 +476,68 @@ public class Servis {
 
 
         return bla;
+    }
+
+    public ArrayList<Rezervation> getRezervationsWithRegulationForAdmin(SelecionRegulations selecionRegulation) {
+
+           if (selecionRegulation.somethingSelectedadminListRezervations()==false){
+               return  listOfRezervations;
+           }
+
+
+            ArrayList<Rezervation> returnRezerList = new ArrayList<>();
+            for (Rezervation currRezervation : listOfRezervations){
+
+                if (selecionRegulation.isUser_selected()){
+                    if (currRezervation.getUsername().equals(selecionRegulation.getUser())){
+                        returnRezerList.add(currRezervation);
+                    }
+                }
+
+                if(selecionRegulation.isKategory_selected()){
+                    for (Order currorder :currRezervation.getOrders()){
+                        if(currorder.getOrder().getFood().equals(selecionRegulation.getKategory())){
+                            returnRezerList.add(currRezervation);
+                            break;
+                        }
+                    }
+                }
+
+                if(selecionRegulation.isNumberOfTable_selectied()){
+                    if(currRezervation.getnumberTable().toString().equals(selecionRegulation.getNumberOfTable())  ){
+                        returnRezerList.add(currRezervation);
+                    }
+
+                }
+                if(selecionRegulation.isPaidOrNot_selected() && selecionRegulation.isPaidOrNot()){
+                    //ubaci sve koji su placeni
+                    if(currRezervation.isPaidOrNot() == true ){
+                        returnRezerList.add(currRezervation);
+                    }
+                }
+            }
+
+
+            return returnRezerList;
+
+
+    }
+
+    public void makeNewFoodItem(String kategoryString, String nameString, String priceString) {
+        FoodMenuItem nadstavka = null;
+        FoodMenuItem newItem;
+        for(FoodMenuItem currFMI : listFoodMenuItem){
+            if(currFMI.getFood().equals(kategoryString)){
+                nadstavka = currFMI;
+                break;
+            }
+        }
+
+        newItem = new FoodMenuItem( nadstavka,  nameString,  Integer.parseInt(priceString));
+        listFoodMenuItem.add(newItem);
+    }
+
+    public ArrayList<FoodMenuItem> getfoodmenuitemslist() {
+            return listFoodMenuItem;
     }
 }

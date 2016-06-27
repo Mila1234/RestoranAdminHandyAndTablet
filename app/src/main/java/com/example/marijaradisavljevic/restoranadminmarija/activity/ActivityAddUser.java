@@ -59,7 +59,7 @@ public class ActivityAddUser  extends AppCompatActivity implements  AdapterView.
 ////////////////////spinner//////////////////////////
         type = (Spinner) findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(getApplicationContext(),
+        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getApplicationContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsers() );
 
         // Specify the layout to use when the list of choices appears

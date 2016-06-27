@@ -32,18 +32,18 @@
         android:layout_height="match_parent"
         android:background="@color/rezervation_color_background"
         android:padding="@dimen/padding_margin"
-        android:theme="@style/Widget.AppCompat.Button">
+       >
 
         <TextView
             android:id="@+id/mesage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/logout_message"
-
-
+            android:textStyle="normal|bold"
             android:layout_above="@+id/cancel_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="103dp" />
+            android:layout_marginBottom="103dp"
+         />
 
 
 
@@ -56,25 +56,39 @@
                 android:layout_centerVertical="true"
                 android:layout_alignLeft="@+id/mesage"
                 android:layout_alignStart="@+id/mesage"
-                android:background="@drawable/shape_of_button"
+
                 android:layout_marginLeft="@dimen/activity_small_padding"
+
+
                 android:layout_marginRight="@dimen/activity_small_padding"
                 android:layout_marginTop="@dimen/standard_margin"
-                android:textColor="@color/white" />
+
+
+                android:background="@drawable/shape_of_button"
+                android:textColor="@color/white"
+
+                style="@style/Widget.AppCompat.Button.Colored"
+                />
 
             <Button  android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cancel_button"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/activity_small_padding"
-                android:layout_marginRight="@dimen/activity_small_padding"
-                android:layout_marginTop="@dimen/standard_margin"
+
                 android:layout_alignTop="@+id/ok_button"
                 android:layout_alignRight="@+id/mesage"
                 android:layout_alignEnd="@+id/mesage"
-                android:background="@color/bluebbutton"
-                android:textColor="@color/white" />
+
+
+
+
+
+
+                android:background="@drawable/shape_of_button"
+                android:textColor="@color/white"
+
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
 
     </RelativeLayout>

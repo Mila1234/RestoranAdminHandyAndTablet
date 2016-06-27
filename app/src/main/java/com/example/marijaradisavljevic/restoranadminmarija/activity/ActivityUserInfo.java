@@ -48,14 +48,16 @@ public class ActivityUserInfo extends AppCompatActivity {
         ///////////////////////////////////////////////////////////////////////
         type = (Spinner) findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(getApplicationContext(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsersForUserInfo() );
+        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getApplicationContext(),
+                android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsers() );
 
         // Specify the layout to use when the list of choices appears
         adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         type.setAdapter(adapter_type);
-        type.setSelection(0);
+        type.setSelection(((MySpinnerAdapter)adapter_type).getStartPosition());
+
+
 
         ///////////////////////////////////////////////////////////////////////
         username = (EditText) findViewById(R.id.username);
@@ -74,6 +76,9 @@ public class ActivityUserInfo extends AppCompatActivity {
         number.setText(currUI.getNumber());
         email.setText(currUI.getEmail());
         password.setText(currUI.getPassword());
+
+        int position = adapter_type.getPosition(currUI.getType());
+        type.setSelection(position);
 
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override

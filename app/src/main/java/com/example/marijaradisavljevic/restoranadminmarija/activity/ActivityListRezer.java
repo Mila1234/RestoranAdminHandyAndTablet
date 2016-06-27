@@ -3,9 +3,8 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,10 +31,16 @@ import java.util.ArrayList;
 public class ActivityListRezer  extends AppCompatActivity implements  AdapterView.OnItemSelectedListener{
 
     ListView lvDetail;
-    private Spinner number_of_table ;
-    private Spinner isItPaid ;
-    private Spinner kategory;
-    private Spinner user;
+    private Spinner spinnerNumberOfTable;
+    private Spinner spinnerIsItPaid;
+    private Spinner spinnerKategory;
+    private Spinner spinnerUser;
+
+
+    private ArrayAdapter<String> adapter_number_of_table;
+    private ArrayAdapter<String>  adapter_isItPaid ;
+    private ArrayAdapter<String> adapter_kategory;
+    private ArrayAdapter<String> adapterUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,18 +48,27 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
 
         setContentView(R.layout.fragment_list_rezervations_layout);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // toolbar.setNavigationIcon(R.drawable.back);
+        //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
+        // toolbar.setLogo(R.drawable.help);
+        toolbar.setTitle(getResources().getString(R.string.Logo_description));
+        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+
+
         lvDetail = (ListView) findViewById(R.id.list_reservations);
 
 
 
-        number_of_table = (Spinner)  findViewById(R.id.numbreOfTable_spinner);
-        isItPaid = (Spinner)  findViewById(R.id.isItPaid_spinner);
-        kategory = (Spinner)  findViewById(R.id.kategory_spinner);
-        user = (Spinner) findViewById(R.id.user_spiner);
+        spinnerNumberOfTable = (Spinner)  findViewById(R.id.numbreOfTable_spinner);
+        spinnerIsItPaid = (Spinner)  findViewById(R.id.isItPaid_spinner);
+        spinnerKategory = (Spinner)  findViewById(R.id.kategory_spinner);
+        spinnerUser = (Spinner) findViewById(R.id.user_spiner);
 
 
         //String[] value = getResources().getStringArray(R.array.numbers);
-        ArrayAdapter<String> adapter_number_of_table = new MySpinnerAdapter(getApplicationContext(),
+         adapter_number_of_table = new MySpinnerAdapter(true,getApplicationContext(),
                 android.R.layout.simple_spinner_item, Servis.getInstance().stringListofTables());
 
 
@@ -62,57 +76,81 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         // Specify the layout to use when the list of choices appears
         adapter_number_of_table.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        number_of_table.setAdapter(adapter_number_of_table);
-        number_of_table.setSelection(((MySpinnerAdapter)adapter_number_of_table).getStartPosition());
-        number_of_table.setOnItemSelectedListener(this);
+        spinnerNumberOfTable.setAdapter(adapter_number_of_table);
+        spinnerNumberOfTable.setSelection(((MySpinnerAdapter)adapter_number_of_table).getStartPosition());
+        spinnerNumberOfTable.setOnItemSelectedListener(this);
 
 
         String[] value = getResources().getStringArray(R.array.paidNotpaid);
-        ArrayAdapter<String>  adapter_isItPaid = new MySpinnerAdapter(getApplicationContext(),
+         adapter_isItPaid = new MySpinnerAdapter(true,getApplicationContext(),
                 android.R.layout.simple_spinner_item ,value);
 
         // Specify the layout to use when the list of choices appears
         adapter_isItPaid.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        isItPaid.setAdapter(adapter_isItPaid);
-        isItPaid.setSelection(((MySpinnerAdapter)adapter_isItPaid).getStartPosition());
-        isItPaid.setOnItemSelectedListener(this);
+        spinnerIsItPaid.setAdapter(adapter_isItPaid);
+        spinnerIsItPaid.setSelection(((MySpinnerAdapter)adapter_isItPaid).getStartPosition());
+        spinnerIsItPaid.setOnItemSelectedListener(this);
 
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapter_kategory = new MySpinnerAdapter(getApplicationContext(),
+         adapter_kategory = new MySpinnerAdapter(true,getApplicationContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().stringListofFoodItems() );
 
         // Specify the layout to use when the list of choices appears
         adapter_kategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        kategory.setAdapter(adapter_kategory);
-        kategory.setSelection(((MySpinnerAdapter)adapter_kategory).getStartPosition());
-        kategory.setOnItemSelectedListener(this);
+        spinnerKategory.setAdapter(adapter_kategory);
+        spinnerKategory.setSelection(((MySpinnerAdapter)adapter_kategory).getStartPosition());
+        spinnerKategory.setOnItemSelectedListener(this);
 
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapterUser = new MySpinnerAdapter(getApplicationContext(),
+         adapterUser = new MySpinnerAdapter(true,getApplicationContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().stringlistUserNames() );
 
         // Specify the layout to use when the list of choices appears
         adapterUser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        user.setAdapter(adapterUser);
-        user.setSelection(((MySpinnerAdapter)adapterUser).getStartPosition());
-        user.setOnItemSelectedListener(this);
+        spinnerUser.setAdapter(adapterUser);
+        spinnerUser.setSelection(((MySpinnerAdapter)adapterUser).getStartPosition());
+        spinnerUser.setOnItemSelectedListener(this);
 
 //////////list view
         MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
         SelecionRegulations sr = new SelecionRegulations();
 
-        /*sr.setAll(all) ;
-        sr.setNumberOfTable(numberOfTable);
-        sr.setNumberOfTable_selectied(numberOfTable_selectied);
-        sr.setPaidOrNot(paidOrNot) ;
-        sr.setPaidOrNot_selected(paidOrNot_selected) ;
-        sr.setKategory(kategory);
-        sr.setKategory_selected(kategory_selected) ;
-        sr.setUser(user);*/
-        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(sr);
+
+        sr.setNumberOfTable((String) spinnerNumberOfTable.getSelectedItem());
+        if(spinnerNumberOfTable.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_number_of_table).getStartPosition()){
+            sr.setNumberOfTable_selectied(true);
+        }else{
+            sr.setNumberOfTable_selectied(false);
+        }
+
+
+        sr.setPaidOrNotString((String)spinnerIsItPaid.getSelectedItem()) ;
+        if(spinnerIsItPaid.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_isItPaid).getStartPosition()){
+            sr.setPaidOrNot_selected(true) ;
+        }else{
+            sr.setPaidOrNot_selected(false) ;
+        }
+
+        sr.setKategory((String)spinnerKategory.getSelectedItem());
+        if(spinnerKategory.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_kategory).getStartPosition()){
+            sr.setKategory_selected(true) ;
+        }else{
+            sr.setKategory_selected(false) ;
+        }
+
+
+        sr.setUser((String)spinnerUser.getSelectedItem());
+        if(spinnerUser.getSelectedItemPosition()!= ((MySpinnerAdapter)adapterUser).getStartPosition()){
+            sr.setUser_selected(true); ;
+        }else{
+            sr.setUser_selected(false) ;
+        }
+
+
+        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(sr);
         for(Rezervation rez:myList){
             adapter.addItem(new ItemForRezervationsList(rez));
         }
@@ -126,39 +164,8 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+        updateListvView();
 
-        switch (parent.getId()) {
-            case R.id.isItPaid_spinner:
-                if(position == 0 ){
-
-                }else {
-
-                }
-                break;
-            case R.id.kategory_spinner:
-                if(position == 0 ){
-
-                }else {
-
-                }
-                break;
-            case R.id.numbreOfTable_spinner:
-                if(position == 0 ){
-
-                }else {
-
-                }
-                break;
-            case R.id.user_spiner:
-                if(position == 0 ){
-
-                }else {
-
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
@@ -256,19 +263,67 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
 
                         Servis.getInstance().removeRezer(rezervation.getId());
                         MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
-                        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
+
+                        updateListvView ();
+
+                        /*ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(UserData.getInstance().getSelecionRegulation());
                         for(Rezervation rez:myList){
                             adapter.addItem(new ItemForRezervationsList(rez));
                         }
                         lvDetail.setAdapter(adapter);
 
                         //////////////////
-                        lvDetail.invalidateViews();
+                        lvDetail.invalidateViews();*/
 
 
                     }
                 });
             }
         }
+    }
+
+    private void updateListvView() {
+        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+        SelecionRegulations sr = new SelecionRegulations();
+
+
+        sr.setNumberOfTable((String) spinnerNumberOfTable.getSelectedItem());
+        if(spinnerNumberOfTable.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_number_of_table).getStartPosition()){
+            sr.setNumberOfTable_selectied(true);
+        }else{
+            sr.setNumberOfTable_selectied(false);
+        }
+
+
+        sr.setPaidOrNotString((String)spinnerIsItPaid.getSelectedItem()) ;
+        if(spinnerIsItPaid.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_isItPaid).getStartPosition()){
+            sr.setPaidOrNot_selected(true) ;
+        }else{
+            sr.setPaidOrNot_selected(false) ;
+        }
+
+        sr.setKategory((String)spinnerKategory.getSelectedItem());
+        if(spinnerKategory.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_kategory).getStartPosition()){
+            sr.setKategory_selected(true) ;
+        }else{
+            sr.setKategory_selected(false) ;
+        }
+
+
+        sr.setUser((String)spinnerUser.getSelectedItem());
+        if(spinnerUser.getSelectedItemPosition()!= ((MySpinnerAdapter)adapterUser).getStartPosition()){
+            sr.setUser_selected(true); ;
+        }else{
+            sr.setUser_selected(false) ;
+        }
+
+
+        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(sr);
+        for(Rezervation rez:myList){
+            adapter.addItem(new ItemForRezervationsList(rez));
+        }
+        lvDetail.setAdapter(adapter);
+        //////////////////
+        lvDetail.invalidateViews();
     }
 }

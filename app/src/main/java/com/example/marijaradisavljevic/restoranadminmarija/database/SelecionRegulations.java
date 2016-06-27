@@ -70,6 +70,18 @@ public class SelecionRegulations {
         this.paidOrNot = paidOrNot;
     }
 
+    public void setPaidOrNotString(String selectedItem) {
+        if (selectedItem.equals("ne placena") ){
+            paidOrNot= false;
+        }
+        if (selectedItem.equals("placena") ){
+            paidOrNot = true;
+        }
+        if (selectedItem.equals("placena ,ne placena") ){
+            paidOrNot = false;
+        }
+    }
+
     public boolean isPaidOrNot_selected() {
         return paidOrNot_selected;
     }
@@ -93,4 +105,10 @@ public class SelecionRegulations {
     public void setKategory_selected(boolean kategory_selected) {
         this.kategory_selected = kategory_selected;
     }
+
+    public boolean somethingSelectedadminListRezervations() {
+            return numberOfTable_selectied || paidOrNot_selected|| user_selected || kategory_selected;
+    }
+
+
 }

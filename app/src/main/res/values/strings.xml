@@ -73,5 +73,7 @@
     <string name="activity_list_users">lista korisnika</string>
     <string name="title_edtiUsername">izmena podataka</string>
     <string name="type">Tip korisnika</string>
+    <string name="newitemname">ime nove stavke</string>
+    <string name="price_string">cena</string>
 
 </resources>

@@ -22,16 +22,16 @@ public class AdapterDB {
 
 
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
-
-        FoodMenuItem fmt1 = new FoodMenuItem("koka kolabla bla bla bla bla", 100);
+        FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
+        FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"koka kolabla bla bla bla bla", 100);
         listFoodMenuItem.add(fmt1);
-        FoodMenuItem fmt2 = new FoodMenuItem("koka kola", 100);
+        FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"koka kola", 100);
         listFoodMenuItem.add(fmt2);
 
-        FoodMenuItem fmt3 = new FoodMenuItem("turska kafa", 100);
+        FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"turska kafa", 100);
         listFoodMenuItem.add(fmt3);
 
-        FoodMenuItem fmt4 = new FoodMenuItem("espreso", 100);
+        FoodMenuItem fmt4 = new FoodMenuItem(nadtavka,"espreso", 100);
         listFoodMenuItem.add(fmt4);
 
 

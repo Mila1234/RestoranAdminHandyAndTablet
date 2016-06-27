@@ -47,7 +47,7 @@ public class ActivityListUsers  extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_list_users_layout);
-        setTitle(R.string.activity_list_users);
+        //setTitle(R.string.activity_list_users);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

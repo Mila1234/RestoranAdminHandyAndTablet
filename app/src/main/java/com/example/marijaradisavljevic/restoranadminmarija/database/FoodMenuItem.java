@@ -7,6 +7,8 @@ public class FoodMenuItem implements  Cloneable{
     private String food;
     private int price;
     private int id;
+    private FoodMenuItem nadstavka;
+
     //TODO dobija se od baceknda
     private static int ukid = 0;
 
@@ -21,7 +23,8 @@ public class FoodMenuItem implements  Cloneable{
         return clone;
     }
 
-    public FoodMenuItem(String food, int price) {
+    public FoodMenuItem(FoodMenuItem nadstavka,String food, int price) {
+        this.nadstavka = nadstavka;
         this.food = food;
         this.price = price;
         id = ukid++;

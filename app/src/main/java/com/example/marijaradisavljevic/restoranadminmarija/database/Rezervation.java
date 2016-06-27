@@ -18,13 +18,18 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     private ArrayList<Order> orders;
     private Integer id;
 
+    private String username;
 
     //TODO ovaj id treba da se dobija od backenda
     private static int ukid = 0;
 
+    public String getUsername() {
+        return username;
+    }
 
-
-
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getNameType() {
         return nameType;
