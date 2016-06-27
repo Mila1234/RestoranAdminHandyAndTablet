@@ -159,7 +159,7 @@ public class ActivityListUsers  extends AppCompatActivity {
 
                         Servis.getInstance().removeUser(userinfo.getUsername(), userinfo.getPassword());
 
-                        MyCustomAdatperForTheList<ItemForUsersList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+                        MyCustomAdatperForTheList<ItemForUsersList> adapter = new MyCustomAdatperForTheList(getBaseContext());
                         ArrayList<UserInfo> myList = Servis.getInstance().getUserList();
                         for(UserInfo rez:myList){
                             adapter.addItem(new ItemForUsersList(rez));

@@ -6,7 +6,7 @@
     android:weightSum="3">
 
 
-    <EditText android:id="@+id/info"
+    <TextView android:id="@+id/info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -14,7 +14,8 @@
         android:lines="3"
         android:layout_marginLeft="@dimen/activity_small_padding"
         android:layout_marginRight="@dimen/activity_small_padding"
-        android:layout_marginTop="@dimen/standard_margin"/>
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"/>
 
     <Button android:id="@+id/edit"
         android:layout_width="0dp"

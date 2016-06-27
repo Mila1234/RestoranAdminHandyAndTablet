@@ -42,7 +42,7 @@ public class ActivityMenuItemList  extends AppCompatActivity {
 
         lvDetail = (ListView) findViewById(R.id.list_reservations);
 
-        MyCustomAdatperForTheList<ItemForFoodMenuItemsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+        MyCustomAdatperForTheList<ItemForFoodMenuItemsList> adapter = new MyCustomAdatperForTheList(getBaseContext());
         ArrayList<FoodMenuItem> myList = Servis.getInstance().getfoodmenuitemslist();
         for(FoodMenuItem rez:myList){
             adapter.addItem(new ItemForFoodMenuItemsList(rez));
@@ -102,7 +102,7 @@ public class ActivityMenuItemList  extends AppCompatActivity {
             public void fillData(final ItemForFoodMenuItemsList adapterItem) {
 
                 info.setVisibility(View.VISIBLE);
-                info.setText(adapterItem.rezervation.getFood()+"  "+adapterItem.rezervation.getPrice());
+                info.setText(adapterItem.rezervation.getFood()+"  \ncena : "+adapterItem.rezervation.getPrice());
 
                 edit.setVisibility(View.VISIBLE);
                 remove.setVisibility(View.VISIBLE);
@@ -124,19 +124,17 @@ public class ActivityMenuItemList  extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Servis.getInstance().removeRezer(rezervation.getId());
-                        MyCustomAdatperForTheList<ItemForFoodMenuItemsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+                        Servis.getInstance().removeFootMenuItem(rezervation.getId());
 
-
-
-                        /*ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(UserData.getInstance().getSelecionRegulation());
-                        for(Rezervation rez:myList){
+                        MyCustomAdatperForTheList<ItemForFoodMenuItemsList> adapter = new MyCustomAdatperForTheList(getBaseContext());
+                        ArrayList<FoodMenuItem> myList = Servis.getInstance().getfoodmenuitemslist();
+                        for(FoodMenuItem rez:myList){
                             adapter.addItem(new ItemForFoodMenuItemsList(rez));
                         }
                         lvDetail.setAdapter(adapter);
 
                         //////////////////
-                        lvDetail.invalidateViews();*/
+                        lvDetail.invalidateViews();
 
 
                     }

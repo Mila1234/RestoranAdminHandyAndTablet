@@ -6,7 +6,7 @@
 	
     <color name="transparent">#000000</color>
     <color name="rezervation_color_background">#FFC4E5F4</color>
-    <color name="white">#ffffff</color>
+    <color name="white">#ffffffff</color>
     <color name="blue">#FF0B13FB</color>
     <color name="black">#000</color>
     <color name="bluebbutton">#09b5d0</color>

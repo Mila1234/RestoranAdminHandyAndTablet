@@ -64,18 +64,15 @@
 
 
     <Button  android:id="@+id/edit"
-        android:layout_marginLeft="@dimen/activity_small_padding"
-        android:layout_marginRight="@dimen/activity_small_padding"
-        android:layout_marginTop="@dimen/standard_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/edit"
         android:background="@drawable/shape_of_button"
         android:textColor="@color/white"
-        android:layout_below="@id/divider1"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_below="@+id/divider1"
         android:layout_alignLeft="@+id/remove"
-        android:layout_alignStart="@+id/remove"
-        style="@style/Widget.AppCompat.Button.Colored" />
+        android:layout_alignStart="@+id/remove" />
 
     <Button  android:id="@+id/remove"
         android:layout_marginRight="@dimen/activity_small_padding"

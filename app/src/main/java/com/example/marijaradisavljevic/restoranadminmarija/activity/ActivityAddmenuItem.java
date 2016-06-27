@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
+import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
@@ -26,7 +27,7 @@ public class ActivityAddmenuItem  extends AppCompatActivity {
 
     private Spinner kategory_spinner;
 
-
+    private Bundle extras;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class ActivityAddmenuItem  extends AppCompatActivity {
 
         kategory_spinner = (Spinner) findViewById(R.id.kategorySpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapter_kategory = new MySpinnerAdapter(false,getApplicationContext(),
+        ArrayAdapter<String> adapter_kategory = new MySpinnerAdapter(false,getBaseContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().stringListofFoodItems() );
 
         // Specify the layout to use when the list of choices appears
@@ -59,6 +60,18 @@ public class ActivityAddmenuItem  extends AppCompatActivity {
         price = (EditText) findViewById(R.id.price);
         okButton = (Button)findViewById(R.id.ok_button);
 
+         extras = getIntent().getExtras();
+
+        if (extras!= null) {//edit user
+            String foodItemId = extras.getString("foodItemId");
+            FoodMenuItem fmi = Servis.getInstance().getFootMenuItem(foodItemId);
+            newItemName.setText(fmi.getFood());
+            price.setText(fmi.getPrice().toString());
+
+            int position = adapter_kategory.getPosition(fmi.getNadstavka().getFood());
+            kategory_spinner.setSelection(position);
+
+        }
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +80,12 @@ public class ActivityAddmenuItem  extends AppCompatActivity {
                 String nameString = newItemName.getText().toString();
                 String priceString = price.getText().toString();
 
-                Servis.getInstance().makeNewFoodItem(kategoryString,nameString,priceString);
+                if (extras!= null) {//edit user
+                    String foodItemId = extras.getString("foodItemId");
+                    Servis.getInstance().updateFoodMenuItem( foodItemId , kategoryString , nameString , priceString );
+                }else {
+                    Servis.getInstance().makeNewFoodItem( kategoryString , nameString , priceString );
+                }
 
                 Toast.makeText(getApplicationContext(), " Snimljeno ", Toast.LENGTH_LONG).show();
 

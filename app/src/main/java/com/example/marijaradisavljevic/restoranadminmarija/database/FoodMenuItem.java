@@ -5,12 +5,22 @@ package com.example.marijaradisavljevic.restoranadminmarija.database;
  */
 public class FoodMenuItem implements  Cloneable{
     private String food;
-    private int price;
+    private Integer price;
     private int id;
     private FoodMenuItem nadstavka;
 
+
     //TODO dobija se od baceknda
     private static int ukid = 0;
+
+
+    public FoodMenuItem getNadstavka() {
+        return nadstavka;
+    }
+
+    public void setNadstavka(FoodMenuItem nadstavka) {
+        this.nadstavka = nadstavka;
+    }
 
     @Override
     public FoodMenuItem clone() throws CloneNotSupportedException {
@@ -48,11 +58,11 @@ public class FoodMenuItem implements  Cloneable{
         this.food = food;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    private void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }

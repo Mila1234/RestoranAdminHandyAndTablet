@@ -68,7 +68,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
 
 
         //String[] value = getResources().getStringArray(R.array.numbers);
-         adapter_number_of_table = new MySpinnerAdapter(true,getApplicationContext(),
+         adapter_number_of_table = new MySpinnerAdapter(true,getBaseContext(),
                 android.R.layout.simple_spinner_item, Servis.getInstance().stringListofTables());
 
 
@@ -82,7 +82,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
 
 
         String[] value = getResources().getStringArray(R.array.paidNotpaid);
-         adapter_isItPaid = new MySpinnerAdapter(true,getApplicationContext(),
+         adapter_isItPaid = new MySpinnerAdapter(true,getBaseContext(),
                 android.R.layout.simple_spinner_item ,value);
 
         // Specify the layout to use when the list of choices appears
@@ -93,7 +93,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         spinnerIsItPaid.setOnItemSelectedListener(this);
 
         // value = getResources().getStringArray(R.array.kategory_array);
-         adapter_kategory = new MySpinnerAdapter(true,getApplicationContext(),
+         adapter_kategory = new MySpinnerAdapter(true,getBaseContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().stringListofFoodItems() );
 
         // Specify the layout to use when the list of choices appears
@@ -104,7 +104,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         spinnerKategory.setOnItemSelectedListener(this);
 
         // value = getResources().getStringArray(R.array.kategory_array);
-         adapterUser = new MySpinnerAdapter(true,getApplicationContext(),
+         adapterUser = new MySpinnerAdapter(true,getBaseContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().stringlistUserNames() );
 
         // Specify the layout to use when the list of choices appears
@@ -115,7 +115,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         spinnerUser.setOnItemSelectedListener(this);
 
 //////////list view
-        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getBaseContext());
         SelecionRegulations sr = new SelecionRegulations();
 
 
@@ -262,7 +262,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
                     public void onClick(View v) {
 
                         Servis.getInstance().removeRezer(rezervation.getId());
-                        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+                        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getBaseContext());
 
                         updateListvView ();
 
@@ -283,7 +283,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
     }
 
     private void updateListvView() {
-        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getBaseContext());
         SelecionRegulations sr = new SelecionRegulations();
 
 

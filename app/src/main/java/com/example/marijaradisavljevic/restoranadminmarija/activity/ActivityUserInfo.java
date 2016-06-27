@@ -48,7 +48,7 @@ public class ActivityUserInfo extends AppCompatActivity {
         ///////////////////////////////////////////////////////////////////////
         type = (Spinner) findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getApplicationContext(),
+        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getBaseContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsers() );
 
         // Specify the layout to use when the list of choices appears
@@ -92,8 +92,9 @@ public class ActivityUserInfo extends AppCompatActivity {
                 newUI.setNumber(number.getText().toString());
                 newUI.setEmail(email.getText().toString());
                 newUI.setPassword(password.getText().toString());
-                Servis.getInstance().setUserInfo(newUI);
+                newUI.setType((String)type.getSelectedItem());
 
+                Servis.getInstance().setUserInfo(newUI);
 
                 Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
