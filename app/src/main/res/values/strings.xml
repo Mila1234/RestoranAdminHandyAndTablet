@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">RestoranAdminMarija</string>
+    <string name="app_name">RestoranAdmin</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -69,8 +69,9 @@
     <string name="add_menu_item">dodaj stavku</string>
     <string name="menu_time_list">lista stavki</string>
     <string name="logout_string">odjavi se</string>
-    <string name="password">sifra</string>
+    <string name="password">Sifra</string>
     <string name="activity_list_users">lista korisnika</string>
     <string name="title_edtiUsername">izmena podataka</string>
+    <string name="type">Tip korisnika</string>
 
 </resources>

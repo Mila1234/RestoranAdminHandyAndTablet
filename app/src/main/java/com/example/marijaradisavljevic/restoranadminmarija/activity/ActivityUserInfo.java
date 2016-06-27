@@ -4,16 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
-import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 /**
  * Created by marija.radisavljevic on 6/10/2016.
@@ -25,12 +26,11 @@ public class ActivityUserInfo extends AppCompatActivity {
     private EditText number ;
     private EditText email;
     private EditText password;
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.manu_gui, menu);
-        return true;
-    }
+
+    private Spinner type;
+
+    private UserInfo currUI;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,20 @@ public class ActivityUserInfo extends AppCompatActivity {
         // toolbar.setNavigationIcon(R.drawable.back);
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
-        toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
+        toolbar.setTitle(getResources().getString(R.string.Logo_description));
+        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+        ///////////////////////////////////////////////////////////////////////
+        type = (Spinner) findViewById(R.id.typeSpiner);
+        // value = getResources().getStringArray(R.array.kategory_array);
+        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(getApplicationContext(),
+                android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsersForUserInfo() );
+
+        // Specify the layout to use when the list of choices appears
+        adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        type.setAdapter(adapter_type);
+        type.setSelection(0);
+
         ///////////////////////////////////////////////////////////////////////
         username = (EditText) findViewById(R.id.username);
         name = (EditText) findViewById(R.id.name);
@@ -53,31 +66,29 @@ public class ActivityUserInfo extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         Button button_ok = (Button) findViewById(R.id.ok_button);
 
-        UserInfo ui =  Servis.getInstance().getUserInfo(UserData.getInstance().getUsername(), UserData.getInstance().getPassword());
+        currUI =  Servis.getInstance().getUserInfo();
 
-        username.setText(ui.getUsername());
-        name.setText(ui.getName());
-        surname.setText(ui.getSurname());
-        number.setText(ui.getNumber());
-        email.setText(ui.getEmail());
-        password.setText(ui.getPassword());
+        username.setText(currUI.getUsername());
+        name.setText(currUI.getName());
+        surname.setText(currUI.getSurname());
+        number.setText(currUI.getNumber());
+        email.setText(currUI.getEmail());
+        password.setText(currUI.getPassword());
 
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), " Snimljeno ", Toast.LENGTH_LONG).show();
 
-                UserInfo ui = new UserInfo();
-                ui.setUsername(username.getText().toString());
-                ui.setName(name.getText().toString());
-                ui.setSurname(surname.getText().toString());
-                ui.setNumber(number.getText().toString());
-                ui.setEmail(email.getText().toString());
-                ui.setPassword(password.getText().toString());
-                Servis.getInstance().setUserInfo(ui);
+                UserInfo newUI = new UserInfo();
+                newUI.setUsername(username.getText().toString());
+                newUI.setName(name.getText().toString());
+                newUI.setSurname(surname.getText().toString());
+                newUI.setNumber(number.getText().toString());
+                newUI.setEmail(email.getText().toString());
+                newUI.setPassword(password.getText().toString());
+                Servis.getInstance().setUserInfo(newUI);
 
-                UserData.getInstance().setUsername(ui.getUsername());
-                UserData.getInstance().setUsername(ui.getPassword());
 
                 Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
 
 
 /**
@@ -25,7 +26,8 @@ public class ActivityLogout extends AppCompatActivity {
         // toolbar.setNavigationIcon(R.drawable.back);
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
-        toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
+        toolbar.setTitle(getResources().getString(R.string.Logo_description));
+        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
 
         Button ok =  (Button) findViewById(R.id.ok_button);
         assert ok != null;

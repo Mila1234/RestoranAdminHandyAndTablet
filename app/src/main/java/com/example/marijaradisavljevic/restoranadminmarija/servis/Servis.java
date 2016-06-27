@@ -2,6 +2,7 @@ package com.example.marijaradisavljevic.restoranadminmarija.servis;
 
 
 
+import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
@@ -19,7 +20,8 @@ public class Servis {
     public static Servis getInstance() {return instance; }
 
     private UserInfo userInfo; //current user
-    private  ArrayList<UserInfo> listUsers;
+    String[] listUsersTypes;
+    private ArrayList<UserInfo> listUsers;
     private String[] listaTable;
     private String[] numberItemssStrignList;
     private ArrayList<FoodMenuItem> listFoodMenuItem;
@@ -27,10 +29,13 @@ public class Servis {
 
 
     public Servis() {
+        listUsersTypes = new String[2];
+        listUsersTypes[0]= "konobar";
+        listUsersTypes[1]= "admin";
         listUsers = new ArrayList<UserInfo>();
 
 
-        userInfo = new UserInfo();
+        UserInfo userInfo = new UserInfo();
         userInfo.setEmail("marijarad89@gmail.com");
         userInfo.setName("Marija");
         userInfo.setSurname("Radisavljevic");
@@ -42,34 +47,34 @@ public class Servis {
         listUsers.add(userInfo);
 
         numberItemssStrignList = new String[7];
-        numberItemssStrignList[0] = "broj komada";
-        numberItemssStrignList[1] ="1" ;
-        numberItemssStrignList[2] ="2";
-        numberItemssStrignList[3] ="3";
-        numberItemssStrignList[4] ="4";
-        numberItemssStrignList[5] = "5";
-        numberItemssStrignList[6] = "6";
+        numberItemssStrignList[0] = "1";
+        numberItemssStrignList[1] ="2" ;
+        numberItemssStrignList[2] ="3";
+        numberItemssStrignList[3] ="4";
+        numberItemssStrignList[4] ="5";
+        numberItemssStrignList[5] = "6";
+        numberItemssStrignList[6] = "broj komada";
 
         listaTable = new String[6];
-        listaTable[0] = "broj stola";
-        listaTable[1] ="1" ;
-        listaTable[2] ="2";
-        listaTable[3] ="3";
-        listaTable[4] ="4";
-        listaTable[5] = "5";
+        listaTable[0] = "1";
+        listaTable[1] ="2" ;
+        listaTable[2] ="3";
+        listaTable[3] ="4";
+        listaTable[4] ="5";
+        listaTable[5] = "broj stola";
 
 
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
 
-        FoodMenuItem fmt1 = new FoodMenuItem("1 ", 100);
+        FoodMenuItem fmt1 = new FoodMenuItem("1 type food", 100);
         listFoodMenuItem.add(fmt1);
-        FoodMenuItem fmt2 = new FoodMenuItem("2 ", 100);
+        FoodMenuItem fmt2 = new FoodMenuItem("2 type food", 100);
         listFoodMenuItem.add(fmt2);
 
-        FoodMenuItem fmt3 = new FoodMenuItem("3 ", 100);
+        FoodMenuItem fmt3 = new FoodMenuItem("3 type food", 100);
         listFoodMenuItem.add(fmt3);
 
-        FoodMenuItem fmt4 = new FoodMenuItem("4 ", 100);
+        FoodMenuItem fmt4 = new FoodMenuItem("4 type food", 100);
         listFoodMenuItem.add(fmt4);
 
 
@@ -146,30 +151,63 @@ public class Servis {
         listOfRezervations.add(ld);
     }
 
-    public  Boolean logIN(String mEmail, String mPassword) {
 
-        return true;
+    public String toolBarTypeNameSurnameString(){
+        String bla = userInfo.getType()+" : "+userInfo.getName()+" "+userInfo.getSurname();
+        return bla;
     }
 
+    public  Boolean logIN(String username, String password) {
+//make userinfo if user exists in database
 
+        //for test
+        for(UserInfo rez: listUsers){
+            if(rez.getUsername().equals("marijarad89@gmail.com") && rez.getPassword().equals("sifra")){
+                userInfo = rez;
+                return true;
+            }
 
-    public UserInfo getUserInfo(String username, String password){
+        }
+        return false;
+
+    }
+    public UserInfo getUserInfofromList(String username, String password){
+        for(UserInfo rez: listUsers){
+            if(rez.getUsername().equals(username) && rez.getPassword().equals(password)){
+                return rez;
+            }
+
+        }
+        return new UserInfo();
+    }
+
+    public UserInfo getUserInfo() {
         return userInfo;
     }
+
+
+
     public void setUserInfo(UserInfo ui){
+        for(UserInfo rez: listUsers){
+            //if already exists indatabase update it
+            if(rez.getUsername().equals(ui.getUsername()) && rez.getPassword().equals(ui.getPassword())){
+                listUsers.remove(rez);
+                listUsers.add(ui);
+            }
+        }
         userInfo = ui;
     }
 
-    public String[] stringListofTables (){
-        return  listaTable;
-    }
+
+
 
     public String[] stringListofFoodItems (){
         ArrayList<String> returnStringList = new ArrayList<String>();
-        returnStringList.add("kategory");
+
         for(FoodMenuItem foodMenuItem : listFoodMenuItem ){
             returnStringList.add(foodMenuItem.getFood());
         }
+        returnStringList.add("kategory");
         String[] stringList = new String[returnStringList.size()];
         stringList = returnStringList.toArray(stringList);
         return  stringList;
@@ -360,12 +398,12 @@ public class Servis {
         }
     }
 
-    public void makeuser(UserInfo ui) {
+    public void makeuserinfoIntoList(UserInfo ui) {
         listUsers.add(ui);
 
     }
 
-    public ArrayList<UserInfo> getUserList(String username, String password) {
+    public ArrayList<UserInfo> getUserList() {
         return listUsers;
     }
 
@@ -380,24 +418,55 @@ public class Servis {
         }
     }
 
-    public void updateUserame(UserInfo ui, String usernameString, String passordSrting) {
+    public void updateUserInfoFromList(UserInfo ui, String usernameString, String passordSrting) {
         for(UserInfo rez: listUsers){
             if(rez.getUsername().equals(usernameString) && rez.getPassword().equals(passordSrting)){
-                rez = ui;
-                return;
+                //rez = ui;
+                listUsers.remove(rez);
+                break;
             }
 
         }
+        listUsers.add(ui);
     }
 
     public String[] stringlistUserNames() {
         ArrayList<String> returnStringList = new ArrayList<String>();
-        returnStringList.add("kategory");
+
         for(UserInfo ui: listUsers){
             returnStringList.add(ui.getUsername());
         }
+        returnStringList.add("users");
         String[] stringList = new String[returnStringList.size()];
         stringList = returnStringList.toArray(stringList);
         return  stringList;
+    }
+
+    public String[] stringListofTables (){
+        return  listaTable;
+    }
+
+
+    public String[] strignListTypeOFUsers() {
+
+        String[] bla;
+        bla = new String[3];
+        bla[2] = "type of user";
+        bla[1] ="konobar" ;
+        bla[0] ="admin";
+
+
+        return bla;
+    }
+
+    public String[] strignListTypeOFUsersForUserInfo() {
+        String[] bla;
+        bla = new String[2];
+        bla[1] = "type of user";
+        bla[0] = userInfo.getType() ;
+
+
+
+        return bla;
     }
 }

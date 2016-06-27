@@ -3,10 +3,8 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
-import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
 
@@ -29,12 +26,7 @@ public class ActivityListUsers  extends AppCompatActivity {
 
     ListView listOfUsers;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-      //  getMenuInflater().inflate(R.menu.manu_gui, menu);
-        return true;
-    }
+
 
     @Override
     protected void onResume() {
@@ -62,11 +54,12 @@ public class ActivityListUsers  extends AppCompatActivity {
         // toolbar.setNavigationIcon(R.drawable.back);
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
-        toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
+        toolbar.setTitle(getResources().getString(R.string.Logo_description));
+        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
 
         listOfUsers = (ListView) findViewById(R.id.listusers);
         MyCustomAdatperForTheList<ItemForUsersList> adapter = new MyCustomAdatperForTheList(this);
-        ArrayList<UserInfo> myList = Servis.getInstance().getUserList(UserData.getInstance().getUsername(),UserData.getInstance().getPassword());
+        ArrayList<UserInfo> myList = Servis.getInstance().getUserList();
         for(UserInfo ui:myList){
             adapter.addItem(new ItemForUsersList(ui));
         }
@@ -131,15 +124,18 @@ public class ActivityListUsers  extends AppCompatActivity {
             public void fillData(final ItemForUsersList adapterItem) {
 
                 typeAndnameSurname.setVisibility(View.VISIBLE);
-                typeAndnameSurname.setText(adapterItem.userinfo.getType() + " : " + adapterItem.userinfo.getName() + " " + adapterItem.userinfo.getSurname());
+                //String typeNameSurnameString = adapterItem.userinfo.getType() + " : " + adapterItem.userinfo.getName() + " " + adapterItem.userinfo.getSurname();
+                String typeNameSurnameString = adapterItem.userinfo.getStringTypeNameSurnameForListUsers();
+
+                typeAndnameSurname.setText(typeNameSurnameString);
                 username.setVisibility(View.VISIBLE);
-                username.setText(R.string.username + " " + adapterItem.userinfo.getUsername());
+                username.setText(getString(R.string.username) + " : " + adapterItem.userinfo.getUsername());
                 password.setVisibility(View.VISIBLE);
-                password.setText(R.string.password+" "+adapterItem.userinfo.getPassword());
+                password.setText(getString(R.string.password) +" : "+adapterItem.userinfo.getPassword());
                 email.setVisibility(View.VISIBLE);
-                email.setText(R.string.email+" "+adapterItem.userinfo.getEmail());
+                email.setText(getString (R.string.email)+" : "+adapterItem.userinfo.getEmail());
                 number.setVisibility(View.VISIBLE);
-                number.setText(R.string.number+" "+adapterItem.userinfo.getNumber());
+                number.setText(getString (R.string.number)+" : "+adapterItem.userinfo.getNumber());
 
                 edit.setVisibility(View.VISIBLE);
                 remove.setVisibility(View.VISIBLE);
@@ -148,8 +144,8 @@ public class ActivityListUsers  extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent2 = new Intent(getApplicationContext(), ActivityAddUser.class);
-                        intent2.putExtra("username", userinfo.getUsername());
-                        intent2.putExtra("password", userinfo.getPassword());
+                        intent2.putExtra("username", adapterItem.userinfo.getUsername());
+                        intent2.putExtra("password", adapterItem.userinfo.getPassword());
                         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         getApplicationContext().startActivity(intent2);
                     }
@@ -164,7 +160,7 @@ public class ActivityListUsers  extends AppCompatActivity {
                         Servis.getInstance().removeUser(userinfo.getUsername(), userinfo.getPassword());
 
                         MyCustomAdatperForTheList<ItemForUsersList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
-                        ArrayList<UserInfo> myList = Servis.getInstance().getUserList(UserData.getInstance().getUsername(),UserData.getInstance().getPassword());
+                        ArrayList<UserInfo> myList = Servis.getInstance().getUserList();
                         for(UserInfo rez:myList){
                             adapter.addItem(new ItemForUsersList(rez));
                         }

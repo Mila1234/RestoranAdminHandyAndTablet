@@ -31,23 +31,37 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/container_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/rezervation_color_background"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:background="@color/rezervation_color_background"
+          >
         <ListView
             android:id="@+id/listusers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:paddingBottom="?attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:weightSum="1"
             >
 
         </ListView>
+        <TextView
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="115dp"
+            android:background="@color/rezervation_color_background"
+            app:layout_scrollFlags="scroll|enterAlways"
+            />
 
 
 
-
+        </LinearLayout>
     </FrameLayout>
 
 

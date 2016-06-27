@@ -59,6 +59,8 @@
                 android:src="@drawable/ic_avatar"
                 android:layout_marginRight="5dp" />
 
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,6 +135,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:layout_weight="1"/>
+
+            <Spinner android:id="@+id/typeSpiner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
             <Button  android:id="@+id/ok_button"
                 android:layout_weight="1"
@@ -143,15 +155,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_record"
                 android:background="@drawable/shape_of_button"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:layout_marginBottom="?attr/actionBarSize"/>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/rezervation_color_background"
-                app:layout_scrollFlags="scroll|enterAlways"
-                />
+
 
 
 

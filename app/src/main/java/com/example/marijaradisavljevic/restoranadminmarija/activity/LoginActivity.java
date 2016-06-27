@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // toolbar.setNavigationIcon(R.drawable.back);
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
-        toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
+        toolbar.setTitle(getResources().getString(R.string.Logo_description));
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -107,12 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.manu_gui, menu);
-        return true;
-    }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -342,10 +337,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return pieces[1].equals(mPassword);
                 }
             }
-
-
-            UserData.getInstance().setUsername(mEmail);
-            UserData.getInstance().setPassword(mPassword);
 
             return Servis.getInstance().logIN(mEmail, mPassword);
 

@@ -45,22 +45,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
 
         lvDetail = (ListView) findViewById(R.id.list_reservations);
 
-        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
-        SelecionRegulations sr = new SelecionRegulations();
 
-        /*sr.setAll(all) ;
-        sr.setNumberOfTable(numberOfTable);
-        sr.setNumberOfTable_selectied(numberOfTable_selectied);
-        sr.setPaidOrNot(paidOrNot) ;
-        sr.setPaidOrNot_selected(paidOrNot_selected) ;
-        sr.setKategory(kategory);
-        sr.setKategory_selected(kategory_selected) ;
-        sr.setUser(user);*/
-        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(sr);
-        for(Rezervation rez:myList){
-            adapter.addItem(new ItemForRezervationsList(rez));
-        }
-        lvDetail.setAdapter(adapter);
 
         number_of_table = (Spinner)  findViewById(R.id.numbreOfTable_spinner);
         isItPaid = (Spinner)  findViewById(R.id.isItPaid_spinner);
@@ -78,7 +63,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         adapter_number_of_table.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         number_of_table.setAdapter(adapter_number_of_table);
-        number_of_table.setSelection(0);
+        number_of_table.setSelection(((MySpinnerAdapter)adapter_number_of_table).getStartPosition());
         number_of_table.setOnItemSelectedListener(this);
 
 
@@ -90,7 +75,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         adapter_isItPaid.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         isItPaid.setAdapter(adapter_isItPaid);
-        isItPaid.setSelection(0);
+        isItPaid.setSelection(((MySpinnerAdapter)adapter_isItPaid).getStartPosition());
         isItPaid.setOnItemSelectedListener(this);
 
         // value = getResources().getStringArray(R.array.kategory_array);
@@ -101,7 +86,7 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         adapter_kategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         kategory.setAdapter(adapter_kategory);
-        kategory.setSelection(0);
+        kategory.setSelection(((MySpinnerAdapter)adapter_kategory).getStartPosition());
         kategory.setOnItemSelectedListener(this);
 
         // value = getResources().getStringArray(R.array.kategory_array);
@@ -112,8 +97,29 @@ public class ActivityListRezer  extends AppCompatActivity implements  AdapterVie
         adapterUser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         user.setAdapter(adapterUser);
-        user.setSelection(0);
+        user.setSelection(((MySpinnerAdapter)adapterUser).getStartPosition());
         user.setOnItemSelectedListener(this);
+
+//////////list view
+        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getApplicationContext());
+        SelecionRegulations sr = new SelecionRegulations();
+
+        /*sr.setAll(all) ;
+        sr.setNumberOfTable(numberOfTable);
+        sr.setNumberOfTable_selectied(numberOfTable_selectied);
+        sr.setPaidOrNot(paidOrNot) ;
+        sr.setPaidOrNot_selected(paidOrNot_selected) ;
+        sr.setKategory(kategory);
+        sr.setKategory_selected(kategory_selected) ;
+        sr.setUser(user);*/
+        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(sr);
+        for(Rezervation rez:myList){
+            adapter.addItem(new ItemForRezervationsList(rez));
+        }
+        lvDetail.setAdapter(adapter);
+
+
+
     }
 
 

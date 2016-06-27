@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rezervation_color_background"
+    android:padding="@dimen/padding_margin">
 
 
     <TextView
@@ -10,35 +44,80 @@
         android:layout_height="wrap_content"
         android:text="@string/userinfo"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"
+        android:background="@color/blue" />
     <TextView
         android:id="@+id/addUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_new_user"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"
+        android:background="@color/blue" />
     <TextView
         android:id="@+id/listusers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/users_list"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"
+        android:background="@color/blue" />
     <TextView
         android:id="@+id/listrezervations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list_rezervation"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"
+        android:background="@color/blue" />
     <TextView
         android:id="@+id/additem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_menu_item"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"
+        android:background="@color/blue" />
     <TextView
         android:id="@+id/listitems"
         android:layout_width="match_parent"
@@ -46,13 +125,38 @@
         android:text="@string/menu_time_list"
         android:gravity="center"
         android:layout_weight="1"
-        android:textSize="@dimen/abc_floating_window_z" />
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"
+        android:background="@color/blue" />
     <TextView
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/logout_string"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"/>
+    <TextView
+        android:id="@+id/nevidljiva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_string"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="32sp"
+        />
 
 </LinearLayout>
+    </FrameLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

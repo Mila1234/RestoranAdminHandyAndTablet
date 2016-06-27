@@ -76,4 +76,15 @@ public class UserInfo {
     public String getNameSurnameType() {
         return type +" : "+name+" "+surname;
     }
+
+    public String getStringTypeNameSurnameForListUsers() {
+        String returnString = "";
+        if (type.equals("konobar") || type.equals("admin")){
+            returnString  = type;
+        }
+
+            returnString =returnString+" : "+ name +" " +surname;
+
+        return returnString;
+    }
 }
