@@ -67,11 +67,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/username"
+
                 />
             <EditText android:id="@+id/username"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 />
 
             <TextView
@@ -85,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="textPersonName"
                 />
 
             <TextView
@@ -110,6 +113,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="phone"
                 />
 
             <TextView
@@ -123,6 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="textEmailAddress"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -135,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="textVisiblePassword"
                 />
             <TextView
                 android:layout_width="match_parent"

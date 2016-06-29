@@ -76,9 +76,20 @@ public class ActivityAddmenuItem  extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String kategoryString = (String) kategory_spinner.getSelectedItem();
                 String nameString = newItemName.getText().toString();
                 String priceString = price.getText().toString();
+
+                if(kategoryString.length()==0 || nameString.length()==0 || priceString.length()==0){
+                    Toast.makeText(getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (!(priceString.matches("[0-9]+") && (priceString.length() >1 ))) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.loseunetparametar), Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 if (extras!= null) {//edit user
                     String foodItemId = extras.getString("foodItemId");

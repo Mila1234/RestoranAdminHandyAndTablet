@@ -338,7 +338,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            return Servis.getInstance().logIN(mEmail, mPassword);
+            Boolean value =  Servis.getInstance().logIN(mEmail, mPassword);
+
+            return value;
 
             // TODO: register the new account here.
            // return true;

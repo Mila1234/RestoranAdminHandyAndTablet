@@ -1,8 +1,6 @@
 package com.example.marijaradisavljevic.restoranadminmarija.servis;
 
 
-
-import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
@@ -10,7 +8,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegu
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.concurrent.Semaphore;
 
 /**

@@ -59,7 +59,7 @@ public class ActivityAddUser  extends AppCompatActivity implements  AdapterView.
 ////////////////////spinner//////////////////////////
         type = (Spinner) findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
-        ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getBaseContext(),
+        final ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getBaseContext(),
                 android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsers() );
 
         // Specify the layout to use when the list of choices appears
@@ -97,8 +97,11 @@ public class ActivityAddUser  extends AppCompatActivity implements  AdapterView.
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), " Snimljeno ", Toast.LENGTH_LONG).show();
-button_ok.setEnabled(false);
+
+
+
+                Toast.makeText(getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
+                button_ok.setEnabled(false);
                 UserInfo ui = new UserInfo();
                 ui.setUsername(username.getText().toString());
                 ui.setName(name.getText().toString());
@@ -107,6 +110,11 @@ button_ok.setEnabled(false);
                 ui.setEmail(email.getText().toString());
                 ui.setPassword(password.getText().toString());
                 ui.setType((String) type.getSelectedItem());
+
+                if(ui.getUsername().length()==0 || ui.getPassword().length()==0 || type.getSelectedItemPosition()==((MySpinnerAdapter)adapter_type).getStartPosition()){
+                    Toast.makeText(getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 if (extras!= null) {//edit user
                     String usernameString = extras.getString("username");

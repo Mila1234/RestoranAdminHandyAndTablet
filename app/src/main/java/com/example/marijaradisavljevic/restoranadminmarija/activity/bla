@@ -2,3 +2,21 @@
   ArrayAdapter<String>  adapter_isItPaid ;
   ArrayAdapter<String> adapter_kategory;
   ArrayAdapter<String> adapterUser;
+
+
+  Toast.makeText(getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
+
+    <TextViewView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:background="@color/rezervation_color_background"/>
+
+             <TextView android:id = "@+id/name_of_user"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="5/12/2015 8:53"
+                  style="@style/TextAppearance.AppCompat.Body2"
+                  android:layout_alignParentTop="true"
+                  android:layout_alignLeft="@+id/new_item"
+                  android:layout_alignStart="@+id/new_item" />

@@ -83,7 +83,6 @@ public class ActivityUserInfo extends AppCompatActivity {
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), " Snimljeno ", Toast.LENGTH_LONG).show();
 
                 UserInfo newUI = new UserInfo();
                 newUI.setUsername(username.getText().toString());
@@ -93,6 +92,13 @@ public class ActivityUserInfo extends AppCompatActivity {
                 newUI.setEmail(email.getText().toString());
                 newUI.setPassword(password.getText().toString());
                 newUI.setType((String)type.getSelectedItem());
+
+                if(newUI.getUsername().length()==0 || newUI.getPassword().length()==0 ){
+                    Toast.makeText(getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
 
                 Servis.getInstance().setUserInfo(newUI);
 

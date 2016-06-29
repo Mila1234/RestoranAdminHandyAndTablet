@@ -75,5 +75,8 @@
     <string name="type">Tip korisnika</string>
     <string name="newitemname">ime nove stavke</string>
     <string name="price_string">cena</string>
+    <string name="snimljeno">snimljeno</string>
+    <string name="obavezniparametri">MOlim Vas unesite obavezne parametre</string>
+    <string name="loseunetparametar">lose uneti parametri</string>
 
 </resources>
