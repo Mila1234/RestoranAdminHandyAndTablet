@@ -228,6 +228,7 @@ public class Servis {
                     if(rez.getUsername().equals(ui.getUsername()) && rez.getPassword().equals(ui.getPassword())){
                         listUsers.remove(rez);
                         listUsers.add(ui);
+                        break;
                     }
                 }
             userInfo = ui;
@@ -508,6 +509,7 @@ public class Servis {
             for(FoodMenuItem fmi:listFoodMenuItem){
                 if (fmi.getId()==id){
                     listFoodMenuItem.remove(fmi);
+                    break;
                 }
 
             }
