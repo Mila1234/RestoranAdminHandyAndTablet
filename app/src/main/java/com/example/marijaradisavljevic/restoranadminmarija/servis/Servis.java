@@ -89,6 +89,7 @@ public class Servis {
 
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
         FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
+        listFoodMenuItem.add(nadtavka);
         FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"1 type food", 100);
         listFoodMenuItem.add(fmt1);
         FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"2 type food", 100);
