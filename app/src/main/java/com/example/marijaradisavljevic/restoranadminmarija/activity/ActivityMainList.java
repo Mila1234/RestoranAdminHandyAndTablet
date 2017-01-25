@@ -16,7 +16,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MainListAdapterContent;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
-import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer_and_Selection;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Users;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
@@ -124,8 +124,8 @@ public class ActivityMainList  extends AppCompatActivity  {
 
                                 break;
                             case 4:
-                                arguments.putString(Fragment_List_Rezer.ARG_ITEM_ID, holder.mItem.id);
-                                Fragment_List_Rezer fragment4 = new Fragment_List_Rezer();
+                                arguments.putString(Fragment_List_Rezer_and_Selection.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_List_Rezer_and_Selection fragment4 = new Fragment_List_Rezer_and_Selection();
                                 fragment4.setArguments(arguments);
                                 getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment4).commit();
 

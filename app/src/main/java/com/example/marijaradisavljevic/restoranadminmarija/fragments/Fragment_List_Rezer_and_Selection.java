@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * Created by marija on 24.1.17.
  */
 
-public class Fragment_List_Rezer extends Fragment implements  AdapterView.OnItemSelectedListener {
+public class Fragment_List_Rezer_and_Selection extends Fragment implements  AdapterView.OnItemSelectedListener {
     public static final String ARG_ITEM_ID = "item_id";
 
     ListView lvDetail;
@@ -48,7 +48,7 @@ public class Fragment_List_Rezer extends Fragment implements  AdapterView.OnItem
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mRoot = inflater.inflate(R.layout.fragment_list_rezervations_layout,container, false);
+        View mRoot = inflater.inflate(R.layout.fragment_list_rezervations_selection_layout,container, false);
 
         lvDetail = (ListView) mRoot.findViewById(R.id.list_reservations);
 
@@ -108,7 +108,7 @@ public class Fragment_List_Rezer extends Fragment implements  AdapterView.OnItem
         spinnerUser.setOnItemSelectedListener(this);
 
 //////////list view
-        MyCustomAdatperForTheList<Fragment_List_Rezer.ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
+        MyCustomAdatperForTheList<Fragment_List_Rezer_and_Selection.ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
         SelecionRegulations sr = new SelecionRegulations();
 
 
@@ -145,7 +145,7 @@ public class Fragment_List_Rezer extends Fragment implements  AdapterView.OnItem
 
         ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(sr);
         for(Rezervation rez:myList){
-            adapter.addItem(new Fragment_List_Rezer.ItemForRezervationsList(rez));
+            adapter.addItem(new Fragment_List_Rezer_and_Selection.ItemForRezervationsList(rez));
         }
         lvDetail.setAdapter(adapter);
 

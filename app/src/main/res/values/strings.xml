@@ -78,5 +78,5 @@
     <string name="snimljeno">snimljeno</string>
     <string name="obavezniparametri">MOlim Vas unesite obavezne parametre</string>
     <string name="loseunetparametar">lose uneti parametri</string>
-
+    <string name="nemanistazasplit">Nista niste selektovali za split akciju</string>
 </resources>

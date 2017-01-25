@@ -12,19 +12,41 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     private Integer price;
     private  Integer numberTable;
     private boolean paidOrNot;
+    private String password;
+    private String username;
 
     private String nameType;
 
     private ArrayList<Order> orders;
     private Integer id;
 
-    private String username;
+
 
     //TODO ovaj id treba da se dobija od backenda
     private static int ukid = 0;
 
     public String getUsername() {
         return username;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public Integer getNumberTable() {
+        return numberTable;
+    }
+
+    public void setNumberTable(Integer numberTable) {
+        this.numberTable = numberTable;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUsername(String username) {

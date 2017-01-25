@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rezervation_color_background"
+    android:padding="@dimen/padding_margin"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+
+        <TextView android:id = "@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="5/12/2015 8:53"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_alignTop="@+id/name_of_user"
+            android:layout_alignRight="@+id/split_order"
+            android:layout_alignEnd="@+id/split_order" />
+
+
+        <Button  android:id="@+id/make_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/make_order"
+            android:background="@drawable/shape_of_button"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_alignBottom="@+id/split_order"
+            android:layout_alignTop="@+id/split_order"
+            android:layout_alignLeft="@+id/new_item"
+            android:layout_alignStart="@+id/new_item"
+            android:layout_alignRight="@+id/listaAddOrder"
+            android:layout_alignEnd="@+id/listaAddOrder" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+
+        <Spinner
+            android:id="@+id/numbreOfTable_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_table"
+            android:layout_marginTop="27dp"
+            android:textColor="@color/white"
+            android:layout_weight="1.5" />
+
+        <ImageButton  android:id="@+id/new_item"
+            android:layout_weight="0.1"
+            android:layout_marginTop="27dp"
+            android:layout_marginLeft="50dp"
+            android:layout_width="71dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_plus"
+            android:scaleType="fitCenter"
+            android:background="@drawable/shape_of_button_okruglo"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button  android:id="@+id/split_order"
+            android:layout_marginRight="@dimen/activity_small_padding"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/split_order"
+            android:background="@drawable/shape_of_button"
+            android:textColor="@color/white"
+            android:layout_weight="1"/>
+
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_height="wrap_content"
+            android:text="@string/paid_string"
+            android:checked="false"
+            android:id="@+id/paidOrNot"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:shadowColor="#1132ec"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
+
+
+
+    <ListView
+        android:id="@+id/listaAddOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/transparent"
+        android:dividerHeight="5dp"
+        android:listSelector="@android:color/transparent"
+        android:layout_weight="1"
+        android:paddingBottom="?attr/actionBarSize"
+        >
+
+    </ListView>
+
+
+
+
+
+</LinearLayout>

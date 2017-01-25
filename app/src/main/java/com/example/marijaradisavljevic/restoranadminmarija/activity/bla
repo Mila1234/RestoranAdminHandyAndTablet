@@ -37,6 +37,9 @@ getIntet()
 
 
 ///////////
+   if(Servis.getInstance().isUserAdmin(){
+
+   ///////////////
 
 
 <TextView android:id="@+id/content"

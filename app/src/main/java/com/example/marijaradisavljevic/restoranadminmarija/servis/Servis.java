@@ -6,6 +6,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
 import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
 
 import java.util.ArrayList;
 
@@ -194,6 +195,58 @@ public class Servis {
         return value;
 
     }
+
+
+
+    public ArrayList<Rezervation> getRezervationsWithRegulation(SelecionRegulations selecionRegulation) {
+        if(selecionRegulation.isAll()){
+
+            return listOfRezervations;
+        }
+
+        ArrayList<Rezervation> returnRezerList = new ArrayList<>();
+
+
+        try{
+            mutex.acquire();
+
+            for (Rezervation currRezervation : listOfRezervations){
+
+                if(selecionRegulation.isKategory_selected()){
+                    for (Order currorder :currRezervation.getOrders()){
+                        if(currorder.getOrder().getFood().equals(selecionRegulation.getKategory())){
+                            returnRezerList.add(currRezervation);
+                            break;
+                        }
+                    }
+                }
+
+                if(selecionRegulation.isNumberOfTable_selectied()){
+                    if(currRezervation.getnumberTable().toString().equals(selecionRegulation.getNumberOfTable())  ){
+                        returnRezerList.add(currRezervation);
+                    }
+
+                }
+                if(selecionRegulation.isPaidOrNot_selected() && selecionRegulation.isPaidOrNot()){
+                    //ubaci sve koji su placeni
+                    if(currRezervation.isPaidOrNot() == true ){
+                        returnRezerList.add(currRezervation);
+                    }
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+
+        return returnRezerList;
+
+    }
+
     public UserInfo getUserInfofromList(String username, String password){
         UserInfo ui = new UserInfo();
         try{
@@ -544,6 +597,202 @@ public class Servis {
         return value;
 
     }
+    public String getTimeForRezervation(String rezervationIdString) {
+        String value = "";
+
+        try{
+            mutex.acquire();
+
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId() == Integer.parseInt(rezervationIdString)){
+
+                    value = rez.gettime();
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+
+        return value;
+    }
+
+    public boolean getPaidOrNot(String rezervationIdString) {
+        boolean value = false;
+
+        try{
+            mutex.acquire();
+
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId() == Integer.parseInt(rezervationIdString)){
+
+                    value =  rez.isPaidOrNot();
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+        return  value;
+
+    }
+    public int getNumberOFtable(String rezervationIdString) {
+
+        int value =-1;
+
+        try{
+            mutex.acquire();
+
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId() == Integer.parseInt(rezervationIdString)){
+
+                    value = rez.getnumberTable();
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+
+        return value;
+    }
+    public ArrayList<Order> getListOrders(String rezervationIdString) {
+        ArrayList<Order> value = null;
+        try{
+            mutex.acquire();
+
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId() == Integer.parseInt(rezervationIdString)){
+                    value = rez.getOrders();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+        return value;
+    }
+
+    public void AddRezervation(String id, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<FreagmentAddOrder.ItemOrder> listaOrder ){
+        try{
+            mutex.acquire();
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId()== Integer.parseInt(id)){
+                    //update info
+
+                    rez.setPassword(userInfo.getPassword());
+                    rez.setUsername(userInfo.getUsername());
+                    rez.setTime(time);
+                    rez.setPaidOrNot(ispaidnOrnot);
+                    rez.setNumberTable(Integer.parseInt(nuberTable));
+                    ArrayList<Order> lista = new ArrayList<Order>();
+                    for(FreagmentAddOrder.ItemOrder curOrder : listaOrder){
+                        lista.add(curOrder.getOrder());
+                    }
+                    rez.setOrders(lista);
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+
+
+    }
+
+
+    public String[] getNumberItems() {
+        return numberItemssStrignList;
+    }
+
+    public void addOrder(int id, String numberOfItems, String Kategory) {
+        try{
+            mutex.acquire();
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId()== id){
+
+                          /*  boolean find = null;
+                            for(Order curOrd: rez.getOrders()){
+                                if(curOrd.getOrder().getFood().equals(Kategory)){
+                                    curOrd.setNuberOrder(curOrd.getNuberOrder()+numberOfItems);
+                                    find = true;
+                                    break;
+
+                                }
+                            }*/
+                    // if (find==null) {
+                    Order ord = new Order();
+
+                    ord.setNuberOrder(Integer.parseInt(numberOfItems));
+                    for (FoodMenuItem fmi : listFoodMenuItem) {
+                        if (fmi.getFood().equals(Kategory)) {
+                            ord.setOrder(fmi);
+                            break;
+                        }
+
+                    }
+                    rez.getOrders().add(ord);
+                    //}
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+    }
+
+    public void removeorderForRezer(Order o,String rezervationIdString) {
+        try{
+            mutex.acquire();
+
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId() == Integer.parseInt(rezervationIdString) ){
+                    for(Order currOrd:rez.getOrders()){
+                        if(o.getId()==currOrd.getId()){
+                            rez.getOrders().remove(currOrd);
+                            break;
+                        }
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+
+    }
 
     public void updateFoodMenuItem(String foodItemId, String kategoryString, String nameString, String priceString) {
 
@@ -561,5 +810,29 @@ public class Servis {
             }
 
         }
+    }
+
+    public String newRezervation (){
+        Integer i=-1;
+        try{
+            mutex.acquire();
+
+            Rezervation r = new Rezervation();
+            listOfRezervations.add(r);
+            i = r.getId();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+        return String.valueOf(i);
+    }
+
+
+    public boolean isUserAdmin() {
+        return userInfo.getType().equals("admin");
     }
 }

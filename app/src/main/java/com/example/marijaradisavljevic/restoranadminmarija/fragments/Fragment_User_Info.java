@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
+import com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
@@ -25,6 +27,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapt
 
 public class Fragment_User_Info extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
+    private static Fragment_User_Info instance;
+
     private EditText username;
     private EditText name ;
     private EditText surname ;
@@ -35,10 +39,21 @@ public class Fragment_User_Info extends Fragment {
     private Spinner type;
 
     private UserInfo currUI;
+
+    public static Fragment_User_Info getInstance() {
+
+
+        if(instance == null){
+            return new Fragment_User_Info();
+        }else return instance;
+
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mRoot = inflater.inflate(R.layout.fragment_user_info_layout,container, false);
+        View mRoot = inflater.inflate(R.layout.fragment_user_info_layout, container, false);
+        getActivity().setTitle(R.string.fragmentUserInfo);
+
         ///////////////////////////////////////////////////////////////////////
         type = (Spinner) mRoot.findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
@@ -96,12 +111,35 @@ public class Fragment_User_Info extends Fragment {
 
                 Servis.getInstance().setUserInfo(newUI);
 
-                Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMainList.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().getApplicationContext().startActivity(intent);
+
+                if(Servis.getInstance().isUserAdmin()){
+                    Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMainList.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().getApplicationContext().startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getActivity().getApplicationContext(), Activity_Selection_And_ListReservation.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().getApplicationContext().startActivity(intent);
+                }
+
+
             }
         });
 
         return mRoot;
     }
+
+
+
+
+
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_logout).setVisible(true);
+        menu.findItem(R.id.action_user_info).setVisible(true);
+        menu.findItem(R.id.action_add).setVisible(false);
+        super.onPrepareOptionsMenu(menu);
+    }
+
 }

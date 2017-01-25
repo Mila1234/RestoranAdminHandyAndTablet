@@ -34,10 +34,15 @@
         <activity
             android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList">
         </activity>
+        Activity_Selection_And_ListReservation
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityUserInfo">
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation">
         </activity>
 
+
+        <activity
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost">
+        </activity>
     </application>
 
 </manifest>
