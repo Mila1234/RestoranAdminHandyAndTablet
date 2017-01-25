@@ -1,26 +1,11 @@
 package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
-import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
-import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
-import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
-import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
-import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer;
@@ -29,9 +14,6 @@ import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Lo
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_menu_Item_List;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
-import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
-
-import java.util.ArrayList;
 
 /**
  * Created by marija.radisavljevic on 6/9/2016.
@@ -52,7 +34,7 @@ public class ActivityDetails extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_list_rezervations_layout);
+        setContentView(R.layout.activity_details_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

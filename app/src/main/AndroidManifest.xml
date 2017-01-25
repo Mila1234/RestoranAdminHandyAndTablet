@@ -32,16 +32,7 @@
             android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails">
         </activity>
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityListUsers">
-        </activity>
-        <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityLogout">
-        </activity>
-        <activity
             android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList">
-        </activity>
-        <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMenuItemList">
         </activity>
         <activity
             android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityUserInfo">

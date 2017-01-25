@@ -187,14 +187,14 @@ public class ActivityMainList  extends AppCompatActivity  {
                                 context.startActivity(intent);
                                 break;
                             case 6:
-                                 intent = new Intent(context, ActivityMenuItemList.class);
+                                 intent = new Intent(context, ActivityDetails.class);
                                 intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
                                 intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LIST_ITEMS_MENU);
                                 context.startActivity(intent);
                                 break;
                             case 7:
-                                 intent = new Intent(context, ActivityLogout.class);
-                                intent.putExtra(ActivityLogout.ARG_ITEM_ID, holder.mItem.id);
+                                 intent = new Intent(context, ActivityDetails.class);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
                                 intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LOGOUT);
                                 context.startActivity(intent);
                                 break;
