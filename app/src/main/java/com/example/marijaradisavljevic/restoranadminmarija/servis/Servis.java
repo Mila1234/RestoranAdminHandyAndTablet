@@ -45,7 +45,7 @@ public class Servis {
         userInfo1.setSurname("Radisavljevic");
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("marijarad89@gmail.com");
-        userInfo1.setType("konobar");
+        userInfo1.setType("admin");
         userInfo1.setPassword("sifra");
 
         userInfo = userInfo1;

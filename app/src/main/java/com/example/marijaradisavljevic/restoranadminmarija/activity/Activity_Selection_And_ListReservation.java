@@ -41,12 +41,13 @@ public class Activity_Selection_And_ListReservation extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private boolean mTwoPane = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gui_layout);
+        setContentView(R.layout.activity_selec_listrezerv_main);//activity_gui_layout
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,30 +57,39 @@ public class Activity_Selection_And_ListReservation extends AppCompatActivity {
         toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
         toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container_gui);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (findViewById(R.id.item_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }else {
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-            }
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container_gui);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            @Override
-            public void onPageSelected(int position) {
-                //...anything you may need to do to handle pager state...
-                mSectionsPagerAdapter.notifyDataSetChanged(); //this line will force all pages to be loaded fresh when changing between fragments
-            }
+                }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageSelected(int position) {
+                    //...anything you may need to do to handle pager state...
+                    mSectionsPagerAdapter.notifyDataSetChanged(); //this line will force all pages to be loaded fresh when changing between fragments
+                }
 
-            }
-        });
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
 
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_New_Item_Rezerv;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer_and_Selection;
@@ -62,7 +63,7 @@ public class ActivityDetails extends AppCompatActivity {
                     break;
                 case 4:fragment = new Fragment_List_Rezer_and_Selection();
                     break;
-                case 5:fragment = new Fragment_Add_New_Item_Rezerv();
+                case 5:fragment = new Fragment_Add_Menu_Item();
                     break;
                 case 6:fragment = new Fragment_menu_Item_List();
                     break;
