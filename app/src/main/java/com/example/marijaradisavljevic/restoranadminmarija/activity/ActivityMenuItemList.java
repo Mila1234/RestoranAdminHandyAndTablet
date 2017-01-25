@@ -3,7 +3,6 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -111,8 +110,9 @@ public class ActivityMenuItemList  extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //otvori prozor fragment FreagmentAddOrder
-                        Intent intent2 = new Intent(getApplicationContext(), ActivityAddmenuItem.class);
+                        Intent intent2 = new Intent(getApplicationContext(), ActivityDetails.class);
                         intent2.putExtra("foodItemId", Integer.toString(rezervation.getId()));
+                        intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU);
                         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         getApplicationContext().startActivity(intent2);
 

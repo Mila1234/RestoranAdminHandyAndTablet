@@ -42,6 +42,8 @@ import java.util.List;
  */
 public class ActivityMainList  extends AppCompatActivity  {
 
+
+
     private boolean mTwoPane;
 
 
@@ -155,38 +157,45 @@ public class ActivityMainList  extends AppCompatActivity  {
                         Intent intent;
                         switch (Integer.parseInt(holder.mItem.id)) {
                             case 1:
-                                 intent = new Intent(context, ActivityUserInfo.class);
-                                intent.putExtra(ActivityUserInfo.ARG_ITEM_ID, holder.mItem.id);
+                                 intent = new Intent(context, ActivityDetails.class);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.USER_INFO);
                                 context.startActivity(intent);
                                 break;
                             case 2:
-                                 intent = new Intent(context, ActivityAddUser.class);
-                                intent.putExtra(ActivityAddUser.ARG_ITEM_ID, holder.mItem.id);
+                                 intent = new Intent(context, ActivityDetails.class);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_NEW_USER);
                                 context.startActivity(intent);
                                 break;
                             case 3:
-                                 intent = new Intent(context, ActivityListUsers.class);
-                                intent.putExtra(ActivityListUsers.ARG_ITEM_ID, holder.mItem.id);
+                                 intent = new Intent(context, ActivityDetails.class);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LIST_USERS);
                                 context.startActivity(intent);
                                 break;
                             case 4:
-                                 intent = new Intent(context, ActivityListRezer.class);
-                                intent.putExtra(ActivityListRezer.ARG_ITEM_ID, holder.mItem.id);
+                                 intent = new Intent(context, ActivityDetails.class);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LIST_REZERV);
                                 context.startActivity(intent);
                                 break;
                             case 5:
-                                 intent = new Intent(context, ActivityAddmenuItem.class);
-                                intent.putExtra(ActivityAddmenuItem.ARG_ITEM_ID, holder.mItem.id);
+                                 intent = new Intent(context, ActivityDetails.class);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU) ;
                                 context.startActivity(intent);
                                 break;
                             case 6:
                                  intent = new Intent(context, ActivityMenuItemList.class);
-                                intent.putExtra(ActivityListRezer.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LIST_ITEMS_MENU);
                                 context.startActivity(intent);
                                 break;
                             case 7:
                                  intent = new Intent(context, ActivityLogout.class);
                                 intent.putExtra(ActivityLogout.ARG_ITEM_ID, holder.mItem.id);
+                                intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LOGOUT);
                                 context.startActivity(intent);
                                 break;
                         }

@@ -143,7 +143,8 @@ public class ActivityListUsers  extends AppCompatActivity {
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent2 = new Intent(getApplicationContext(), ActivityAddUser.class);
+                        Intent intent2 = new Intent(getApplicationContext(), ActivityDetails.class);
+                        intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_NEW_USER);
                         intent2.putExtra("username", adapterItem.userinfo.getUsername());
                         intent2.putExtra("password", adapterItem.userinfo.getPassword());
                         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

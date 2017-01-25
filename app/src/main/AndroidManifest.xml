@@ -29,7 +29,7 @@
             android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityAddUser">
         </activity>
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityListRezer">
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails">
         </activity>
         <activity
             android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityListUsers">
