@@ -1,182 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
- >
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="@color/rezervation_color_background"
+    android:padding="@dimen/padding_margin">
+
+
+    <ImageView android:id="@+id/imgIcon"
+        android:layout_weight="1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_avatar"
+        android:layout_marginRight="5dp" />
+
+
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_weight="1"
+        android:text="@string/username"
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            >
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/container_menu"
+        />
+    <EditText android:id="@+id/username"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/name"
+        />
 
+    <EditText android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="textPersonName"
+        />
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/surname"
+        android:layout_weight="1"
+        />
 
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:weightSum="1"
-            android:background="@color/rezervation_color_background"
-            android:padding="@dimen/padding_margin">
+    <EditText android:id="@+id/surname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/number"
+        android:layout_weight="1"
+        />
+    <EditText android:id="@+id/number"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        />
 
-            <ImageView android:id="@+id/imgIcon"
-                android:layout_weight="1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_avatar"
-                android:layout_marginRight="5dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/email"
+        />
 
+    <EditText android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="textEmailAddress"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        android:layout_weight="1"
+        />
 
+    <EditText android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="textVisiblePassword"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/type"
+        android:layout_weight="1"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/username"
+    <Spinner android:id="@+id/typeSpiner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/blue"
+        />
 
-                />
-            <EditText android:id="@+id/username"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/name"
-                />
-
-            <EditText android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textPersonName"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/surname"
-                android:layout_weight="1"
-                />
-
-            <EditText android:id="@+id/surname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/number"
-                android:layout_weight="1"
-                />
-            <EditText android:id="@+id/number"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/email"
-                />
-
-            <EditText android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textEmailAddress"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/password"
-                android:layout_weight="1"
-                />
-
-            <EditText android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textVisiblePassword"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/type"
-                android:layout_weight="1"/>
-
-            <Spinner android:id="@+id/typeSpiner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/blue"
-                />
-
-            <Button  android:id="@+id/ok_button"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/activity_small_padding"
-                android:layout_marginRight="@dimen/activity_small_padding"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_record"
-                android:background="@drawable/shape_of_button"
-                android:textColor="@color/white"
-                android:layout_marginBottom="?attr/actionBarSize"/>
+    <Button  android:id="@+id/ok_button"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/activity_small_padding"
+        android:layout_marginRight="@dimen/activity_small_padding"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_record"
+        android:background="@drawable/shape_of_button"
+        android:textColor="@color/white"
+        android:layout_marginBottom="?attr/actionBarSize"/>
 
 
 
 
 
 
-        </LinearLayout>
-        </ScrollView>
-
-    </FrameLayout>
-
-
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
+</ScrollView>

@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
@@ -22,16 +24,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapt
  */
 public class ActivityAddUser  extends AppCompatActivity implements  AdapterView.OnItemSelectedListener{
     public static final String ARG_ITEM_ID = "item_id";
-    private EditText username;
-    private EditText name ;
-    private EditText surname ;
-    private EditText number ;
-    private EditText email;
-    private EditText password;
 
-    private Spinner type;
 
-    private Bundle extras;
 
 
 
@@ -40,14 +34,7 @@ public class ActivityAddUser  extends AppCompatActivity implements  AdapterView.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_user_info_layout);
-         extras = getIntent().getExtras();
-        if(extras != null){
-           // setTitle(R.string.title_edtiUsername);
-        }else{
-            //setTitle(R.string.fragmentUserInfo);
-        }
-
+        setContentView(R.layout.activity_user_info_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,82 +44,18 @@ public class ActivityAddUser  extends AppCompatActivity implements  AdapterView.
         toolbar.setTitle(getResources().getString(R.string.Logo_description));
         toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
 
-////////////////////spinner//////////////////////////
-        type = (Spinner) findViewById(R.id.typeSpiner);
-        // value = getResources().getStringArray(R.array.kategory_array);
-        final ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getBaseContext(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().strignListTypeOFUsers() );
-
-        // Specify the layout to use when the list of choices appears
-        adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        type.setAdapter(adapter_type);
-        type.setSelection(((MySpinnerAdapter)adapter_type).getStartPosition());
-        type.setOnItemSelectedListener(this);
-
- //////////////////////text filds/////////////////////////////////////////////////
-
-        username = (EditText) findViewById(R.id.username);
-        name = (EditText) findViewById(R.id.name);
-        surname = (EditText) findViewById(R.id.surname);
-        number = (EditText) findViewById(R.id.number);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        final Button button_ok = (Button) findViewById(R.id.ok_button);
-
-        if (extras!= null) {//edit user
-            String usernameString = extras.getString("username");
-            String passordSrting = extras.getString("password");
-            UserInfo ui = Servis.getInstance().getUserInfofromList(usernameString, passordSrting);
-            username.setText(ui.getUsername());
-            name.setText(ui.getName());
-            surname.setText(ui.getSurname());
-            number.setText(ui.getNumber());
-            email.setText(ui.getEmail());
-            password.setText(ui.getPassword());
-            int position = adapter_type.getPosition(ui.getType());
-            type.setSelection(position);
+        if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+            Bundle arguments = new Bundle();
+            //ako nesto zelim da prosldim fragmentu
+            // arguments.putString(Fragment_Add_Menu_Item.ARG_ITEM_ID,
+            //  getIntent().getStringExtra(Fragment_Add_Menu_Item.ARG_ITEM_ID));
+            Fragment_Add_User fragment = new Fragment_Add_User();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().add(R.id.container_menu, fragment).commit();
         }
 
-
-        button_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-                Toast.makeText(getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
-                button_ok.setEnabled(false);
-                UserInfo ui = new UserInfo();
-                ui.setUsername(username.getText().toString());
-                ui.setName(name.getText().toString());
-                ui.setSurname(surname.getText().toString());
-                ui.setNumber(number.getText().toString());
-                ui.setEmail(email.getText().toString());
-                ui.setPassword(password.getText().toString());
-                ui.setType((String) type.getSelectedItem());
-
-                if(ui.getUsername().length()==0 || ui.getPassword().length()==0 || type.getSelectedItemPosition()==((MySpinnerAdapter)adapter_type).getStartPosition()){
-                    Toast.makeText(getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (extras!= null) {//edit user
-                    String usernameString = extras.getString("username");
-                    String passwordString = extras.getString("password");
-                   Servis.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
-                }else{
-                    Servis.getInstance().makeuserinfoIntoList(ui);
-                }
-
-
-                Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-
-                button_ok.setEnabled(true);
-            }
-        });
 
     }
 
