@@ -1,4 +1,44 @@
 
+ ////////////////////////////////////////////////////
+    Activity -> fragment
+
+     Bundle arguments = new Bundle();
+      arguments.putString(bla,bal);
+    Fragment fragment = new Fragment_User_Info();
+      fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction().add(R.id.container_menu, fragment).commit();
+
+///////////////////////////////////////////////////
+
+Fragment Fragment na istom activity
+metoda acitivtija
+
+////////////////////////////////////////////////////
+
+Fragment -> Fragment drugi activity
+
+ Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityHost.class);
+                intent2.putExtra("name", "FreagmentAddOrder");
+                intent2.putExtra("rezervationId", rezIdString);
+                intent2.putExtra("action", "onclick");
+                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().getApplicationContext().startActivity(intent2);
+
+////////////////////////////////////////////////////////////////////////////////////
+uzmi parametre u fragmentu poslate fragmentu preko samo Bundle xtras= getArgumentr
+
+//////////////////////////
+
+parametre iz intent uzmi preko getActivity.getintent ()/....
+
+//////////
+uzmi parametre u activitu
+getIntet()
+
+
+///////////
+
+
 <TextView android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
