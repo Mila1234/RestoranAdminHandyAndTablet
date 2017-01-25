@@ -25,7 +25,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapt
 
 public class Fragment_Add_Menu_Item extends Fragment {
 
-
+    public static final String ARG_ITEM_ID = "item_id";
 
 
     private EditText newItemName, price;

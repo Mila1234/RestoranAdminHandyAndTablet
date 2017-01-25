@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  */
 
 public class Fragment_Log_Out extends Fragment {
-
+    public static final String ARG_ITEM_ID = "item_id";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

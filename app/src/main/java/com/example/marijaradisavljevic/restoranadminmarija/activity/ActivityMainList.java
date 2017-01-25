@@ -97,16 +97,59 @@ public class ActivityMainList  extends AppCompatActivity  {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        if(Integer.parseInt(holder.mItem.id) == 5){
-                           // arguments.putString(BlackFragment.ARG_ITEM_ID, holder.mItem.id);
-                        }else {
-                            //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        }
 
-                       // ItemDetailFragment fragment = new ItemDetailFragment();
-                        //fragment.setArguments(arguments);
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
+                        Bundle arguments = new Bundle();
+                        switch (Integer.parseInt(holder.mItem.id)) {
+                            case 1:
+                                arguments.putString(Fragment_User_Info.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_User_Info fragment1 = new Fragment_User_Info();
+                                fragment1.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment1).commit();
+
+                                break;
+                            case 2:
+                                arguments.putString(Fragment_Add_User.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_Add_User fragment2 = new Fragment_Add_User();
+                                fragment2.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment2).commit();
+
+                                break;
+                            case 3:
+                                arguments.putString(Fragment_List_Users.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_List_Users fragment3 = new Fragment_List_Users();
+                                fragment3.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment3).commit();
+
+                                break;
+                            case 4:
+                                arguments.putString(Fragment_List_Rezer.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_List_Rezer fragment4 = new Fragment_List_Rezer();
+                                fragment4.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment4).commit();
+
+                                break;
+                            case 5:
+                                arguments.putString(Fragment_Add_Menu_Item.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_Add_Menu_Item fragment5 = new Fragment_Add_Menu_Item();
+                                fragment5.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment5).commit();
+
+                                break;
+                            case 6:
+                                arguments.putString(Fragment_menu_Item_List.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_menu_Item_List fragment6 = new Fragment_menu_Item_List();
+                                fragment6.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
+
+                                break;
+                            case 7:
+                                arguments.putString(Fragment_Log_Out.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_Log_Out fragment7 = new Fragment_Log_Out();
+                                fragment7.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment7).commit();
+
+                                break;
+                        }
                     } else {
                         Context context = v.getContext();
                         Intent intent;
@@ -137,7 +180,7 @@ public class ActivityMainList  extends AppCompatActivity  {
                                 context.startActivity(intent);
                                 break;
                             case 6:
-                                 intent = new Intent(context, ActivityListRezer.class);
+                                 intent = new Intent(context, ActivityMenuItemList.class);
                                 intent.putExtra(ActivityListRezer.ARG_ITEM_ID, holder.mItem.id);
                                 context.startActivity(intent);
                                 break;

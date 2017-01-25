@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  */
 
 public class Fragment_List_Rezer extends Fragment {
-
+    public static final String ARG_ITEM_ID = "item_id";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
