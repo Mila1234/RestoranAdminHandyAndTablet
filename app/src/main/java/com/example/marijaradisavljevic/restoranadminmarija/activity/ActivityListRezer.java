@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * Created by marija.radisavljevic on 6/9/2016.
  */
 public class ActivityListRezer  extends AppCompatActivity implements  AdapterView.OnItemSelectedListener{
-
+    public static final String ARG_ITEM_ID = "item_id";
     ListView lvDetail;
     private Spinner spinnerNumberOfTable;
     private Spinner spinnerIsItPaid;

@@ -16,6 +16,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
  * Created by marija.radisavljevic on 6/8/2016.
  */
 public class ActivityLogout extends AppCompatActivity {
+    public static final String ARG_ITEM_ID = "item_id";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

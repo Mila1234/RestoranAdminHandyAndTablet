@@ -1,20 +1,48 @@
 package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
+import com.example.marijaradisavljevic.restoranadminmarija.adapters.MainListAdapterContent;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Users;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_menu_Item_List;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+
+import java.util.List;
 
 /**
  * Created by marija.radisavljevic on 6/9/2016.
  */
-public class ActivityMainList  extends AppCompatActivity implements View.OnClickListener {
 
+/**
+ * An activity representing a list of Items. This activity
+ * has different presentations for handset and tablet-size devices. On
+ * handsets, the activity presents a list of items, which when touched,
+ * lead to a {each itam in list has it own activity and coresponding fragment for nady and tablet  representing
+ * item details. On tablets, the activity presents the list of items and
+ * item details side-by-side using two vertical panes.
+ *  /**
+ * Whether or not the activity is in two-pane mode, i.e. running on a tablet
+ * device.
+ */
+public class ActivityMainList  extends AppCompatActivity  {
+
+    private boolean mTwoPane;
 
 
     @Override
@@ -29,62 +57,123 @@ public class ActivityMainList  extends AppCompatActivity implements View.OnClick
         toolbar.setTitle( getResources().getString(R.string.Logo_description));
         toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
 
-        TextView userinfo = (TextView) findViewById(R.id.userinfo);
-        TextView addnewUser = (TextView) findViewById(R.id.addUser);
-        TextView listUsers = (TextView) findViewById(R.id.listusers);
-        TextView listrezervations = (TextView) findViewById(R.id.listrezervations);
-        TextView addItem  = (TextView) findViewById(R.id.additem);
-        TextView listItems = (TextView) findViewById(R.id.listitems);
-        TextView logOut = (TextView) findViewById(R.id.logout);
+        View recyclerView = findViewById(R.id.item_list);
+        assert recyclerView != null;
+        setupRecyclerView((RecyclerView) recyclerView);
 
-        userinfo.setOnClickListener(this);
-        addnewUser.setOnClickListener(this);
-        listUsers.setOnClickListener(this);
-        listrezervations.setOnClickListener(this);
-        addItem.setOnClickListener(this);
-        listItems.setOnClickListener(this);
-        logOut.setOnClickListener(this);
+        if (findViewById(R.id.item_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
+    }
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(MainListAdapterContent.ITEMS));
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent intent;
-        switch (v.getId()){
-            case R.id.userinfo:
-                 intent = new Intent(getApplicationContext(), ActivityUserInfo.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
-            case R.id.addUser:
-                 intent = new Intent(getApplicationContext(), ActivityAddUser.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
-            case R.id.listusers:
-                 intent = new Intent(getApplicationContext(), ActivityListUsers.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
-            case R.id.listrezervations:
-                 intent = new Intent(getApplicationContext(), ActivityListRezer.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
-            case R.id.additem:
-                 intent = new Intent(getApplicationContext(), ActivityAddmenuItem.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
-            case R.id.listitems:
-                 intent = new Intent(getApplicationContext(), ActivityMenuItemList.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
-            case R.id.logout:
-                 intent = new Intent(getApplicationContext(), ActivityLogout.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-                break;
+    public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+
+        private final List<MainListAdapterContent.MainItem> mValues;
+
+        public SimpleItemRecyclerViewAdapter(List<MainListAdapterContent.MainItem> items) {
+            mValues = items;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_content, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            holder.mItem = mValues.get(position);
+           // holder.mIdView.setText(mValues.get(position).id);
+            holder.mContentView.setText(mValues.get(position).content);
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mTwoPane) {
+                        Bundle arguments = new Bundle();
+                        if(Integer.parseInt(holder.mItem.id) == 5){
+                           // arguments.putString(BlackFragment.ARG_ITEM_ID, holder.mItem.id);
+                        }else {
+                            //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        }
+
+                       // ItemDetailFragment fragment = new ItemDetailFragment();
+                        //fragment.setArguments(arguments);
+                        //getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
+                    } else {
+                        Context context = v.getContext();
+                        Intent intent;
+                        switch (Integer.parseInt(holder.mItem.id)) {
+                            case 1:
+                                 intent = new Intent(context, ActivityUserInfo.class);
+                                intent.putExtra(ActivityUserInfo.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                            case 2:
+                                 intent = new Intent(context, ActivityAddUser.class);
+                                intent.putExtra(ActivityAddUser.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                            case 3:
+                                 intent = new Intent(context, ActivityListUsers.class);
+                                intent.putExtra(ActivityListUsers.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                            case 4:
+                                 intent = new Intent(context, ActivityListRezer.class);
+                                intent.putExtra(ActivityListRezer.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                            case 5:
+                                 intent = new Intent(context, ActivityAddmenuItem.class);
+                                intent.putExtra(ActivityAddmenuItem.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                            case 6:
+                                 intent = new Intent(context, ActivityListRezer.class);
+                                intent.putExtra(ActivityListRezer.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                            case 7:
+                                 intent = new Intent(context, ActivityLogout.class);
+                                intent.putExtra(ActivityLogout.ARG_ITEM_ID, holder.mItem.id);
+                                context.startActivity(intent);
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mValues.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public final View mView;
+            //public final TextView mIdView;
+            public final TextView mContentView;
+            public MainListAdapterContent.MainItem mItem;
+
+            public ViewHolder(View view) {
+                super(view);
+                mView = view;
+               // mIdView = (TextView) view.findViewById(R.id.id);
+                mContentView = (TextView) view.findViewById(R.id.content);
+            }
+
+            @Override
+            public String toString() {
+                return super.toString() + " '" + mContentView.getText() + "'";
+            }
         }
     }
 }

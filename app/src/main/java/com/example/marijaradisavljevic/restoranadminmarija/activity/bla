@@ -1,3 +1,13 @@
+
+<TextView android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_margin="@dimen/text_margin"
+    android:textAppearance="?attr/textAppearanceListItem"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+
+
  ArrayAdapter<String> adapter_number_of_table;
   ArrayAdapter<String>  adapter_isItPaid ;
   ArrayAdapter<String> adapter_kategory;
@@ -20,3 +30,17 @@
                   android:layout_alignParentTop="true"
                   android:layout_alignLeft="@+id/new_item"
                   android:layout_alignStart="@+id/new_item" />
+
+
+
+
+
+  <TextView
+         android:id="@+id/id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="@string/userinfo"
+         android:gravity="center"
+         android:layout_weight="1"
+         android:textStyle="normal|bold"
+         android:textSize="32sp"/>

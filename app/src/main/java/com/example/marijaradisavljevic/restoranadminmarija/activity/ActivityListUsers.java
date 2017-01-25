@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Created by marija.radisavljevic on 6/9/2016.
  */
 public class ActivityListUsers  extends AppCompatActivity {
-
+    public static final String ARG_ITEM_ID = "item_id";
     ListView listOfUsers;
 
 

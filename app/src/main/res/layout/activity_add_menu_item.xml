@@ -29,82 +29,12 @@
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/container_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rezervation_color_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <LinearLayout  android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:weightSum="9.5"
-
-                    android:background="@color/rezervation_color_background"
-                    android:padding="50dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/kategory_string"
-                        android:layout_weight="0.5"/>
-
-                    <Spinner android:id="@+id/kategorySpiner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="@string/newitemname"
-                        />
-
-                    <EditText android:id="@+id/newItme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:inputType="textPhonetic"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/price_string"
-                        android:layout_weight="0.5"
-
-                        />
-
-                    <EditText android:id="@+id/price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-
-                        android:inputType="numberDecimal"
-                        />
-
-        <Button  android:id="@+id/ok_button"
-            android:layout_weight="2"
-            android:layout_marginLeft="@dimen/activity_small_padding"
-            android:layout_marginRight="@dimen/activity_small_padding"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_record"
-            android:background="@drawable/shape_of_button"
-            android:textColor="@color/white"
-            android:layout_marginBottom="?attr/actionBarSize"/>
-
-
-                </LinearLayout>
-
-
-
     </FrameLayout>
 
-
-
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

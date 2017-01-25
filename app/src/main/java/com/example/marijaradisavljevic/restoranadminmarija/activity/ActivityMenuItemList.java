@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by marija.radisavljevic on 6/9/2016.
  */
 public class ActivityMenuItemList  extends AppCompatActivity {
-
+    public static final String ARG_ITEM_ID = "item_id";
     ListView lvDetail;
     @Override
     public void onCreate(Bundle savedInstanceState) {

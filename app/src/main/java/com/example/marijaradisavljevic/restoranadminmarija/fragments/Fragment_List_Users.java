@@ -11,11 +11,11 @@ import android.view.ViewGroup;
  * Created by marija on 24.1.17.
  */
 
-public class Fragment_User_Info extends Fragment {
+public class Fragment_List_Users extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

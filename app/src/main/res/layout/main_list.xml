@@ -19,144 +19,24 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="enterAlways"
             >
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/container_menu"
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/rezervation_color_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/rezervation_color_background"
-    android:padding="@dimen/padding_margin">
 
-
-    <TextView
-        android:id="@+id/userinfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/userinfo"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="16dp"
-        android:background="@color/blue" />
-    <TextView
-        android:id="@+id/addUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_new_user"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="16dp"
-        android:background="@color/blue" />
-    <TextView
-        android:id="@+id/listusers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/users_list"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="16dp"
-        android:background="@color/blue" />
-    <TextView
-        android:id="@+id/listrezervations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/list_rezervation"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="16dp"
-        android:background="@color/blue" />
-    <TextView
-        android:id="@+id/additem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_menu_item"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="16dp"
-        android:background="@color/blue" />
-    <TextView
-        android:id="@+id/listitems"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_time_list"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="16dp"
-        android:background="@color/blue" />
-    <TextView
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout_string"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"/>
-    <TextView
-        android:id="@+id/nevidljiva"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout_string"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="32sp"
-        />
-
-</LinearLayout>
+        <include layout="@layout/activity_main_list_item_list"
+            android:layout_height="507dp" />
     </FrameLayout>
-
 
 
 </android.support.design.widget.CoordinatorLayout>

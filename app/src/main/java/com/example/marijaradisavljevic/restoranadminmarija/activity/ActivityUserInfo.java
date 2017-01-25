@@ -20,6 +20,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapt
  * Created by marija.radisavljevic on 6/10/2016.
  */
 public class ActivityUserInfo extends AppCompatActivity {
+    public static final String ARG_ITEM_ID = "item_id";
     private EditText username;
     private EditText name ;
     private EditText surname ;
