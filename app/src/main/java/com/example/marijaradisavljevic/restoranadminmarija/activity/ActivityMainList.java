@@ -2,6 +2,7 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +43,21 @@ import java.util.List;
  */
 public class ActivityMainList  extends AppCompatActivity  {
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
+        if (getResources().getConfiguration().orientation==1) {
+            Intent intent;
+            intent = new Intent(this, ActivityDetails.class);
+           // intent.putExtra(ActivityDetails.ARG_ITEM_ID, holder.mItem.id);
+            intent.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.LOGOUT);
+            startActivity(intent);
+
+        }else{//mTwoPane == true;
+
+        }
+    }
 
     private boolean mTwoPane;
 

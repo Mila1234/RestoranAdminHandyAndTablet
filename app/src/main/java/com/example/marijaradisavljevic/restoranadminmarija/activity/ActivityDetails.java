@@ -32,9 +32,18 @@ public class ActivityDetails extends AppCompatActivity {
     public static final int LOGOUT = 7;
     public static final String CHOOSEFRAGM = "fragment";
 
+    private Fragment fragment = null;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_details_layout);
 
@@ -53,7 +62,7 @@ public class ActivityDetails extends AppCompatActivity {
             //ako nesto zelim da prosldim fragmentu
             // arguments.putString(Fragment_Add_Menu_Item.ARG_ITEM_ID,
             int fragmentChoose =  getIntent().getIntExtra(ActivityDetails.CHOOSEFRAGM,0);
-            Fragment fragment= null;
+
             switch (fragmentChoose){
                 case 1:fragment = new Fragment_User_Info();
                     break;
