@@ -35,6 +35,7 @@ import java.util.Calendar;
  * Created by marija.radisavljevic on 5/13/2016.
  */
 public class FreagmentAddOrder extends Fragment implements View.OnClickListener {
+    public static final String ARG_ITEM_ID = "item_id";
 
     private Button split_order,make_order;
     private ImageButton new_item;

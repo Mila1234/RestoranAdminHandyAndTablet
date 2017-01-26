@@ -1,9 +1,5 @@
 package com.example.marijaradisavljevic.restoranadminmarija.adapters;
 
-import android.content.res.Resources;
-
-import com.example.marijaradisavljevic.restoranadminmarija.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,18 +8,26 @@ import java.util.Map;
 /**
  * Created by marija on 24.1.17.
  */
-public class MainListAdapterContent {
+public class Content {
     /**
      * An array of sample  items.
      */
-    public static final List<MainItem> ITEMS = new ArrayList<MainItem>();
+    public static final List<MainItem> ITEMSADMIN = new ArrayList<MainItem>();
 
     /**
      * A map of sample) items, by ID.
      */
-    public static final Map<String, MainItem> ITEM_MAP = new HashMap<String, MainItem>();
+    public static final Map<String, MainItem> ITEM_MAP_ADMIN = new HashMap<String, MainItem>();
 
-    private static final int COUNT = 25;
+    /**
+     * An array of sample  items.
+     */
+    public static final List<MainItem> ITEMSKONOBAR = new ArrayList<MainItem>();
+
+    /**
+     * A map of sample) items, by ID.
+     */
+    public static final Map<String, MainItem> ITEM_MAP_KONOBAR = new HashMap<String, MainItem>();
 
     static {
         // Add some items.
@@ -36,12 +40,22 @@ public class MainListAdapterContent {
         addItem(createMainItem("6", "lista stavki"));
         addItem(createMainItem("7","odjavi se" ));
 
+        addItemKOnobar(createMainItem("1", "licne informacije"));
+        addItemKOnobar(createMainItem("2","lista narudzbina" ));
+        addItemKOnobar(createMainItem("3", "nova narudzbina"));
+        addItemKOnobar(createMainItem("4", "odjavi se"));
+
 
     }
 
     private static void addItem(MainItem item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEMSADMIN.add(item);
+        ITEM_MAP_ADMIN.put(item.id, item);
+    }
+
+    private static void addItemKOnobar(MainItem item) {
+        ITEMSKONOBAR.add(item);
+        ITEM_MAP_KONOBAR.put(item.id, item);
     }
 
     private static MainItem createMainItem(String id, String content) {

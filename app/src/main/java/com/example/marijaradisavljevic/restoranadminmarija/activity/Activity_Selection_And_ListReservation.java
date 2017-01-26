@@ -2,12 +2,14 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,9 +19,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
+import com.example.marijaradisavljevic.restoranadminmarija.adapters.Content;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FragmentListReservations;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FragmentSelection;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer_and_Selection;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+
+import java.util.List;
 
 
 /**
@@ -63,6 +73,16 @@ public class Activity_Selection_And_ListReservation extends AppCompatActivity {
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
+            View recyclerView = findViewById(R.id.item_list);
+            assert recyclerView != null;
+            setupRecyclerView((RecyclerView) recyclerView);
+
+            Bundle arguments = new Bundle();
+            //arguments.putString(Fragment_List_Rezer_and_Selection.ARG_ITEM_ID, holder.mItem.id);
+            Fragment_List_Rezer_and_Selection fragment4 = new Fragment_List_Rezer_and_Selection();
+            fragment4.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment4).commit();
+
             mTwoPane = true;
         }else {
             // Create the adapter that will return a fragment for each of the three
@@ -91,6 +111,106 @@ public class Activity_Selection_And_ListReservation extends AppCompatActivity {
             });
         }
 
+    }
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        recyclerView.setAdapter(new Activity_Selection_And_ListReservation.SimpleItemRecyclerViewAdapter(Content.ITEMSKONOBAR));
+    }
+
+    public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<Activity_Selection_And_ListReservation.SimpleItemRecyclerViewAdapter.ViewHolder> {
+
+        private final List<Content.MainItem> mValues;
+
+        public SimpleItemRecyclerViewAdapter(List<Content.MainItem> items) {
+            mValues = items;
+        }
+
+        @Override
+        public Activity_Selection_And_ListReservation.SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_content, parent, false);
+            return new Activity_Selection_And_ListReservation.SimpleItemRecyclerViewAdapter.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final Activity_Selection_And_ListReservation.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
+            holder.mItem = mValues.get(position);
+            // holder.mIdView.setText(mValues.get(position).id);
+            holder.mContentView.setText(mValues.get(position).content);
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mTwoPane) {
+
+                        Bundle arguments = new Bundle();
+                        switch (Integer.parseInt(holder.mItem.id)) {
+                            case 1:
+                                arguments.putString(Fragment_User_Info.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_User_Info fragment1 = new Fragment_User_Info();
+                                fragment1.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment1).commit();
+
+                                break;
+                            case 2:
+                                arguments.putString(Fragment_List_Rezer_and_Selection.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_List_Rezer_and_Selection fragment4 = new Fragment_List_Rezer_and_Selection();
+                                fragment4.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment4).commit();
+
+                                break;
+                            case 3:
+                                arguments.putString(FreagmentAddOrder.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_Add_Menu_Item fragment5 = new Fragment_Add_Menu_Item();
+                                fragment5.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment5).commit();
+
+                                break;
+                            case 4:
+                                arguments.putString(Fragment_Log_Out.ARG_ITEM_ID, holder.mItem.id);
+                                Fragment_Log_Out fragment7 = new Fragment_Log_Out();
+                                fragment7.setArguments(arguments);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment7).commit();
+
+                                break;
+                            case 5:
+
+                                break;
+                            case 6:
+
+                                break;
+                            case 7:
+
+                                break;
+                        }
+                    } else {
+                        // za pocetak da napravim da se tablet portartai izgleda kao handy app
+                    }
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mValues.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public final View mView;
+            //public final TextView mIdView;
+            public final TextView mContentView;
+            public Content.MainItem mItem;
+
+            public ViewHolder(View view) {
+                super(view);
+                mView = view;
+                // mIdView = (TextView) view.findViewById(R.id.id);
+                mContentView = (TextView) view.findViewById(R.id.content);
+            }
+
+            @Override
+            public String toString() {
+                return super.toString() + " '" + mContentView.getText() + "'";
+            }
+        }
     }
 
 

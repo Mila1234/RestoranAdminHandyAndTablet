@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
-import com.example.marijaradisavljevic.restoranadminmarija.adapters.MainListAdapterContent;
+import com.example.marijaradisavljevic.restoranadminmarija.adapters.Content;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer_and_Selection;
@@ -72,14 +72,14 @@ public class ActivityMainList  extends AppCompatActivity  {
         }
     }
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(MainListAdapterContent.ITEMS));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(Content.ITEMSADMIN));
     }
 
     public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<MainListAdapterContent.MainItem> mValues;
+        private final List<Content.MainItem> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<MainListAdapterContent.MainItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<Content.MainItem> items) {
             mValues = items;
         }
 
@@ -213,7 +213,7 @@ public class ActivityMainList  extends AppCompatActivity  {
             public final View mView;
             //public final TextView mIdView;
             public final TextView mContentView;
-            public MainListAdapterContent.MainItem mItem;
+            public Content.MainItem mItem;
 
             public ViewHolder(View view) {
                 super(view);
