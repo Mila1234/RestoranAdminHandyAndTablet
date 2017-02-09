@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails;
+import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
@@ -229,24 +230,27 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
                 paidOrNot.setText(adapterItem.rezervation.getpaidOrNot_string());
 
                 if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
-                    edit.setVisibility(View.GONE);
+                   edit.setVisibility(View.GONE);
                 }else{
                     edit.setVisibility(View.VISIBLE);
-                }
+               }
                 remove.setVisibility(View.VISIBLE);
 
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //otvori prozor fragment FreagmentAddOrder
-                        Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityDetails.class);
-                        intent2.putExtra("name", "FreagmentAddOrder");
-                        intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
-
-                        intent2.putExtra("action", "onclick");
-                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getActivity().getApplicationContext().startActivity(intent2);
-
+                        if (getActivity().getClass().equals(ActivityMainList.getInstance().getClass())){
+                            ((ActivityMainList)getActivity()).callFragmentAddOrderForEdit(rezervation.getId());
+                        }else {
+                            Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityDetails.class);
+                            intent2.putExtra("name", "FreagmentAddOrder");
+                            intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
+                            intent2.putExtra(ActivityDetails.CHOOSEFRAGM, ActivityDetails.addOrderForEdit);
+                            intent2.putExtra("action", "onclick");
+                            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getActivity().getApplicationContext().startActivity(intent2);
+                        }
                     }
                 });
 

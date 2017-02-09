@@ -22,6 +22,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Li
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_menu_Item_List;
+import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.List;
@@ -89,6 +90,13 @@ public class ActivityMainList  extends AppCompatActivity  {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(Content.ITEMSADMIN));
     }
+
+    private static ActivityMainList instance = new ActivityMainList();
+
+    public static ActivityMainList getInstance() {
+        return instance;
+    }
+
 
     public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -242,5 +250,55 @@ public class ActivityMainList  extends AppCompatActivity  {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    public void callFragmentAddOrderForEdit(int id){
+        Bundle arguments = new Bundle();
+        arguments.putString("name", "FreagmentAddOrder");
+        arguments.putString("rezervationId", Integer.toString(id));
+        arguments.putString("action", "onclick");
+        FreagmentAddOrder fragment6 = new FreagmentAddOrder();
+        fragment6.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
+
+    }
+    public void callUserInfoForEditUser(){
+        Bundle arguments = new Bundle();
+
+        Fragment_menu_Item_List fragment6 = new Fragment_menu_Item_List();
+        fragment6.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
+
+    }
+    public void callAddMenuItemForEdtiItemMenu(String id){
+        Bundle arguments = new Bundle();
+
+        Fragment_Add_Menu_Item fragment6 = new Fragment_Add_Menu_Item();
+        arguments.putString("foodItemId", id);
+        fragment6.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
+
+    }
+
+
+    public void callUserInfoForEditUser(String username, String password) {
+        Bundle arguments = new Bundle();
+
+        Fragment_Add_User fragment6 = new Fragment_Add_User();
+        arguments.putString("username", username);
+        arguments.putString("password", password);
+        fragment6.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
+
+    }
+
+
+    public void callFragmentListReserAndSelection() {
+        Bundle arguments = new Bundle();
+
+        Fragment_List_Rezer_and_Selection fragment6 = new Fragment_List_Rezer_and_Selection();
+        fragment6.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
+
     }
 }

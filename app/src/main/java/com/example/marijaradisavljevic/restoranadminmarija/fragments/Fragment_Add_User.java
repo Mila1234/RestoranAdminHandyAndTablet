@@ -66,7 +66,7 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
         password = (EditText) mRoot.findViewById(R.id.password);
         final Button button_ok = (Button) mRoot.findViewById(R.id.ok_button);
 
-        if (extras!= null) {//edit user
+        if (extras!= null ) {//edit user
             String usernameString = extras.getString("username");
             String passordSrting = extras.getString("password");
             UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
@@ -78,6 +78,20 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
             password.setText(ui.getPassword());
             int position = adapter_type.getPosition(ui.getType());
             type.setSelection(position);
+        }else{
+            if (!getArguments().isEmpty()){
+                String usernameString = getArguments().getString("username");
+                String passordSrting = getArguments().getString("password");
+                UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
+                username.setText(ui.getUsername());
+                name.setText(ui.getName());
+                surname.setText(ui.getSurname());
+                number.setText(ui.getNumber());
+                email.setText(ui.getEmail());
+                password.setText(ui.getPassword());
+                int position = adapter_type.getPosition(ui.getType());
+                type.setSelection(position);
+            }
         }
 
 
@@ -108,7 +122,14 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
                     String passwordString = extras.getString("password");
                     FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
                 }else{
-                    FireBase.getInstance().makeuserinfoIntoList(ui);
+                    if (!getArguments().isEmpty()){
+                        String usernameString = getArguments().getString("username");
+                        String passwordString = getArguments().getString("password");
+                        FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
+                    }else{
+                        FireBase.getInstance().makeuserinfoIntoList(ui);
+                    }
+
                 }
 
 

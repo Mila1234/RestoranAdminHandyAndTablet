@@ -36,6 +36,7 @@
             android:layout_alignStart="@+id/new_item"
             android:layout_alignRight="@+id/listaAddOrder"
             android:layout_alignEnd="@+id/listaAddOrder" />
+
     </LinearLayout>
 
     <LinearLayout

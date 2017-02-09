@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails;
+import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
@@ -120,12 +121,17 @@ public class Fragment_List_Users extends Fragment {
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityDetails.class);
-                        intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_NEW_USER);
-                        intent2.putExtra("username", adapterItem.userinfo.getUsername());
-                        intent2.putExtra("password", adapterItem.userinfo.getPassword());
-                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getActivity().getApplicationContext().startActivity(intent2);
+                        if (getActivity().getClass().equals(ActivityMainList.getInstance().getClass())){
+
+                            ((ActivityMainList)getActivity()).callUserInfoForEditUser(adapterItem.userinfo.getUsername(),adapterItem.userinfo.getPassword());
+                        }else {
+                            Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityDetails.class);
+                            intent2.putExtra(ActivityDetails.CHOOSEFRAGM, ActivityDetails.ADD_NEW_USER);
+                            intent2.putExtra("username", adapterItem.userinfo.getUsername());
+                            intent2.putExtra("password", adapterItem.userinfo.getPassword());
+                            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getActivity().getApplicationContext().startActivity(intent2);
+                        }
                     }
                 });
 

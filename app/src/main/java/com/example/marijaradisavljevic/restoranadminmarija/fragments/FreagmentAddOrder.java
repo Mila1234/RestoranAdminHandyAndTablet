@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost;
+import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
@@ -64,10 +65,20 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_logout).setVisible(true);
-        menu.findItem(R.id.action_user_info).setVisible(true);
-        menu.findItem(R.id.action_add).setVisible(false);
-        super.onPrepareOptionsMenu(menu);
+        if (null != menu) {
+            if (null != menu.findItem(R.id.action_logout)){
+                menu.findItem(R.id.action_logout).setVisible(true);
+            }
+            if (null != menu.findItem(R.id.action_user_info)){
+                menu.findItem(R.id.action_user_info).setVisible(true);
+            }
+            if (null != menu.findItem(R.id.action_add)){
+                menu.findItem(R.id.action_add).setVisible(false);
+            }
+
+
+            super.onPrepareOptionsMenu(menu);
+        }
     }
 
     @Nullable
@@ -88,7 +99,11 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
             rezervationIdString = getArguments().getString("rezervationId");
            // int rezeravtionid = Integer.parseInt(rezervationIdString);
             //rezervation = FireBase.getInstance().getRezervationByID(rezeravtionid);
-            time.setText(FireBase.getInstance().getTimeForRezervation(rezervationIdString));
+            if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+                time.setText(FireBase.getInstance().getTimeForRezervation(rezervationIdString));
+            }else {
+                time.setText(FireBase.getInstance().getTimeForRezervation(rezervationIdString)+ ""+FireBase.getInstance().getUserForRezervation(rezervationIdString));
+            }
 
 
         }else if (action.equals("plusbutton")) {
@@ -111,10 +126,23 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 //buttons
         split_order = (Button) mRoot.findViewById(R.id.split_order);
         split_order.setOnClickListener(this);
+        if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+            split_order.setVisibility(View.GONE);
+        }
+
         make_order = (Button) mRoot.findViewById(R.id.make_order);
         make_order.setOnClickListener(this);
+        if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+            make_order.setVisibility(View.GONE);
+
+
+        }
         new_item  = (ImageButton) mRoot.findViewById(R.id.new_item);
         new_item.setOnClickListener(this);
+
+        if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+            new_item.setVisibility(View.GONE);
+        }
 
 //CheckedTextView
         paidOrNot  = (CheckedTextView) mRoot.findViewById(R.id.paidOrNot);
@@ -185,21 +213,22 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
                         splitListaNew.add(currOrder);
                     }
                 }
-if (ListOrdersForSplitAction.isEmpty()){
-    Toast.makeText(getActivity(), getString(R.string.nemanistazasplit), Toast.LENGTH_LONG).show();
-}
+                if (ListOrdersForSplitAction.isEmpty()){
+                    Toast.makeText(getActivity(), getString(R.string.nemanistazasplit), Toast.LENGTH_LONG).show();
+                }
 
                 FireBase.getInstance().AddRezervation( rezervationIdString,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),splitListaNew);
                 rezervationIdString = FireBase.getInstance().newRezervation();
                 FireBase.getInstance().AddRezervation( rezervationIdString,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),ListOrdersForSplitAction);
 
+                if (getActivity().getClass().equals(ActivityMainList.getInstance().getClass())){
+                    ((ActivityMainList)getActivity()).callFragmentListReserAndSelection();
+                }else {
+                    intent = new Intent(getActivity().getApplicationContext(), Activity_Selection_And_ListReservation.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-
-                 intent = new Intent(getActivity().getApplicationContext(), Activity_Selection_And_ListReservation.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                getActivity().getApplicationContext().startActivity(intent);
-
+                    getActivity().getApplicationContext().startActivity(intent);
+                }
                 //TODO
                 break;
             case R.id.make_order: //TODO make, remake order !

@@ -29,6 +29,8 @@ public class ActivityDetails extends AppCompatActivity {
     public static final int ADD_ITEM_MENU = 5;
     public static final int LIST_ITEMS_MENU = 6;
     public static final int LOGOUT = 7;
+
+    public static final int addOrderForEdit = 8;
     public static final String CHOOSEFRAGM = "fragment";
 
     private Fragment fragment = null;

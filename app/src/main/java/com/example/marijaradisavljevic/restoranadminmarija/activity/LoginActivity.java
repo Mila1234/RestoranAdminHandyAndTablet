@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-    // [START declare_auth]
+    //[START declare_auth]
    // private FirebaseAuth mAuth;
     // [END declare_auth]
 

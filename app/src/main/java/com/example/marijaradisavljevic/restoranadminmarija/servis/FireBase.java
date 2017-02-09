@@ -835,4 +835,29 @@ public class FireBase {
     public boolean isUserAdmin() {
         return userInfo.getType().equals("Admin");
     }
+
+    public String getUserForRezervation(String rezervationIdString) {
+        String value = "";
+
+        try{
+            mutex.acquire();
+
+            for(Rezervation rez: listOfRezervations){
+                if(rez.getId() == Integer.parseInt(rezervationIdString)){
+
+                    value = rez.getNameType()+" : "+rez.getname_user();
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally{
+            mutex.release();
+        }
+
+        return value;
+    }
 }

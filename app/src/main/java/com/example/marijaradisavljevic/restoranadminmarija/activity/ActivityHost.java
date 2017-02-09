@@ -224,6 +224,13 @@ public class ActivityHost extends AppCompatActivity {
     }
 
 
+
+    public void callAddOrderEdit(){
+        FragmentManager fm = getSupportFragmentManager();
+        FreagmentAddOrder freagmentAddOder = FreagmentAddOrder.getInstance();
+        fm.beginTransaction().replace(R.id.container_menu, freagmentAddOder).commit();
+    }
+
   /*  @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
