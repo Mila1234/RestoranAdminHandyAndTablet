@@ -79,7 +79,7 @@ public class UserInfo {
 
     public String getStringTypeNameSurnameForListUsers() {
         String returnString = "";
-        if (type.equals("konobar") || type.equals("admin")){
+        if (type.equals("Konobar") || type.equals("Admin")){
             returnString  = type;
         }
 

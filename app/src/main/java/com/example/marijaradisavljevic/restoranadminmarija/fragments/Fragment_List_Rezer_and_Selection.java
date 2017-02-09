@@ -20,8 +20,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDeta
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
-import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.data.SelecionRegulations;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_list_rezervations_selection_layout,container, false);
-
+        getActivity().setTitle("Restoran");
         lvDetail = (ListView) mRoot.findViewById(R.id.list_reservations);
 
 
@@ -62,7 +62,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
 
         //String[] value = getResources().getStringArray(R.array.numbers);
         adapter_number_of_table = new MySpinnerAdapter(true,getActivity().getBaseContext(),
-                android.R.layout.simple_spinner_item, Servis.getInstance().stringListofTables());
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringListofTables());
 
 
 
@@ -87,7 +87,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
 
         // value = getResources().getStringArray(R.array.kategory_array);
         adapter_kategory = new MySpinnerAdapter(true,getActivity().getBaseContext(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().stringListofFoodItems() );
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringListofFoodItems() );
 
         // Specify the layout to use when the list of choices appears
         adapter_kategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -98,7 +98,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
 
         // value = getResources().getStringArray(R.array.kategory_array);
         adapterUser = new MySpinnerAdapter(true,getActivity().getBaseContext(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().stringlistUserNames() );
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringlistUserNames() );
 
         // Specify the layout to use when the list of choices appears
         adapterUser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -143,7 +143,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
         }
 
 
-        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(sr);
+        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(sr);
         for(Rezervation rez:myList){
             adapter.addItem(new Fragment_List_Rezer_and_Selection.ItemForRezervationsList(rez));
         }
@@ -228,8 +228,11 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
                 paidOrNot.setVisibility(View.VISIBLE);
                 paidOrNot.setText(adapterItem.rezervation.getpaidOrNot_string());
 
-
-                edit.setVisibility(View.VISIBLE);
+                if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+                    edit.setVisibility(View.GONE);
+                }else{
+                    edit.setVisibility(View.VISIBLE);
+                }
                 remove.setVisibility(View.VISIBLE);
 
                 edit.setOnClickListener(new View.OnClickListener() {
@@ -252,12 +255,12 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
                     @Override
                     public void onClick(View v) {
 
-                        Servis.getInstance().removeRezer(rezervation.getId());
+                        FireBase.getInstance().removeRezer(rezervation.getId());
                         MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
 
                         updateListvView ();
 
-                        /*ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(UserData.getInstance().getSelecionRegulation());
+                        /*ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(UserData.getInstance().getSelecionRegulation());
                         for(Rezervation rez:myList){
                             adapter.addItem(new ItemForRezervationsList(rez));
                         }
@@ -309,7 +312,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
         }
 
 
-        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulationForAdmin(sr);
+        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(sr);
         for(Rezervation rez:myList){
             adapter.addItem(new ItemForRezervationsList(rez));
         }

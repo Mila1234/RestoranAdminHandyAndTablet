@@ -4,7 +4,7 @@ package com.example.marijaradisavljevic.restoranadminmarija.servis;
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
-import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
+import com.example.marijaradisavljevic.restoranadminmarija.data.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
 
@@ -15,9 +15,9 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by marija.radisavljevic on 6/3/2016.
  */
-public class Servis {
-    private static Servis instance = new Servis();
-    public static Servis getInstance() {return instance; }
+public class FireBase {
+    private static FireBase instance = new FireBase();
+    public static FireBase getInstance() {return instance; }
 
     private Semaphore mutex;
 
@@ -30,12 +30,12 @@ public class Servis {
     private ArrayList<Rezervation> listOfRezervations;
 
 
-    public Servis() {
+    public FireBase() {
 
         mutex = new Semaphore(1);
         listUsersTypes = new String[2];
-        listUsersTypes[0]= "konobar";
-        listUsersTypes[1]= "admin";
+        listUsersTypes[0]= "Konobar";
+        listUsersTypes[1]= "Admin";
         listUsers = new ArrayList<UserInfo>();
 
 
@@ -45,7 +45,7 @@ public class Servis {
         userInfo1.setSurname("Radisavljevic");
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("marijarad89@gmail.com");
-        userInfo1.setType("admin");
+        userInfo1.setType("Admin");
         userInfo1.setPassword("sifra");
 
         userInfo = userInfo1;
@@ -57,7 +57,7 @@ public class Servis {
         userInfo1.setSurname("Ilic");
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("anailic@gmail.com");
-        userInfo1.setType("konobar");
+        userInfo1.setType("Konobar");
         userInfo1.setPassword("sifra");
         listUsers.add(userInfo1);
         userInfo1 = new UserInfo();
@@ -66,7 +66,7 @@ public class Servis {
         userInfo1.setSurname("Stojanovic");
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("paja@gmail.com");
-        userInfo1.setType("konobar");
+        userInfo1.setType("Konobar");
         userInfo1.setPassword("sifra");
         listUsers.add(userInfo1);
 
@@ -113,7 +113,7 @@ public class Servis {
 
         Rezervation ld = new Rezervation();
         ld.setUsername("marijarad89@gmail.com");
-        ld.setNameType("admin");
+        ld.setNameType("Admin");
         ld.setName_user("marija radisavljevic");
         // ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
         ArrayList<Order>listOrders = new ArrayList<Order>();
@@ -131,7 +131,7 @@ public class Servis {
 
         ld = new Rezervation();
         ld.setUsername("anailic@gmail.com");
-        ld.setNameType("konobar");
+        ld.setNameType("Konobar");
         ld.setName_user("Ana Ilic");
         //ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
         listOrders = new ArrayList<Order>();
@@ -149,7 +149,7 @@ public class Servis {
 
 
         ld = new Rezervation();
-        ld.setNameType("konobar");
+        ld.setNameType("Konobar");
         ld.setUsername("paja@gmail.com");
         ld.setName_user("pavle stojanovic");
         //  ld.setItemsOrder(new ArrayList(Arrays.asList("jelen pivo ,crveno vino , lenja pita sa jabukama")));
@@ -441,8 +441,8 @@ public class Servis {
 
         bla = new String[3];
         bla[2] = "type of user";
-        bla[1] ="konobar" ;
-        bla[0] ="admin";
+        bla[1] ="Konobar" ;
+        bla[0] ="Admin";
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -833,6 +833,6 @@ public class Servis {
 
 
     public boolean isUserAdmin() {
-        return userInfo.getType().equals("admin");
+        return userInfo.getType().equals("Admin");
     }
 }

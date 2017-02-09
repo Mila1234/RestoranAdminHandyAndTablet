@@ -22,7 +22,6 @@ import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -33,14 +32,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
-import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 /**
  * A login screen that offers login via email/password.
  */
@@ -69,6 +71,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+
+
+    // [START declare_auth]
+   // private FirebaseAuth mAuth;
+    // [END declare_auth]
+
+    // [START declare_auth_listener]
+    //private FirebaseAuth.AuthStateListener mAuthListener;
+// [END declare_auth_listener]
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +91,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
         toolbar.setTitle(getResources().getString(R.string.Logo_description));
+        setTitle("Restoran");
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+      //  mAuth = FirebaseAuth.getInstance();
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -338,7 +351,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            Boolean value =  Servis.getInstance().logIN(mEmail, mPassword);
+            Boolean value =  FireBase.getInstance().logIN(mEmail, mPassword);
 
             return value;
 
@@ -355,7 +368,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
 
-                if(Servis.getInstance().isUserAdmin()){
+                if(FireBase.getInstance().isUserAdmin()){
                     Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     getApplicationContext().startActivity(intent);

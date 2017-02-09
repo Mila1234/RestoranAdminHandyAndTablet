@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 
@@ -38,7 +38,7 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        getActivity().setTitle("Restoran");
         View mRoot = inflater.inflate(R.layout.fragment_selector_layout,container,false);
         number_of_table = (Spinner)  mRoot.findViewById(R.id.numbreOfTable_spinner);
         isItPaid = (Spinner)  mRoot.findViewById(R.id.isItPaid_spinner);
@@ -46,7 +46,7 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
 
         //String[] value = getResources().getStringArray(R.array.numbers);
         ArrayAdapter<String> adapter_number_of_table = new MySpinnerAdapter(false,getActivity(),
-                android.R.layout.simple_spinner_item, Servis.getInstance().stringListofTables());
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringListofTables());
 
 
 
@@ -71,7 +71,7 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
 
         // value = getResources().getStringArray(R.array.kategory_array);
         ArrayAdapter<String> adapter_kategory = new MySpinnerAdapter(false,getActivity(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().stringListofFoodItems() );
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringListofFoodItems() );
 
         // Specify the layout to use when the list of choices appears
         adapter_kategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

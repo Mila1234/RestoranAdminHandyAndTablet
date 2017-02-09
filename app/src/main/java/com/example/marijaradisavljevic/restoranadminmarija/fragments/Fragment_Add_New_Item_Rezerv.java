@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 
@@ -35,8 +35,8 @@ public class Fragment_Add_New_Item_Rezerv extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_add_menu_item_rezerv, container, false);
-        getActivity().setTitle(R.string.nameOfApp);
-
+       // getActivity().setTitle(R.string.nameOfApp);
+        getActivity().setTitle("Naruzbina");
         ///////////////////////////////////////////////////////////////////////
 
         Button button_ok = (Button) mRoot.findViewById(R.id.ok_button);
@@ -51,7 +51,7 @@ public class Fragment_Add_New_Item_Rezerv extends Fragment {
                 extras =  getArguments();
 
                 String rezIdString = extras.getString("rezervation_id");
-                Servis.getInstance().addOrder(Integer.parseInt(rezIdString), number_item_spiner.getSelectedItem().toString(), menu_item_spiner.getSelectedItem().toString());
+                FireBase.getInstance().addOrder(Integer.parseInt(rezIdString), number_item_spiner.getSelectedItem().toString(), menu_item_spiner.getSelectedItem().toString());
 
              /*   Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityHost.class);
                 intent2.putExtra("name", "FreagmentAddOrder");
@@ -93,7 +93,7 @@ public class Fragment_Add_New_Item_Rezerv extends Fragment {
         menu_item_spiner = (Spinner)  mRoot.findViewById(R.id.menu_item_spiner);
         //String[] value = getResources().getStringArray(R.array.kategory_array);
         ArrayAdapter<String> menu_item_spiner_adapter = new MySpinnerAdapter(false,getActivity(),
-                android.R.layout.simple_spinner_item, Servis.getInstance().stringListofFoodItems());
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringListofFoodItems());
         // Specify the layout to use when the list of choices appears
         menu_item_spiner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -105,7 +105,7 @@ public class Fragment_Add_New_Item_Rezerv extends Fragment {
         number_item_spiner = (Spinner)  mRoot.findViewById(R.id.number_item_spiner);
         // String [] value = getResources().getStringArray(R.array.number_item_spiner);
         ArrayAdapter<String> number_item_spiner_adapter = new MySpinnerAdapter(false,getActivity(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().getNumberItems());
+                android.R.layout.simple_spinner_item, FireBase.getInstance().getNumberItems());
         // Specify the layout to use when the list of choices appears
         number_item_spiner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner

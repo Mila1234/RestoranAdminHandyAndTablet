@@ -17,7 +17,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDeta
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.ArrayList;
 
@@ -34,9 +34,9 @@ public class Fragment_menu_Item_List extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_menu_item_list,container, false);
         lvDetail = (ListView) mRoot.findViewById(R.id.list_reservations);
-
+        getActivity().setTitle("Restoran meni");
         MyCustomAdatperForTheList<Fragment_menu_Item_List.ItemForFoodMenuItemsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
-        ArrayList<FoodMenuItem> myList = Servis.getInstance().getfoodmenuitemslist();
+        ArrayList<FoodMenuItem> myList = FireBase.getInstance().getfoodmenuitemslist();
         for(FoodMenuItem rez:myList){
             adapter.addItem(new Fragment_menu_Item_List.ItemForFoodMenuItemsList(rez));
         }
@@ -117,10 +117,10 @@ public class Fragment_menu_Item_List extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        Servis.getInstance().removeFootMenuItem(rezervation.getId());
+                        FireBase.getInstance().removeFootMenuItem(rezervation.getId());
 
                         MyCustomAdatperForTheList<ItemForFoodMenuItemsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
-                        ArrayList<FoodMenuItem> myList = Servis.getInstance().getfoodmenuitemslist();
+                        ArrayList<FoodMenuItem> myList = FireBase.getInstance().getfoodmenuitemslist();
                         for(FoodMenuItem rez:myList){
                             adapter.addItem(new ItemForFoodMenuItemsList(rez));
                         }

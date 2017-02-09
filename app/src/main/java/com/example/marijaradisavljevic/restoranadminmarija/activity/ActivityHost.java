@@ -11,13 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
-import com.example.marijaradisavljevic.restoranadminmarija.fragments.FragmentLogin;
 
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_New_Item_Rezerv;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 
 /**
@@ -41,7 +40,7 @@ public class ActivityHost extends AppCompatActivity {
        // toolbar.setLogo(R.drawable.help);
         toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
 
-
+        setTitle("Restoran");
       //  getSupportActionBar().hide();
         Bundle extras = getIntent().getExtras();
         String fragmetnName;
@@ -50,17 +49,17 @@ public class ActivityHost extends AppCompatActivity {
             fragmetnName = extras.getString("name");
             Log.d("extras : ",extras.toString());
             if(fragmetnName !=null && fragmetnName.equals("FreagmentLogOut")) {
-                toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+                toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
                 FragmentManager fm = getSupportFragmentManager();
                 Fragment_Log_Out fragmentUserInfo = Fragment_Log_Out.getInstance();
                 fm.beginTransaction().replace(R.id.container_menu, fragmentUserInfo).commit();
             }else  if(fragmetnName !=null && fragmetnName.equals("FragmentUserInfo")) {
-                toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+                toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
                 FragmentManager fm = getSupportFragmentManager();
                 Fragment_User_Info fragmentUserInfo = Fragment_User_Info.getInstance();
                 fm.beginTransaction().replace(R.id.container_menu, fragmentUserInfo).commit();
             }else if(fragmetnName !=null &&  fragmetnName.equals("FreagmentAddOrder")){
-                toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+                toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
                 String action = extras.getString("action");
                 if (action !=null &&  action.equals("plusbutton")){
                     FragmentManager fm = getSupportFragmentManager();
@@ -186,7 +185,7 @@ public class ActivityHost extends AppCompatActivity {
     //action == plusButton ne gleda drugi parametar
 
     public void callAddOrder(String action,String rezervationId){
-        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+        toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
 
         if (action !=null &&  action.equals("plusbutton")){
             FragmentManager fm = getSupportFragmentManager();
@@ -218,7 +217,7 @@ public class ActivityHost extends AppCompatActivity {
     }
 
     public  void callFragmentUserInfo(){
-        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+        toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
         FragmentManager fm = getSupportFragmentManager();
         Fragment_User_Info fragmentUserInfo = Fragment_User_Info.getInstance();
         fm.beginTransaction().replace(R.id.container_menu, fragmentUserInfo).commit();

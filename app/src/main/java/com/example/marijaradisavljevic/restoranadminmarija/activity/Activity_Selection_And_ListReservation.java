@@ -27,7 +27,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Li
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.List;
 
@@ -65,8 +65,8 @@ public class Activity_Selection_And_ListReservation extends AppCompatActivity {
         toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         //toolbar.setLogo(R.drawable.help);
         toolbar.setLogoDescription(getResources().getString(R.string.Logo_description));
-        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
-
+        toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
+        setTitle("Restoran");
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the

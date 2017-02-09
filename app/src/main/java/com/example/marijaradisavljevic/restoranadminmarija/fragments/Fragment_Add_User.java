@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 /**
@@ -42,12 +42,12 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_user_info_layout,container, false);
         extras = getActivity().getIntent().getExtras();
-
+        getActivity().setTitle("Dodaj korisnika");
         ////////////////////spinner//////////////////////////
         type = (Spinner) mRoot.findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
         final ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getActivity().getBaseContext(),
-                android.R.layout.simple_spinner_item, Servis.getInstance().strignListTypeOFUsers() );
+                android.R.layout.simple_spinner_item, FireBase.getInstance().strignListTypeOFUsers() );
 
         // Specify the layout to use when the list of choices appears
         adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -69,7 +69,7 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
         if (extras!= null) {//edit user
             String usernameString = extras.getString("username");
             String passordSrting = extras.getString("password");
-            UserInfo ui = Servis.getInstance().getUserInfofromList(usernameString, passordSrting);
+            UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
             username.setText(ui.getUsername());
             name.setText(ui.getName());
             surname.setText(ui.getSurname());
@@ -106,9 +106,9 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
                 if (extras!= null) {//edit user
                     String usernameString = extras.getString("username");
                     String passwordString = extras.getString("password");
-                    Servis.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
+                    FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
                 }else{
-                    Servis.getInstance().makeuserinfoIntoList(ui);
+                    FireBase.getInstance().makeuserinfoIntoList(ui);
                 }
 
 

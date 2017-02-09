@@ -18,7 +18,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 /**
@@ -52,13 +52,13 @@ public class Fragment_User_Info extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_user_info_layout, container, false);
-        getActivity().setTitle(R.string.fragmentUserInfo);
-
+        //getActivity().setTitle(R.string.fragmentUserInfo);
+        getActivity().setTitle("Informacije o korisniku");
         ///////////////////////////////////////////////////////////////////////
         type = (Spinner) mRoot.findViewById(R.id.typeSpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
         ArrayAdapter<String> adapter_type = new MySpinnerAdapter(false,getActivity().getBaseContext(),
-                android.R.layout.simple_spinner_item, Servis.getInstance().strignListTypeOFUsers() );
+                android.R.layout.simple_spinner_item, FireBase.getInstance().strignListTypeOFUsers() );
 
         // Specify the layout to use when the list of choices appears
         adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,7 +77,7 @@ public class Fragment_User_Info extends Fragment {
         password = (EditText) mRoot.findViewById(R.id.password);
         Button button_ok = (Button) mRoot.findViewById(R.id.ok_button);
 
-        currUI =  Servis.getInstance().getUserInfo();
+        currUI =  FireBase.getInstance().getUserInfo();
 
         username.setText(currUI.getUsername());
         name.setText(currUI.getName());
@@ -109,10 +109,10 @@ public class Fragment_User_Info extends Fragment {
 
                 Toast.makeText(getActivity().getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
 
-                Servis.getInstance().setUserInfo(newUI);
+                FireBase.getInstance().setUserInfo(newUI);
 
 
-                if(Servis.getInstance().isUserAdmin()){
+                if(FireBase.getInstance().isUserAdmin()){
                     Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMainList.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     getActivity().getApplicationContext().startActivity(intent);

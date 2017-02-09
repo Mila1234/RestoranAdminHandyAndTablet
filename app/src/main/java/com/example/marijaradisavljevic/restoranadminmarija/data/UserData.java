@@ -1,8 +1,6 @@
 package com.example.marijaradisavljevic.restoranadminmarija.data;
 
 
-import com.example.marijaradisavljevic.restoranadminmarija.database.SelecionRegulations;
-
 /**
  * Created by marija.radisavljevic on 5/17/2016.
  */
@@ -14,8 +12,8 @@ public class UserData {
     public static UserData getInstance() {return instance; }
 
     public UserData() {
-         //userType = Servis.getInstance().UserType();
-        //user = Servis.getInstance().NameOfUser();
+         //userType = FireBase.getInstance().UserType();
+        //user = FireBase.getInstance().NameOfUser();
     }
 
 

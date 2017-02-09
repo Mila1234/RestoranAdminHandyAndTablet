@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
 
 /**
@@ -40,11 +40,11 @@ public class Fragment_Add_Menu_Item extends Fragment {
         View mRoot = inflater.inflate(R.layout.fragment_add_menu_item,container, false);
 
 
-
+        getActivity().setTitle("Stavka menija");
         kategory_spinner = (Spinner)mRoot.findViewById(R.id.kategorySpiner);
         // value = getResources().getStringArray(R.array.kategory_array);
         ArrayAdapter<String> adapter_kategory = new MySpinnerAdapter(false,getActivity().getBaseContext(),
-                android.R.layout.simple_spinner_item,Servis.getInstance().stringListofFoodItems() );
+                android.R.layout.simple_spinner_item, FireBase.getInstance().stringListofFoodItems() );
 
         // Specify the layout to use when the list of choices appears
         adapter_kategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -58,12 +58,12 @@ public class Fragment_Add_Menu_Item extends Fragment {
         price = (EditText) mRoot.findViewById(R.id.price);
         okButton = (Button)mRoot.findViewById(R.id.ok_button);
 
-        //extras = getIntent().getExtras();
+        extras = getArguments();
 
-        if (extras!= null) {//edit user
+        if ( (null != extras) && (!extras.isEmpty())) {//edit user
             //String foodItemId = extras.getString("foodItemId");
-            String foodItemId = getArguments().getString("foodItemId");
-            FoodMenuItem fmi = Servis.getInstance().getFootMenuItem(foodItemId);
+            String foodItemId = extras.getString("foodItemId");
+            FoodMenuItem fmi = FireBase.getInstance().getFootMenuItem(foodItemId);
             newItemName.setText(fmi.getFood());
             price.setText(fmi.getPrice().toString());
 
@@ -89,11 +89,11 @@ public class Fragment_Add_Menu_Item extends Fragment {
                     return;
                 }
 
-                if (extras!= null) {//edit user
-                    String foodItemId = extras.getString("foodItemId");
-                    Servis.getInstance().updateFoodMenuItem( foodItemId , kategoryString , nameString , priceString );
+                if (( extras!= null) && (!extras.isEmpty())) {//edit user
+                    String foodItemId =  extras.getString("foodItemId");
+                    FireBase.getInstance().updateFoodMenuItem( foodItemId , kategoryString , nameString , priceString );
                 }else {
-                    Servis.getInstance().makeNewFoodItem( kategoryString , nameString , priceString );
+                    FireBase.getInstance().makeNewFoodItem( kategoryString , nameString , priceString );
                 }
 
                 Toast.makeText(getActivity().getApplicationContext(), " Snimljeno ", Toast.LENGTH_LONG).show();

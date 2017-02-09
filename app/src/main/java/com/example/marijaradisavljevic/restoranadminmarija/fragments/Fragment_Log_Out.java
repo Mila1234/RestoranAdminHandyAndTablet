@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 
 import com.example.marijaradisavljevic.restoranadminmarija.activity.LoginActivity;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 /**
  * Created by marija on 24.1.17.
@@ -39,7 +39,7 @@ public class Fragment_Log_Out extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_logout,container, false);
-
+        getActivity().setTitle("Odjava");
         Button ok =  (Button) mRoot.findViewById(R.id.ok_button);
         assert ok != null;
         ok.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class Fragment_Log_Out extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if(!Servis.getInstance().isUserAdmin()) {
+        if(!FireBase.getInstance().isUserAdmin()) {
             menu.findItem(R.id.action_logout).setVisible(true);
             menu.findItem(R.id.action_user_info).setVisible(true);
             menu.findItem(R.id.action_add).setVisible(true);

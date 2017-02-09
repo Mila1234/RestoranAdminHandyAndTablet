@@ -15,12 +15,13 @@ import android.widget.TextView;
 
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
+import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
 import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.ArrayList;
 
@@ -52,13 +53,13 @@ public class FragmentListReservations extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_list_rezervations_layout, container, false);
-
+        getActivity().setTitle("Restoran");
         lvDetail = (ListView)mRoot.findViewById(R.id.list_reservations);
 
 
 
         MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity());
-        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
+        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
         for(Rezervation rez:myList){
             adapter.addItem(new ItemForRezervationsList(rez));
         }
@@ -135,7 +136,7 @@ public class FragmentListReservations extends Fragment {
                 numberTable.setVisibility(View.VISIBLE);
                 numberTable.setText("Broj stola je : " + adapterItem.rezervation.getnumberTable_string());
                 price.setVisibility(View.VISIBLE);
-                price.setText("Cena je : "+adapterItem.rezervation.getprice().toString());
+                price.setText("Cena je :   "+adapterItem.rezervation.getprice().toString());
                 itemsOrder.setVisibility(View.VISIBLE);
                 itemsOrder.setText(adapterItem.rezervation.getItemsOrdersInString());
                 paidOrNot.setVisibility(View.VISIBLE);
@@ -152,7 +153,7 @@ public class FragmentListReservations extends Fragment {
                         Intent intent2 = new Intent(getActivity().getApplicationContext(), ActivityHost.class);
                         intent2.putExtra("name", "FreagmentAddOrder");
                         intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
-
+                        intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU) ;
                         intent2.putExtra("action", "onclick");
                         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         getActivity().getApplicationContext().startActivity(intent2);
@@ -167,9 +168,9 @@ public class FragmentListReservations extends Fragment {
                        // AdapterDB.getInstance().deleteRezervation(rezervation.getId());
 
 
-                        Servis.getInstance().removeRezer(rezervation.getId());
+                        FireBase.getInstance().removeRezer(rezervation.getId());
                         MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity());
-                        ArrayList<Rezervation> myList = Servis.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
+                        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
                         for(Rezervation rez:myList){
                             adapter.addItem(new ItemForRezervationsList(rez));
                         }

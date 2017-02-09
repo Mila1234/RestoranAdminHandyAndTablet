@@ -8,14 +8,13 @@ import android.support.v7.widget.Toolbar;
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_Menu_Item;
-import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_New_Item_Rezerv;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Add_User;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Rezer_and_Selection;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_List_Users;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_menu_Item_List;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 /**
  * Created by marija.radisavljevic on 6/9/2016.
@@ -46,14 +45,14 @@ public class ActivityDetails extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_details_layout);
-
+        setTitle("Restoran");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // toolbar.setNavigationIcon(R.drawable.back);
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
         toolbar.setTitle(getResources().getString(R.string.Logo_description));
-        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
+        toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity

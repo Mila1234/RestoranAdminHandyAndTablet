@@ -42,7 +42,7 @@
         android:id="@+id/in_new_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/in_new_order"
+        android:text=""
         android:checked="false"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:shadowColor="#1132ec"

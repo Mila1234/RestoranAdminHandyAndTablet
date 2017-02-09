@@ -22,7 +22,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Li
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Log_Out;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_User_Info;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_menu_Item_List;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.List;
 
@@ -72,8 +72,8 @@ public class ActivityMainList  extends AppCompatActivity  {
         //toolbar.setNavigationContentDescription(getResources().getString(R.string.nameOfApp));
         // toolbar.setLogo(R.drawable.help);
         toolbar.setTitle( getResources().getString(R.string.Logo_description));
-        toolbar.setSubtitle(Servis.getInstance().toolBarTypeNameSurnameString());
-
+        toolbar.setSubtitle(FireBase.getInstance().toolBarTypeNameSurnameString());
+        setTitle("Restoran");
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
@@ -146,9 +146,9 @@ public class ActivityMainList  extends AppCompatActivity  {
 
                                 break;
                             case 5:
-                                arguments.putString(Fragment_Add_Menu_Item.ARG_ITEM_ID, holder.mItem.id);
+                               // arguments.putString(Fragment_Add_Menu_Item.ARG_ITEM_ID, holder.mItem.id);
                                 Fragment_Add_Menu_Item fragment5 = new Fragment_Add_Menu_Item();
-                                fragment5.setArguments(arguments);
+                               // fragment5.setArguments(arguments);
                                 getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment5).commit();
 
                                 break;

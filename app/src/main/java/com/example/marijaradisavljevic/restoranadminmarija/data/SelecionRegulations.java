@@ -1,4 +1,4 @@
-package com.example.marijaradisavljevic.restoranadminmarija.database;
+package com.example.marijaradisavljevic.restoranadminmarija.data;
 
 /**
  * Created by marija.radisavljevic on 6/6/2016.

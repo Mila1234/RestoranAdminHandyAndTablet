@@ -121,9 +121,9 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     public String getpaidOrNot_string(){
         if (paidOrNot) {
-            return "paid";
+            return "Plaćeno.";
         }else{
-            return "not paid";
+            return "Nije plaćeno.";
         }
     }
 

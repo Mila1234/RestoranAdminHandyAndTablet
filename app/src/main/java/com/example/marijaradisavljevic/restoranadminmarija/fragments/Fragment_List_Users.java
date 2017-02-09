@@ -17,7 +17,7 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDeta
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.ArrayList;
 
@@ -33,9 +33,10 @@ public class Fragment_List_Users extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_list_users_layout,container, false);
+        getActivity().setTitle("Lista korisnika");
         listOfUsers = (ListView) mRoot.findViewById(R.id.listusers);
         MyCustomAdatperForTheList<Fragment_List_Users.ItemForUsersList> adapter = new MyCustomAdatperForTheList(getActivity());
-        ArrayList<UserInfo> myList = Servis.getInstance().getUserList();
+        ArrayList<UserInfo> myList = FireBase.getInstance().getUserList();
         for(UserInfo ui:myList){
             adapter.addItem(new Fragment_List_Users.ItemForUsersList(ui));
         }
@@ -134,10 +135,10 @@ public class Fragment_List_Users extends Fragment {
                     public void onClick(View v) {
 
 
-                        Servis.getInstance().removeUser(userinfo.getUsername(), userinfo.getPassword());
+                        FireBase.getInstance().removeUser(userinfo.getUsername(), userinfo.getPassword());
 
                         MyCustomAdatperForTheList<Fragment_List_Users.ItemForUsersList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
-                        ArrayList<UserInfo> myList = Servis.getInstance().getUserList();
+                        ArrayList<UserInfo> myList = FireBase.getInstance().getUserList();
                         for(UserInfo rez:myList){
                             adapter.addItem(new Fragment_List_Users.ItemForUsersList(rez));
                         }

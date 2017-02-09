@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation;
-import com.example.marijaradisavljevic.restoranadminmarija.servis.Servis;
+import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class FragmentLogin extends Fragment implements LoaderManager.LoaderCallb
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
+    private static final String[] CREDENTIALS = new String[]{
             "m@gmail.com:mmmmmmm", "m@gmail.com:mmmmmmm"
     };
     private static FragmentLogin instance;
@@ -78,7 +78,7 @@ public class FragmentLogin extends Fragment implements LoaderManager.LoaderCallb
         View mRoot = inflater.inflate(R.layout.fragmentlogin_layout, container, false);
         mEmailView = (AutoCompleteTextView) mRoot.findViewById(R.id.email);
       //  populateAutoComplete();
-
+        getActivity().setTitle("Logovanje");
         mPasswordView = (EditText) mRoot.findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -328,7 +328,7 @@ public class FragmentLogin extends Fragment implements LoaderManager.LoaderCallb
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            for (String credential : CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
@@ -338,7 +338,7 @@ public class FragmentLogin extends Fragment implements LoaderManager.LoaderCallb
 
 
 
-           return Servis.getInstance().logIN(mEmail, mPassword);
+           return FireBase.getInstance().logIN(mEmail, mPassword);
             // TODO: register the new account here.
             //return true;
         }
