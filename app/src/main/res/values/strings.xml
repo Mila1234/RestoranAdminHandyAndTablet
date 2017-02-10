@@ -4,7 +4,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Prijava</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -79,4 +79,7 @@
     <string name="obavezniparametri">MOlim Vas unesite obavezne parametre</string>
     <string name="loseunetparametar">lose uneti parametri</string>
     <string name="nemanistazasplit">Nista niste selektovali za split akciju</string>
+    <string name="username_and_string">Morate uneti korisničko ime i sifru</string>
+    <string name="atentifitacionFaild">Prijava nije uspela</string>
+    <string name="notvalidEmail">Meil adresa nije validna</string>
 </resources>

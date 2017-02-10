@@ -1,8 +1,19 @@
 package com.example.marijaradisavljevic.restoranadminmarija.database;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+
+
+
 /**
  * Created by marija.radisavljevic on 6/6/2016.
  */
+
+@IgnoreExtraProperties
 public class UserInfo {
     private String username;
     private String name;
@@ -11,6 +22,25 @@ public class UserInfo {
     private String email ;
     private String type;
     private String password;
+
+    public UserInfo() {
+        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+    // [START post_to_map]
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("username", username);
+        result.put("name", name);
+        result.put("surname", surname);
+        result.put("number", number);
+        result.put("email", email);
+        result.put("type", type);
+        result.put("password", password);
+        return result;
+    }
+    // [END post_to_map]
 
     public String getPassword() {
         return password;

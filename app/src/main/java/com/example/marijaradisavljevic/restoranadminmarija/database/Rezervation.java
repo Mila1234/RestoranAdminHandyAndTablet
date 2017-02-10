@@ -1,11 +1,18 @@
 package com.example.marijaradisavljevic.restoranadminmarija.database;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by marija.radisavljevic on 5/18/2016.
  */
+
+@IgnoreExtraProperties
 public class Rezervation implements  Cloneable{//TODO DB komunication
 
     private String time,name_user;
@@ -20,10 +27,27 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     private ArrayList<Order> orders;
     private Integer id;
 
-
-
     //TODO ovaj id treba da se dobija od backenda
     private static int ukid = 0;
+
+    // [START post_to_map]
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("time", time);
+        result.put("name_user", name_user);
+        result.put("numberTable", numberTable);
+        result.put("paidOrNot", paidOrNot);
+        result.put("password", username);
+        result.put("nameType", nameType);
+
+        result.put("orders", orders);
+        result.put("id", id);
+
+        return result;
+    }
+    // [END post_to_map]
+
 
     public String getUsername() {
         return username;
@@ -97,7 +121,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     }
 
     public Rezervation() {
-
+        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
          price = 0;
          numberTable = 0;
          paidOrNot = false;

@@ -7,6 +7,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
 import com.example.marijaradisavljevic.restoranadminmarija.data.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -23,14 +25,40 @@ public class FireBase {
 
     private UserInfo userInfo; //current user
     String[] listUsersTypes;
+    private String[] listaTable;//broj stolova
+    private String[] numberItemssStrignList;//broj komada
+
+
     private ArrayList<UserInfo> listUsers;
-    private String[] listaTable;
-    private String[] numberItemssStrignList;
     private ArrayList<FoodMenuItem> listFoodMenuItem;
     private ArrayList<Rezervation> listOfRezervations;
 
 
+
+    // [START declare_database_ref]
+    private DatabaseReference mDatabase;
+    // [END declare_database_ref]
+
+
+
+    private void writeNewPost(String userId, String username, String title, String body) {
+        // Create new post at /user-posts/$userid/$postid and at
+        // /posts/$postid simultaneously
+        String key = mDatabase.child("posts").push().getKey();
+        Post post = new Post(userId, username, title, body);
+        Map<String, Object> postValues = post.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+
+        mDatabase.updateChildren(childUpdates);
+    }
     public FireBase() {
+
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // [END initialize_database_ref]
 
         mutex = new Semaphore(1);
         listUsersTypes = new String[2];
@@ -49,6 +77,7 @@ public class FireBase {
         userInfo1.setPassword("sifra");
 
         userInfo = userInfo1;
+        mDatabase.child("userinfoBaza").child(userInfo1.getUsername()).setValue(userInfo1);
 
         listUsers.add(userInfo1);
         userInfo1 = new UserInfo();
@@ -59,7 +88,9 @@ public class FireBase {
         userInfo1.setUsername("anailic@gmail.com");
         userInfo1.setType("Konobar");
         userInfo1.setPassword("sifra");
+
         listUsers.add(userInfo1);
+        mDatabase.child("userinfoBaza").child(userInfo1.getUsername()).setValue(userInfo1);
         userInfo1 = new UserInfo();
         userInfo1.setEmail("paja@gmail.com");
         userInfo1.setName("Pavle");
@@ -69,6 +100,7 @@ public class FireBase {
         userInfo1.setType("Konobar");
         userInfo1.setPassword("sifra");
         listUsers.add(userInfo1);
+        mDatabase.child("userinfoBaza").child(userInfo1.getUsername()).setValue(userInfo1);
 
         numberItemssStrignList = new String[7];
         numberItemssStrignList[0] = "1";
@@ -91,16 +123,26 @@ public class FireBase {
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
         FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
         listFoodMenuItem.add(nadtavka);
+        mDatabase.child("foodMenu").child(String.valueOf(nadtavka.getId())).setValue(nadtavka);
+
         FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"1 type food", 100);
         listFoodMenuItem.add(fmt1);
+        mDatabase.child("foodMenu").child(String.valueOf(fmt1.getId())).setValue(fmt1);
+
         FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"2 type food", 100);
         listFoodMenuItem.add(fmt2);
+        mDatabase.child("foodMenu").child(String.valueOf(fmt2.getId())).setValue(fmt2);
+
 
         FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"3 type food", 100);
         listFoodMenuItem.add(fmt3);
+        mDatabase.child("foodMenu").child(String.valueOf(fmt3.getId())).setValue(fmt3);
+
 
         FoodMenuItem fmt4 = new FoodMenuItem(nadtavka,"4 type food", 100);
         listFoodMenuItem.add(fmt4);
+        mDatabase.child("foodMenu").child(String.valueOf(fmt4.getId())).setValue(fmt4);
+
 
 
 
@@ -128,6 +170,7 @@ public class FireBase {
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
+        mDatabase.child("listaRezervations").child(String.valueOf(ld.getId())).setValue(ld);
 
         ld = new Rezervation();
         ld.setUsername("anailic@gmail.com");
@@ -144,6 +187,7 @@ public class FireBase {
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
+        mDatabase.child("listaRezervations").child(String.valueOf(ld.getId())).setValue(ld);
 
 
 
@@ -164,6 +208,7 @@ public class FireBase {
 
         ld.setTime("5.5.2016. 17:00 ");
         listOfRezervations.add(ld);
+        mDatabase.child("listaRezervations").child(String.valueOf(ld.getId())).setValue(ld);
     }
 
 

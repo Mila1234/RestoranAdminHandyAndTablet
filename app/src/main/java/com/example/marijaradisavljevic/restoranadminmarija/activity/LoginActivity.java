@@ -3,6 +3,7 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +32,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
@@ -38,15 +41,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-//import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity  {//implements LoaderCallbacks<Cursor>
+
+
+    private ProgressDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+          //  mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -60,10 +87,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    private static final String TAG = LoginActivity.class.getName();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+ ///   private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -73,13 +101,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-    //[START declare_auth]
-   // private FirebaseAuth mAuth;
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
     // [END declare_auth]
 
     // [START declare_auth_listener]
-    //private FirebaseAuth.AuthStateListener mAuthListener;
-// [END declare_auth_listener]
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    // [END declare_auth_listener]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    //attemptLogin();
                     return true;
                 }
                 return false;
@@ -112,14 +140,118 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                //attemptLogin();
+                if (mEmailView.getText().toString().equals("") || mPasswordView.getText().toString().equals("")){
+                    Toast.makeText(LoginActivity.this, R.string.username_and_string, Toast.LENGTH_LONG).show();;
+                }else{
+                    signIn(mEmailView.getText().toString(),mPasswordView.getText().toString());
+                }
+
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        // [START initialize_auth]
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+
+        // [START auth_state_listener]
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // [START_EXCLUDE]
+
+                // [END_EXCLUDE]
+
+            }
+        };
+        // [END auth_state_listener]
+    }
+    // [START on_start_add_listener]
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+    // [END on_start_add_listener]
+
+    // [START on_stop_remove_listener]
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideProgressDialog();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+    // [END on_stop_remove_listener]
+
+    private void signIn(final String email, final String password) {
+        Log.d(TAG, "signIn:" + email);
+        if (!isEmailValid(email)) {
+            Toast.makeText(LoginActivity.this, R.string.notvalidEmail,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        showProgressDialog();
+
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail", task.getException());
+                            Toast.makeText(LoginActivity.this, R.string.atentifitacionFaild,
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+                            Boolean value =  FireBase.getInstance().logIN(email, password);
+
+                            if(FireBase.getInstance().isUserAdmin()){
+                                Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                getApplicationContext().startActivity(intent);
+                            }else{
+                                Intent intent = new Intent(getApplicationContext(), Activity_Selection_And_ListReservation.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                getApplicationContext().startActivity(intent);
+                            }
+                        }
+
+                        // [START_EXCLUDE]
+                        hideProgressDialog();
+                        // [END_EXCLUDE]
+
+
+
+
+
+
+                    }
+                });
+        // [END sign_in_with_email]
     }
 
+    private void signOut() {
+        mAuth.signOut();
+       // updateUI(null);
+    }
 
 
     private void populateAutoComplete() {
@@ -127,7 +259,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return;
         }
 
-        getLoaderManager().initLoader(0, null, this);
+       // getLoaderManager().initLoader(0, null, this);
     }
 
     private boolean mayRequestContacts() {
@@ -171,6 +303,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+    /*
+
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -217,7 +351,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
         }
     }
-
+*/
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
@@ -264,6 +398,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    /*
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -297,7 +432,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
-
+    */
+/**
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -316,12 +452,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
+    }*/
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+    /*
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
@@ -368,6 +505,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
 
+
+
                 if(FireBase.getInstance().isUserAdmin()){
                     Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -391,5 +530,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+*/
 }
 
