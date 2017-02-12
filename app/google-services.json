@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "864995148202",
+    "firebase_url": "https://marijamasterrad.firebaseio.com",
+    "project_id": "marijamasterrad",
+    "storage_bucket": "marijamasterrad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864995148202:android:f6084f347b8b66ef",
+        "android_client_info": {
+          "package_name": "com.example.marijaradisavljevic.restoranadminmarija"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "864995148202-s0d3hh5h57a3d6ujlglpaa4mvreo57pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBIymYrIVexZS79Bot-PsivbmOCwQ2spw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

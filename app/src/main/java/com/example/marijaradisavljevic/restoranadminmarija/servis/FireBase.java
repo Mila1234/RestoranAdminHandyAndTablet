@@ -1,18 +1,36 @@
 package com.example.marijaradisavljevic.restoranadminmarija.servis;
 
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
 import com.example.marijaradisavljevic.restoranadminmarija.data.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by marija.radisavljevic on 6/3/2016.
@@ -39,23 +57,54 @@ public class FireBase {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
+    private FirebaseAuth mAuth;
 
 
-    private void writeNewPost(String userId, String username, String title, String body) {
+    private void writeNewUser (final UserInfo ui){
+        mAuth.createUserWithEmailAndPassword(ui.getEmail()  , ui.getPassword())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
+
+
+                        if (task.isSuccessful()) {
+                            onAuthSuccess(ui,task.getResult().getUser());
+                        } else {
+                            Log.d(TAG, "createUser:onComplete:" + task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void onAuthSuccess(UserInfo ui, FirebaseUser user) {
+
+
+
+        mDatabase.child("users").child(user.getUid()).setValue(ui);
+        // Write new user
+
+
+    }
+
+    private void writeNewRezervation(Rezervation rez) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
-        String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body);
-        Map<String, Object> postValues = post.toMap();
-
+        String key = mDatabase.child("listaRezervations").push().getKey();
+        String k = mDatabase.getKey();
+        Map<String, Object> postValues = rez.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
-        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+
+
+        childUpdates.put("/listaRezervations/" + key, postValues);
+       // childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
     }
-    public FireBase() {
 
+
+    public FireBase() {
+        mAuth = FirebaseAuth.getInstance();
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
@@ -74,10 +123,10 @@ public class FireBase {
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("marijarad89@gmail.com");
         userInfo1.setType("Admin");
-        userInfo1.setPassword("sifra");
+        userInfo1.setPassword("maricka71");
+        writeNewUser(userInfo1);
+      userInfo = userInfo1;
 
-        userInfo = userInfo1;
-        mDatabase.child("userinfoBaza").child(userInfo1.getUsername()).setValue(userInfo1);
 
         listUsers.add(userInfo1);
         userInfo1 = new UserInfo();
@@ -87,10 +136,11 @@ public class FireBase {
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("anailic@gmail.com");
         userInfo1.setType("Konobar");
-        userInfo1.setPassword("sifra");
+        userInfo1.setPassword("sifra123456!");
 
         listUsers.add(userInfo1);
-        mDatabase.child("userinfoBaza").child(userInfo1.getUsername()).setValue(userInfo1);
+        writeNewUser(userInfo1);
+
         userInfo1 = new UserInfo();
         userInfo1.setEmail("paja@gmail.com");
         userInfo1.setName("Pavle");
@@ -98,9 +148,9 @@ public class FireBase {
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("paja@gmail.com");
         userInfo1.setType("Konobar");
-        userInfo1.setPassword("sifra");
+        userInfo1.setPassword("sifra!23456");
         listUsers.add(userInfo1);
-        mDatabase.child("userinfoBaza").child(userInfo1.getUsername()).setValue(userInfo1);
+        writeNewUser(userInfo1);
 
         numberItemssStrignList = new String[7];
         numberItemssStrignList[0] = "1";
@@ -123,7 +173,7 @@ public class FireBase {
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
         FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
         listFoodMenuItem.add(nadtavka);
-        mDatabase.child("foodMenu").child(String.valueOf(nadtavka.getId())).setValue(nadtavka);
+       mDatabase.child("foodMenu").child(String.valueOf(nadtavka.getId())).setValue(nadtavka);
 
         FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"1 type food", 100);
         listFoodMenuItem.add(fmt1);
@@ -131,7 +181,7 @@ public class FireBase {
 
         FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"2 type food", 100);
         listFoodMenuItem.add(fmt2);
-        mDatabase.child("foodMenu").child(String.valueOf(fmt2.getId())).setValue(fmt2);
+       mDatabase.child("foodMenu").child(String.valueOf(fmt2.getId())).setValue(fmt2);
 
 
         FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"3 type food", 100);
@@ -157,7 +207,7 @@ public class FireBase {
         ld.setUsername("marijarad89@gmail.com");
         ld.setNameType("Admin");
         ld.setName_user("marija radisavljevic");
-        // ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
+        ///ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
         ArrayList<Order>listOrders = new ArrayList<Order>();
         listOrders.add(new Order(1,fmt1,1));
         listOrders.add(new Order(3,fmt2,1));
@@ -170,7 +220,8 @@ public class FireBase {
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
-        mDatabase.child("listaRezervations").child(String.valueOf(ld.getId())).setValue(ld);
+       writeNewRezervation(ld);
+
 
         ld = new Rezervation();
         ld.setUsername("anailic@gmail.com");
@@ -187,9 +238,7 @@ public class FireBase {
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
-        mDatabase.child("listaRezervations").child(String.valueOf(ld.getId())).setValue(ld);
-
-
+        writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -208,7 +257,9 @@ public class FireBase {
 
         ld.setTime("5.5.2016. 17:00 ");
         listOfRezervations.add(ld);
-        mDatabase.child("listaRezervations").child(String.valueOf(ld.getId())).setValue(ld);
+        writeNewRezervation(ld);
+
+
     }
 
 
@@ -217,27 +268,13 @@ public class FireBase {
         return bla;
     }
 
+
+    //sluzida incijalizuje Firebase insace
     public  Boolean logIN(String username, String password) {
-//make userinfo if user exists in database
-        Boolean value = false;
-        try{
-            mutex.acquire();
-            //for test
-            for(UserInfo rez: listUsers){
-                if(rez.getUsername().equals("marijarad89@gmail.com") && rez.getPassword().equals("sifra")){
-                    userInfo = rez;
-                    value = true;
-                }
+//postavi current username
 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
 
-        }finally{
-            mutex.release();
-        }
-
-        return value;
+        return true;
 
     }
 
@@ -251,6 +288,10 @@ public class FireBase {
 
         ArrayList<Rezervation> returnRezerList = new ArrayList<>();
 
+
+
+        Query lista = mDatabase.child("listaRezervations")
+                .limitToFirst(100);
 
         try{
             mutex.acquire();
@@ -319,25 +360,7 @@ public class FireBase {
 
 
     public void setUserInfo(UserInfo ui){
-            try{
-                mutex.acquire();
-
-                for(UserInfo rez: listUsers){
-                    //if already exists indatabase update it
-                    if(rez.getUsername().equals(ui.getUsername()) && rez.getPassword().equals(ui.getPassword())){
-                        listUsers.remove(rez);
-                        listUsers.add(ui);
-                        break;
-                    }
-                }
-            userInfo = ui;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }finally{
-            mutex.release();
-        }
+           userInfo = ui;
     }
 
 

@@ -9,25 +9,15 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,10 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
+import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -48,6 +41,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
@@ -99,7 +97,15 @@ public class LoginActivity extends AppCompatActivity  {//implements LoaderCallba
     private View mProgressView;
     private View mLoginFormView;
 
+    //@Override
+    //public void onStart() {
+      //  super.onStart();
 
+        // Check auth on Activity start
+       // if (mAuth.getCurrentUser() != null) {
+           // onAuthSuccess(mAuth.getCurrentUser());
+       // }
+    //}
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -221,31 +227,55 @@ public class LoginActivity extends AppCompatActivity  {//implements LoaderCallba
                             Toast.makeText(LoginActivity.this, R.string.atentifitacionFaild,
                                     Toast.LENGTH_SHORT).show();
                         }else{
+                            //uspesna prijava inicijalizuj fareBase instace
                             Boolean value =  FireBase.getInstance().logIN(email, password);
 
-                            if(FireBase.getInstance().isUserAdmin()){
-                                Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                getApplicationContext().startActivity(intent);
-                            }else{
-                                Intent intent = new Intent(getApplicationContext(), Activity_Selection_And_ListReservation.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                getApplicationContext().startActivity(intent);
-                            }
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                            mDatabase.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            //data will be available on dataSnapshot.getValue();
+                                            Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                                            Collection<Object> colection = map.values();
+                                            Iterator iter =  colection.iterator();
+                                            Object userInfoObject = iter.next();
+                                            HashMap<String,String> hmUserinfo = (HashMap<String, String>) userInfoObject;
+                                            UserInfo userInfo = new UserInfo(hmUserinfo.get("username"),hmUserinfo.get("name"),hmUserinfo.get("surname"),hmUserinfo.get("number"),hmUserinfo.get("email"),hmUserinfo.get("type"),hmUserinfo.get("password"));
+                                            FireBase.getInstance().setUserInfo(userInfo);
+
+                                            hideProgressDialog();
+
+                                            if(FireBase.getInstance().isUserAdmin()){
+                                                Intent intent = new Intent(getApplicationContext(), ActivityMainList.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                getApplicationContext().startActivity(intent);
+                                            }else{
+                                                Intent intent = new Intent(getApplicationContext(), Activity_Selection_And_ListReservation.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                getApplicationContext().startActivity(intent);
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            hideProgressDialog();
+
+                                            Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                                        }
+                                    });
+
+
+
                         }
-
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-
-
-
-
 
 
                     }
                 });
         // [END sign_in_with_email]
+
+
     }
 
     private void signOut() {

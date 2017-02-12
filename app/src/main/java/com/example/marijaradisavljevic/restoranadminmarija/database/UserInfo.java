@@ -15,16 +15,28 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class UserInfo {
-    private String username;
-    private String name;
-    private String surname ;
-    private String number ;
-    private String email ;
-    private String type;
-    private String password;
+    public String username;
+    public String name;
+    public String surname ;
+    public String number ;
+    public String email ;
+    public String type;
+    public String password;
 
     public UserInfo() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+
+    public UserInfo (String username, String name,String surname, String number, String email, String type, String password){
+        this.name = name;
+        this.username = username;
+        this.surname = surname;
+        this.number = number;
+        this.email = email;
+        this.type = type;
+        this.password = password;
+
     }
 
     // [START post_to_map]
@@ -41,22 +53,6 @@ public class UserInfo {
         return result;
     }
     // [END post_to_map]
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
 
     public String getUsername() {
@@ -99,14 +95,23 @@ public class UserInfo {
         this.email = email;
     }
 
-    public String getnameAndSurname() {
-        return name+" "+surname;
+    public String getType() {
+        return type;
     }
 
-    public String getNameSurnameType() {
-        return type +" : "+name+" "+surname;
+    public void setType(String type) {
+        this.type = type;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+   /* @Exclude
     public String getStringTypeNameSurnameForListUsers() {
         String returnString = "";
         if (type.equals("Konobar") || type.equals("Admin")){
@@ -116,5 +121,5 @@ public class UserInfo {
             returnString =returnString+" : "+ name +" " +surname;
 
         return returnString;
-    }
+    }*/
 }

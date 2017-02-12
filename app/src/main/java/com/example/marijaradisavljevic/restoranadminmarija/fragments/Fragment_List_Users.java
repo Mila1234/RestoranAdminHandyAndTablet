@@ -103,7 +103,8 @@ public class Fragment_List_Users extends Fragment {
 
                 typeAndnameSurname.setVisibility(View.VISIBLE);
                 //String typeNameSurnameString = adapterItem.userinfo.getType() + " : " + adapterItem.userinfo.getName() + " " + adapterItem.userinfo.getSurname();
-                String typeNameSurnameString = adapterItem.userinfo.getStringTypeNameSurnameForListUsers();
+                //String typeNameSurnameString = adapterItem.userinfo.getStringTypeNameSurnameForListUsers();
+                String typeNameSurnameString = adapterItem.userinfo.getType() + " : "+adapterItem.userinfo.getName()+ " " +adapterItem.userinfo.getSurname();
 
                 typeAndnameSurname.setText(typeNameSurnameString);
                 username.setVisibility(View.VISIBLE);

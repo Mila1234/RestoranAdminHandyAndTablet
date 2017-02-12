@@ -6,6 +6,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +25,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     private String username;
 
     private String nameType;
-
+        //private LinkedList<Order> listaO;
     private ArrayList<Order> orders;
     private Integer id;
 
@@ -41,7 +43,20 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         result.put("password", username);
         result.put("nameType", nameType);
 
-        result.put("orders", orders);
+
+///////////////////////
+       /* FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
+        FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"2 type food", 100);
+        FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"3 type food", 100);
+        FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"4 type food", 100);
+        listaO = new LinkedList<Order>();
+        listaO.add(new Order(1,fmt1,1));
+        listaO.add(new Order(3,fmt2,1));
+        listaO.add(new Order(4,fmt3,1));
+
+        result.put("listaO", listaO);
+        //result.put("orders", orders);*/
+        ///////////////////////////
         result.put("id", id);
 
         return result;
@@ -93,7 +108,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         clone.setName_user(this.getname_user());
         clone.setNumberTable(this.getnumberTable());
         clone.id = this.id;
-
+/*
         Iterator<Order> iter = orders.iterator();
         ArrayList<Order>  cloneOrdersList = clone.getOrders();
         while (iter.hasNext()) {
@@ -106,7 +121,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
             cloneOrdersList.add(cloneOrder);
 
         }
-
+*/
 
         return clone;
     }
@@ -128,7 +143,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
 
 
-         orders = new ArrayList<Order>();
+         //orders = new ArrayList<Order>();
 
          //itemsOrder  = new ArrayList<String>();
          id = ukid++;
