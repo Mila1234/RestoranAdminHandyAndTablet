@@ -1,10 +1,8 @@
 package com.example.marijaradisavljevic.restoranadminmarija.servis;
 
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.marijaradisavljevic.restoranadminmarija.database.FoodMenuItem;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
@@ -17,16 +15,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
@@ -91,15 +86,18 @@ public class FireBase {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("listaRezervations").push().getKey();
-        String k = mDatabase.getKey();
-        Map<String, Object> postValues = rez.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
+       // String k = mDatabase.getKey();
+       // Map<String, Object> postValues = rez.toMap();
+       // Map<String, Object> childUpdates = new HashMap<>();
 
 
-        childUpdates.put("/listaRezervations/" + key, postValues);
+       // childUpdates.put("/listaRezervations/" + key, postValues);
        // childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
-        mDatabase.updateChildren(childUpdates);
+
+
+        mDatabase.child("listaRezervations").child(key).setValue(rez);
+        //mDatabase.updateChildren(childUpdates);
     }
 
 
@@ -208,7 +206,7 @@ public class FireBase {
         ld.setNameType("Admin");
         ld.setName_user("marija radisavljevic");
         ///ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
-        ArrayList<Order>listOrders = new ArrayList<Order>();
+        LinkedList<Order> listOrders = new LinkedList<Order>();
         listOrders.add(new Order(1,fmt1,1));
         listOrders.add(new Order(3,fmt2,1));
         listOrders.add(new Order(4,fmt3,1));
@@ -216,7 +214,7 @@ public class FireBase {
         ld.setOrders(listOrders);
         ld.setNumberTable(3);
         ld.setPaidOrNot(true);
-
+        ld.setPassword("maricka71");
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
@@ -228,13 +226,14 @@ public class FireBase {
         ld.setNameType("Konobar");
         ld.setName_user("Ana Ilic");
         //ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
-        listOrders = new ArrayList<Order>();
+        listOrders = new LinkedList<Order>();
         listOrders.add(new Order(1,fmt1,9));
         listOrders.add(new Order(3,fmt2,9));
         listOrders.add(new Order(4,fmt3,9));
         ld.setOrders(listOrders);
         ld.setNumberTable(2);
         ld.setPaidOrNot(true);
+        ld.setPassword("sifra123456!");
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
@@ -245,8 +244,9 @@ public class FireBase {
         ld.setNameType("Konobar");
         ld.setUsername("paja@gmail.com");
         ld.setName_user("pavle stojanovic");
+        ld.setPassword("sifra!23456");
         //  ld.setItemsOrder(new ArrayList(Arrays.asList("jelen pivo ,crveno vino , lenja pita sa jabukama")));
-        listOrders = new ArrayList<Order>();
+        listOrders = new LinkedList<Order>();
         listOrders.add(new Order(1,fmt1,12));
         listOrders.add(new Order(3,fmt2,13));
         listOrders.add(new Order(4,fmt3,13));
@@ -280,18 +280,17 @@ public class FireBase {
 
 
 
-    public ArrayList<Rezervation> getRezervationsWithRegulation(SelecionRegulations selecionRegulation) {
+    public ArrayList<Rezervation> getRezervationsWithRegulation(final SelecionRegulations selecionRegulation) {
         if(selecionRegulation.isAll()){
 
             return listOfRezervations;
         }
 
-        ArrayList<Rezervation> returnRezerList = new ArrayList<>();
+        final ArrayList<Rezervation> returnRezerList = new ArrayList<>();
 
 
 
-        Query lista = mDatabase.child("listaRezervations")
-                .limitToFirst(100);
+
 
         try{
             mutex.acquire();
@@ -674,7 +673,7 @@ public class FireBase {
             for(Rezervation rez: listOfRezervations){
                 if(rez.getId() == Integer.parseInt(rezervationIdString)){
 
-                    value = rez.gettime();
+                    value = rez.getTime();
                 }
 
             }
@@ -739,8 +738,8 @@ public class FireBase {
 
         return value;
     }
-    public ArrayList<Order> getListOrders(String rezervationIdString) {
-        ArrayList<Order> value = null;
+    public LinkedList<Order> getListOrders(String rezervationIdString) {
+        LinkedList<Order> value = null;
         try{
             mutex.acquire();
 
@@ -772,7 +771,7 @@ public class FireBase {
                     rez.setTime(time);
                     rez.setPaidOrNot(ispaidnOrnot);
                     rez.setNumberTable(Integer.parseInt(nuberTable));
-                    ArrayList<Order> lista = new ArrayList<Order>();
+                    LinkedList<Order> lista = new LinkedList<Order>();
                     for(FreagmentAddOrder.ItemOrder curOrder : listaOrder){
                         lista.add(curOrder.getOrder());
                     }

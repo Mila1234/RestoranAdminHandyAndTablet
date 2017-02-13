@@ -1,0 +1,18 @@
+ Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                                            Collection<Object> colection = map.values();
+                                            Iterator iter =  colection.iterator();
+                                            Object userInfoObject = iter.next();
+                                            HashMap<String,String> hmUserinfo = (HashMap<String, String>) userInfoObject;
+                                            UserInfo userInfo = new UserInfo(hmUserinfo.get("username"),hmUserinfo.get("name"),hmUserinfo.get("surname"),hmUserinfo.get("number"),hmUserinfo.get("email"),hmUserinfo.get("type"),hmUserinfo.get("password"));
+                                            FireBase.getInstance().setUserInfo(userInfo);
+
+
+
+Map<String, Object> rezHM = (Map<String, Object>) dataSnapshot.getValue();
+               // Collection<Object> colection = map.values();
+               //Iterator iter =  colection.iterator();
+               // Object rez = iter.next();
+               // HashMap<String,Object> rezHM = (HashMap<String, Object>) rez;
+                Rezervation currRezervation = new Rezervation((String)rezHM.get("time"),(String)rezHM.get("name_user"),(Integer)rezHM.get("price"),
+                        (Integer) rezHM.get("numberTable"),(Boolean) rezHM.get("paidOrNot"),(String)rezHM.get("password"),(String)rezHM.get("username"),
+                        (String)rezHM.get("nameType"),(Integer)rezHM.get("id")  );

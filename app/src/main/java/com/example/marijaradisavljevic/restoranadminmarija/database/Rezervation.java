@@ -3,11 +3,11 @@ package com.example.marijaradisavljevic.restoranadminmarija.database;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,12 +26,25 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     private String nameType;
         //private LinkedList<Order> listaO;
-    private ArrayList<Order> orders;
+    private LinkedList<Order> orders;
     private Integer id;
 
     //TODO ovaj id treba da se dobija od backenda
     private static int ukid = 0;
 
+
+
+    public Rezervation (String time, String name_user,  Long numberTable, Boolean paidOrNot, String password,String username,String nameType,Long id){
+        this.time = time;
+        this.name_user = name_user;
+       // this.price = price;
+        this.numberTable = Integer.valueOf(numberTable.intValue());
+        this.paidOrNot = paidOrNot;
+        this.password = password;
+        this.username = username;
+        this.nameType = nameType;
+        this.id = Integer.valueOf(id.intValue());
+    }
     // [START post_to_map]
     @Exclude
     public Map<String, Object> toMap() {
@@ -40,10 +53,10 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         result.put("name_user", name_user);
         result.put("numberTable", numberTable);
         result.put("paidOrNot", paidOrNot);
-        result.put("password", username);
+        result.put("password", password);
+        result.put("username", username);
         result.put("nameType", nameType);
-
-
+        result.put("id", id);
 ///////////////////////
        /* FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
         FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"2 type food", 100);
@@ -54,8 +67,8 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         listaO.add(new Order(3,fmt2,1));
         listaO.add(new Order(4,fmt3,1));
 
-        result.put("listaO", listaO);
-        //result.put("orders", orders);*/
+        result.put("listaO", listaO);*/
+        result.put("orders", orders);
         ///////////////////////////
         result.put("id", id);
 
@@ -72,9 +85,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         return time;
     }
 
-    public Integer getNumberTable() {
-        return numberTable;
-    }
+
 
     public void setNumberTable(Integer numberTable) {
         this.numberTable = numberTable;
@@ -104,13 +115,13 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     public Rezervation clone() throws CloneNotSupportedException {
         Rezervation clone = new Rezervation();
          clone.setPaidOrNot(this.isPaidOrNot());
-        clone.setTime(this.gettime());
+        clone.setTime(this.getTime());
         clone.setName_user(this.getname_user());
         clone.setNumberTable(this.getnumberTable());
         clone.id = this.id;
-/*
+
         Iterator<Order> iter = orders.iterator();
-        ArrayList<Order>  cloneOrdersList = clone.getOrders();
+        LinkedList<Order>  cloneOrdersList = clone.getOrders();
         while (iter.hasNext()) {
             Order cloneOrder;
             Order tek = iter.next();
@@ -121,7 +132,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
             cloneOrdersList.add(cloneOrder);
 
         }
-*/
+
 
         return clone;
     }
@@ -135,6 +146,9 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         return false;
     }
 
+
+
+
     public Rezervation() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
          price = 0;
@@ -143,13 +157,14 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
 
 
-         //orders = new ArrayList<Order>();
+         orders = new LinkedList<>();
 
          //itemsOrder  = new ArrayList<String>();
          id = ukid++;
 
     }
 
+    @Exclude
     public String getnumberTable_string(){
         return Integer.toString(numberTable);
     }
@@ -158,6 +173,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         return paidOrNot;
     }
 
+    @Exclude
     public String getpaidOrNot_string(){
         if (paidOrNot) {
             return "Plaćeno.";
@@ -182,22 +198,17 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         this.name_user = name_user;
     }
 
-    public void setNumberTable(int numberTable) {
-        this.numberTable = numberTable;
-    }
 
+/*
     private void setPrice(int price) {
         this.price = price;
-    }
+    }*/
 
 
     public void setPaidOrNot(boolean paidOrNot) {
         this.paidOrNot = paidOrNot;
     }
 
-    public String gettime() {
-        return time;
-    }
 
     public String getname_user() {
         return name_user;
@@ -222,11 +233,11 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     }
 
-    public String getPrice_toString(){
+   /* public String getPrice_toString(){
         String bla = String.valueOf(getprice());
         return bla;
     }
-
+*/
    /* public ArrayList<String > getitemsOrder() {
         return itemsOrder;
     }
@@ -234,14 +245,15 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         this.itemsOrder = itemsOrder;
     }
 */
-    public ArrayList<Order> getOrders() {
+    public LinkedList<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(ArrayList<Order> orders) {
+    public void setOrders(LinkedList<Order> orders) {
         this.orders = orders;
     }
 
+    @Exclude
     public String getItemsOrdersInString(){
 
             Iterator<Order> iter = orders.iterator();
@@ -257,11 +269,10 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
             return builder.toString();
 
     }
-    public boolean ispaidOrNot() {
-        return paidOrNot;
-    }
 
-    public void removeOrders(ArrayList<Order> listOrdersForSplitAction) {
+
+
+    public void removeOrders(LinkedList<Order> listOrdersForSplitAction) {
 
         for(Order currOrder: orders){
             for(Order orderForErase: listOrdersForSplitAction){
@@ -270,6 +281,36 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
                 }
             }
 
+        }
+    }
+
+    @Exclude
+    public void ordersFormArrayList( ArrayList<HashMap<String, Object>> ordAL) {
+        orders = new LinkedList<Order>();
+        try {
+            for (HashMap<String, Object> currhm : ordAL) {
+                Order currOrder = new Order();
+                currOrder.setNuberOrder(Integer.valueOf(((Long)currhm.get("nuberOrder")).intValue()));
+                currOrder.setId(Integer.valueOf(((Long)currhm.get("id")).intValue()));
+
+                HashMap<String ,Object> foodMenuItemHM =  (HashMap<String ,Object>) currhm.get("order");
+                FoodMenuItem fmi = new FoodMenuItem();
+                FoodMenuItem nadstavka = new FoodMenuItem();
+                fmi.setId( Integer.valueOf(((Long)foodMenuItemHM.get("id")).intValue()));
+                fmi.setFood( (String)foodMenuItemHM.get("food"));
+                fmi.setPrice( Integer.valueOf(((Long)foodMenuItemHM.get("price")).intValue()));
+
+                HashMap<String, Object> nadstavkaHM = (HashMap<String, Object>) foodMenuItemHM.get("nadstavka");
+                nadstavka.setId( Integer.valueOf(((Long)nadstavkaHM.get("id")).intValue()));
+                nadstavka.setFood( (String)nadstavkaHM.get("food"));
+                nadstavka.setPrice( Integer.valueOf(((Long)nadstavkaHM.get("price")).intValue()));
+                fmi.setNadstavka(nadstavka);
+
+                currOrder.setOrder(fmi);
+                orders.add(currOrder);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

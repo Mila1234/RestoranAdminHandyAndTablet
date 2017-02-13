@@ -95,6 +95,11 @@ public ArrayList<T> getMyList (){
 
     }
 
+    public void deleteItemWithIndex(int i) {
+        myList.remove(i);
+
+        notifyDataSetChanged();
+    }
     public void deleteItem(T t) {
         myList.remove(t);
         notifyDataSetChanged();

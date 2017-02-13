@@ -217,7 +217,7 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
             public void fillData(final ItemForRezervationsList adapterItem) {
 
                 time.setVisibility(View.VISIBLE);
-                time.setText(adapterItem.rezervation.gettime());
+                time.setText(adapterItem.rezervation.getTime());
                 name_user.setVisibility(View.VISIBLE);
                 name_user.setText(adapterItem.rezervation.getNameType()+" : "+adapterItem.rezervation.getname_user());
                 numberTable.setVisibility(View.VISIBLE);
