@@ -42,6 +42,7 @@ import static com.example.marijaradisavljevic.restoranadminmarija.R.layout.rezer
 /*
  * Created by marija on 12.2.17.
  */
+
 public class MyCustomAdatperForTheListSR extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 private Context context;
@@ -225,7 +226,7 @@ mRezertavions.clear();
 
           private static  class  RezervationsViewHolder extends RecyclerView.ViewHolder {
 
-            TextView time, name_user, numberTable, price, itemsOrder, paidOrNot;
+            TextView time, name_user, numberTable, price, itemsOrder, paidOrNot,id;
             Button edit, remove;
 
             public RezervationsViewHolder(View convertView) {
@@ -238,6 +239,7 @@ mRezertavions.clear();
                 paidOrNot = (TextView) convertView.findViewById(R.id.paidOrNot);
                 edit = (Button) convertView.findViewById(R.id.edit);
                 remove = (Button) convertView.findViewById(R.id.remove);
+                id = (TextView) convertView.findViewById(R.id.id);
             }
 
         }
@@ -257,7 +259,7 @@ mRezertavions.clear();
         final Rezervation rezervation = mRezertavions.get(position);
         //holder.authorView.setText(comment.author);
       //  holder.bodyView.setText(comment.text);
-        RezervationsViewHolder holder = (RezervationsViewHolder)h;
+        final RezervationsViewHolder holder = (RezervationsViewHolder)h;
 
         holder.time.setVisibility(View.VISIBLE);
         holder.time.setText(rezervation.getTime());
@@ -270,7 +272,7 @@ mRezertavions.clear();
         holder.itemsOrder.setText(rezervation.getItemsOrdersInString());
         holder.paidOrNot.setVisibility(View.VISIBLE);
         holder.paidOrNot.setText(rezervation.getpaidOrNot_string());
-
+        holder.id.setText(String.valueOf(rezervation.getId()));
 
         holder.edit.setVisibility(View.VISIBLE);
         holder.remove.setVisibility(View.VISIBLE);
@@ -296,27 +298,21 @@ mRezertavions.clear();
             public void onClick(View v) {
                 // AdapterDB.getInstance().deleteRezervation(rezervation.getId());
 
+                Rezervation foud = null;
+                for(Rezervation ui :mRezertavions){
+                    String strinf = holder.id.getText().toString();
+                    if(ui.getId() == Integer.parseInt(strinf)){
+                        foud = ui;
+                        break;
+                    }
+                }
 
-                String key = mRezertavionsIds.get(position);
+                int index = mRezertavions.indexOf(foud);
+                String key = mRezertavionsIds.get(index);
                 mDatabaseReference.child("listaRezervations").child(key).removeValue();
-
-                mRezertavions.remove(position);
-                mRezertavionsIds.remove(position);
-                notifyItemRemoved(position);
-
-
-                                /*
-                                FireBase.getInstance().removeRezer(rezervation.getId());
-                                MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(context));
-                                ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
-                                for(Rezervation rez:myList){
-                                    adapter.addItem(new ItemForRezervationsList(rez));
-                                }
-                                lvDetail.setAdapter(adapter);
-        */
-                //////////////////
-
-                ///   FragmentListReservations.this.lvDetail.invalidateViews();
+                mRezertavions.remove(index);
+                mRezertavionsIds.remove(index);
+                notifyItemRemoved(index);
 
 
             }

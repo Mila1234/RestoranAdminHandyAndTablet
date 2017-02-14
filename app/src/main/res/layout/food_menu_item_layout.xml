@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/rezervation_color_background"
     android:weightSum="3">
 
 
@@ -11,11 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:maxLines="3"
+        android:text="dsadasda"
         android:lines="3"
         android:layout_marginLeft="@dimen/activity_small_padding"
         android:layout_marginRight="@dimen/activity_small_padding"
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"/>
+    <TextView android:id = "@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+
+       />
 
     <Button android:id="@+id/edit"
         android:layout_width="0dp"

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rezervation_color_background"
+    android:padding="@dimen/padding_margin">
 
-            <ListView android:id = "@+id/list_reservations"
+            <android.support.v7.widget.RecyclerView
+                android:id = "@+id/list_reservations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:cacheColorHint="@color/blue"
-                android:layout_marginLeft="@dimen/activity_small_padding"
-                android:layout_marginRight="@dimen/activity_small_padding"
-                android:divider="@color/blue"
-                android:dividerHeight="5dp"
-                android:listSelector="@android:color/transparent"
+
+                tools:listitem="@layout/food_menu_item_layout"
                 android:paddingBottom="?attr/actionBarSize">
 
 
-            </ListView>
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>

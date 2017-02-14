@@ -171,25 +171,30 @@ public class FireBase {
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
         FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
         listFoodMenuItem.add(nadtavka);
-       mDatabase.child("foodMenu").child(String.valueOf(nadtavka.getId())).setValue(nadtavka);
+        String key = mDatabase.child("listaRezervations").push().getKey();
+       mDatabase.child("foodMenu").child(key).setValue(nadtavka);
 
         FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"1 type food", 100);
         listFoodMenuItem.add(fmt1);
-        mDatabase.child("foodMenu").child(String.valueOf(fmt1.getId())).setValue(fmt1);
+         key = mDatabase.child("listaRezervations").push().getKey();
+        mDatabase.child("foodMenu").child(key).setValue(fmt1);
 
         FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"2 type food", 100);
         listFoodMenuItem.add(fmt2);
-       mDatabase.child("foodMenu").child(String.valueOf(fmt2.getId())).setValue(fmt2);
+         key = mDatabase.child("listaRezervations").push().getKey();
+       mDatabase.child("foodMenu").child(key).setValue(fmt2);
 
 
         FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"3 type food", 100);
         listFoodMenuItem.add(fmt3);
-        mDatabase.child("foodMenu").child(String.valueOf(fmt3.getId())).setValue(fmt3);
+         key = mDatabase.child("listaRezervations").push().getKey();
+        mDatabase.child("foodMenu").child(key).setValue(fmt3);
 
 
         FoodMenuItem fmt4 = new FoodMenuItem(nadtavka,"4 type food", 100);
         listFoodMenuItem.add(fmt4);
-        mDatabase.child("foodMenu").child(String.valueOf(fmt4.getId())).setValue(fmt4);
+         key = mDatabase.child("listaRezervations").push().getKey();
+        mDatabase.child("foodMenu").child(key).setValue(fmt4);
 
 
 
@@ -218,7 +223,7 @@ public class FireBase {
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
-       //writeNewRezervation(ld);
+      // writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -237,7 +242,7 @@ public class FireBase {
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
-        //writeNewRezervation(ld);
+      //  writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -257,7 +262,7 @@ public class FireBase {
 
         ld.setTime("5.5.2016. 17:00 ");
         listOfRezervations.add(ld);
-        //writeNewRezervation(ld);
+      //  writeNewRezervation(ld);
 
 
     }
