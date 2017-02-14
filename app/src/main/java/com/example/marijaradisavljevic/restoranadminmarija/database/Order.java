@@ -20,7 +20,18 @@ public class Order implements Cloneable {
     //TODO id se dobija od backenda
     private static int ukid= 0;
 
+    @Exclude
+    public String key;
 
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     // [START post_to_map]
     @Exclude

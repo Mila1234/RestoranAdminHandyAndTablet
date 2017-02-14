@@ -17,7 +17,18 @@ public class FoodMenuItem implements  Cloneable{
     private Integer price;
     private int id;
     private FoodMenuItem nadstavka;
+    @Exclude
+    public String key;
 
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     //TODO dobija se od baceknda
     private static int ukid = 0;
@@ -59,6 +70,12 @@ public class FoodMenuItem implements  Cloneable{
         this.food = food;
         this.price = price;
         id = ukid++;
+    }
+    public FoodMenuItem(FoodMenuItem nadstavka,String food, int price,int id) {
+        this.nadstavka = nadstavka;
+        this.food = food;
+        this.price = price;
+        this.id = id;
     }
     public FoodMenuItem() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)

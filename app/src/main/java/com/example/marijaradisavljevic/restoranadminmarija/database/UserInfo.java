@@ -23,6 +23,19 @@ public class UserInfo {
     public String type;
     public String password;
 
+    @Exclude
+    public String key;
+
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public UserInfo() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }

@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/rezervation_color_background"
     android:padding="@dimen/padding_margin"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,21 +102,14 @@
     </LinearLayout>
 
 
-
-
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listaAddOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="@color/transparent"
-        android:divider="@color/transparent"
-        android:dividerHeight="5dp"
-        android:listSelector="@android:color/transparent"
+        tools:listitem="@layout/item_order"
         android:layout_weight="1"
-        android:paddingBottom="?attr/actionBarSize"
-        >
-
-    </ListView>
+        android:paddingBottom="?attr/actionBarSize" />
 
 
 

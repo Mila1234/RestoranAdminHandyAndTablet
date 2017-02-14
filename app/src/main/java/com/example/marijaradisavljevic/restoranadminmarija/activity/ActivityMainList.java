@@ -281,12 +281,13 @@ public class ActivityMainList  extends AppCompatActivity  {
     }
 
 
-    public void callUserInfoForEditUser(String username, String password) {
+    public void callUserInfoForEditUser(String username, String password, String keyFireBase) {
         Bundle arguments = new Bundle();
 
         Fragment_Add_User fragment6 = new Fragment_Add_User();
         arguments.putString("username", username);
         arguments.putString("password", password);
+        arguments.putString("keyForFireBase",keyFireBase);
         fragment6.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment6).commit();
 

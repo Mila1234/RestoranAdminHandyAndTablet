@@ -211,7 +211,7 @@ public class FireBase {
         ld.setNameType("Admin");
         ld.setName_user("marija radisavljevic");
         ///ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
-        LinkedList<Order> listOrders = new LinkedList<Order>();
+        ArrayList<Order> listOrders = new ArrayList<Order>();
         listOrders.add(new Order(1,fmt1,1));
         listOrders.add(new Order(3,fmt2,1));
         listOrders.add(new Order(4,fmt3,1));
@@ -223,7 +223,7 @@ public class FireBase {
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
-      // writeNewRezervation(ld);
+       writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -231,7 +231,7 @@ public class FireBase {
         ld.setNameType("Konobar");
         ld.setName_user("Ana Ilic");
         //ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
-        listOrders = new LinkedList<Order>();
+        listOrders = new ArrayList<Order>();
         listOrders.add(new Order(1,fmt1,9));
         listOrders.add(new Order(3,fmt2,9));
         listOrders.add(new Order(4,fmt3,9));
@@ -242,7 +242,7 @@ public class FireBase {
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
-      //  writeNewRezervation(ld);
+       writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -251,7 +251,7 @@ public class FireBase {
         ld.setName_user("pavle stojanovic");
         ld.setPassword("sifra!23456");
         //  ld.setItemsOrder(new ArrayList(Arrays.asList("jelen pivo ,crveno vino , lenja pita sa jabukama")));
-        listOrders = new LinkedList<Order>();
+        listOrders = new ArrayList<Order>();
         listOrders.add(new Order(1,fmt1,12));
         listOrders.add(new Order(3,fmt2,13));
         listOrders.add(new Order(4,fmt3,13));
@@ -262,7 +262,7 @@ public class FireBase {
 
         ld.setTime("5.5.2016. 17:00 ");
         listOfRezervations.add(ld);
-      //  writeNewRezervation(ld);
+       writeNewRezervation(ld);
 
 
     }
@@ -743,8 +743,8 @@ public class FireBase {
 
         return value;
     }
-    public LinkedList<Order> getListOrders(String rezervationIdString) {
-        LinkedList<Order> value = null;
+    public ArrayList<Order> getListOrders(String rezervationIdString) {
+        ArrayList<Order> value = null;
         try{
             mutex.acquire();
 
@@ -763,7 +763,7 @@ public class FireBase {
         }
         return value;
     }
-
+/*
     public void AddRezervation(String id, String time,String nuberTable, boolean ispaidnOrnot,ArrayList<FreagmentAddOrder.ItemOrder> listaOrder ){
         try{
             mutex.acquire();
@@ -796,7 +796,7 @@ public class FireBase {
 
     }
 
-
+*/
     public String[] getNumberItems() {
         return numberItemssStrignList;
     }

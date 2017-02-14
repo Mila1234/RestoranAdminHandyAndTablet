@@ -26,13 +26,24 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     private String nameType;
         //private LinkedList<Order> listaO;
-    private LinkedList<Order> orders;
+    private ArrayList<Order> orders;
     private Integer id;
 
     //TODO ovaj id treba da se dobija od backenda
     private static int ukid = 0;
 
+    @Exclude
+    public String key;
 
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public Rezervation (String time, String name_user,  Long numberTable, Boolean paidOrNot, String password,String username,String nameType,Long id){
         this.time = time;
@@ -121,7 +132,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         clone.id = this.id;
 
         Iterator<Order> iter = orders.iterator();
-        LinkedList<Order>  cloneOrdersList = clone.getOrders();
+        ArrayList<Order>  cloneOrdersList = clone.getOrders();
         while (iter.hasNext()) {
             Order cloneOrder;
             Order tek = iter.next();
@@ -157,7 +168,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
 
 
-         orders = new LinkedList<>();
+         orders = new ArrayList<>();
 
          //itemsOrder  = new ArrayList<String>();
          id = ukid++;
@@ -245,11 +256,11 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         this.itemsOrder = itemsOrder;
     }
 */
-    public LinkedList<Order> getOrders() {
+    public ArrayList<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(LinkedList<Order> orders) {
+    public void setOrders(ArrayList<Order> orders) {
         this.orders = orders;
     }
 
@@ -272,7 +283,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
 
 
-    public void removeOrders(LinkedList<Order> listOrdersForSplitAction) {
+    public void removeOrders(ArrayList<Order> listOrdersForSplitAction) {
 
         for(Order currOrder: orders){
             for(Order orderForErase: listOrdersForSplitAction){
@@ -288,7 +299,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
     public void ordersFormArrayList( ArrayList<HashMap<String, Object>> ordAL) {
         if (ordAL ==null)return;
 
-        orders = new LinkedList<Order>();
+        orders = new ArrayList<Order>();
         try {
             for (HashMap<String, Object> currhm : ordAL) {
                 Order currOrder = new Order();

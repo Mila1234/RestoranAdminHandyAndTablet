@@ -348,3 +348,106 @@ Map<String, Object> rezHM = (Map<String, Object>) dataSnapshot.getValue();
                 }
             }
         }
+
+
+            public class ItemOrder extends HolderAdapterItem {
+
+                private Order order;
+
+                public Order getOrder() {
+                    return order;
+                }
+
+                public void setOrder(Order order) {
+                    this.order = order;
+                }
+
+                public ItemOrder(Order order){
+                    this.order = order;
+
+
+                }
+                @Override
+                public boolean isEnabled() {//cemu sluzi
+                    return true;
+                }
+
+                @Override
+                public View getView(Context context, View convertView, ViewGroup parent) {
+                    return super.getView(context, convertView, parent);
+                }
+
+                @Override
+                protected int getViewLayoutResId() {
+                    return R.layout.item_order;
+                }
+
+                @Override
+                protected  IViewHolder createViewHolder() {
+                    return  new OrderViewHolder();
+                }
+
+                private class  OrderViewHolder implements IViewHolder<ItemOrder> {
+                    TextView  itemOrder,number_item_order;
+                    Button  remove;
+                    CheckedTextView innewRezervations;
+
+
+                    @Override
+                    public void findViews(View convertView) {
+                        itemOrder =(TextView) convertView.findViewById(R.id.item_order);
+                        number_item_order =(TextView) convertView.findViewById(R.id.number_item_order);
+                        remove = (Button)convertView.findViewById(R.id.remove);
+                        innewRezervations =(CheckedTextView) convertView.findViewById(R.id.in_new_order);
+
+                    }
+                    @Override
+                    public void fillData(final ItemOrder adapterItem) {
+                        number_item_order.setVisibility(View.VISIBLE);
+                        number_item_order.setText("komada : "+adapterItem.order.getNuberOrder());
+                        itemOrder.setVisibility(View.VISIBLE);
+                        itemOrder.setText(adapterItem.order.getOrder().getFood());
+                        remove.setVisibility(View.VISIBLE);
+
+                        innewRezervations.setVisibility(View.VISIBLE);
+                        innewRezervations.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                if(innewRezervations.isChecked()){
+                                    innewRezervations.setChecked(false);
+                                    ListOrdersForSplitAction.remove(ItemOrder.this);
+
+                                }else{
+                                    innewRezervations.setChecked(true);
+                                    ListOrdersForSplitAction.add(ItemOrder.this);
+
+                                }
+
+                            }
+                        });
+
+                        remove.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                FireBase.getInstance().removeorderForRezer(order, rezervationKeyFireBase);
+
+
+                                adapter = new MyCustomAdatperForTheList(getActivity());
+                                for (Order order: FireBase.getInstance().getListOrders(rezervationKeyFireBase)) {
+                                    adapter.addItem(new ItemOrder(order));
+                                }
+                                listaAddOrder.setAdapter(adapter);
+                                ((MyCustomAdatperForTheList<ItemOrder>) listaAddOrder.getAdapter()).notifyDataSetChanged();
+                                FreagmentAddOrder.this.listaAddOrder.invalidate();
+
+
+                            }
+                        });
+
+
+
+                    }
+                }
+            }

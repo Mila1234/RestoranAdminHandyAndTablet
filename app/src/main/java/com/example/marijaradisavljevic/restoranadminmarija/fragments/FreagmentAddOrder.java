@@ -1,10 +1,14 @@
 package com.example.marijaradisavljevic.restoranadminmarija.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -23,14 +27,26 @@ import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation;
-import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
+import com.example.marijaradisavljevic.restoranadminmarija.data.SelecionRegulations;
+import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Order;
+import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by marija.radisavljevic on 5/13/2016.
@@ -42,18 +58,36 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
     private ImageButton new_item;
     private CheckedTextView paidOrNot;
     private static FreagmentAddOrder instance;
-    String rezervationIdString = "";
+    String rezervationKeyFireBase = "";
 
     TextView time;
     Spinner numbreOfTable_spinner;
 
-
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     ///////////////////////////
-    private ListView listaAddOrder;
-    MyCustomAdatperForTheList<ItemOrder> adapter;
-    ArrayList<ItemOrder> ListOrdersForSplitAction ;
+    private RecyclerView listaAddOrder;
+ MyCustomAdatperForTheListOrder adapter;
+    ArrayList<Order> ListOrdersForSplitAction ;
 
 
+    private Rezervation rezervation;
+    private ProgressDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setCancelable(false);
+            //mProgressDialog.setMessage("Loading...");
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +119,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_add_order_layout,container,false);
-        ListOrdersForSplitAction = new ArrayList<ItemOrder>();
+        //ListOrdersForSplitAction = new ArrayList<ItemOrder>();
         getActivity().setTitle("Dodaj stavku");
         Bundle bundle =  this.getArguments();
         String action = bundle.getString("action");
@@ -96,18 +130,27 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
         if (action.equals("onclick")){
 
-            rezervationIdString = getArguments().getString("rezervationId");
-           // int rezeravtionid = Integer.parseInt(rezervationIdString);
+            rezervationKeyFireBase = getActivity().getIntent().getExtras().getString("rezervationKeyFireBase");
+            if (rezervationKeyFireBase == null){
+                rezervationKeyFireBase = getArguments().getString("rezervationKeyFireBase");
+            }
+           // int rezeravtionid = Integer.parseInt(rezervationKeyFireBase);
             //rezervation = FireBase.getInstance().getRezervationByID(rezeravtionid);
             if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
-                time.setText(FireBase.getInstance().getTimeForRezervation(rezervationIdString));
+
+                time.setText(FireBase.getInstance().getTimeForRezervation(rezervationKeyFireBase)+ ""+FireBase.getInstance().getUserForRezervation(rezervationKeyFireBase));
+
             }else {
-                time.setText(FireBase.getInstance().getTimeForRezervation(rezervationIdString)+ ""+FireBase.getInstance().getUserForRezervation(rezervationIdString));
+                time.setText(FireBase.getInstance().getTimeForRezervation(rezervationKeyFireBase));
             }
 
 
+
+
         }else if (action.equals("plusbutton")) {
-            rezervationIdString = FireBase.getInstance().newRezervation();
+
+            rezervationKeyFireBase = mDatabase.child("listaRezervations").push().getKey();
+                    //FireBase.getInstance().newRezervation();
 
             Calendar calendar = Calendar.getInstance();
             int DAY_OF_MONTH = calendar.get(Calendar.DAY_OF_MONTH);
@@ -118,10 +161,30 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
             String date;
             date = DAY_OF_MONTH+"."+MONTH+"."+YEAR+" "+HOUR+":"+MINUT;
 
+            time.setText(date);//ovaj if se moze isvrsiti samo za konobara zato nema time verzije za admina
 
-        } else {
-            //TODO
+
         }
+
+        showProgressDialog();
+        mDatabase.child("listaRezervations").child(rezervationKeyFireBase).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        try {
+                            rezervation = dataSnapshot.getValue(Rezervation.class);
+                            hideProgressDialog();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+
 
 //buttons
         split_order = (Button) mRoot.findViewById(R.id.split_order);
@@ -146,11 +209,11 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
 //CheckedTextView
         paidOrNot  = (CheckedTextView) mRoot.findViewById(R.id.paidOrNot);
-        paidOrNot.setChecked(FireBase.getInstance().getPaidOrNot(rezervationIdString));
+        paidOrNot.setChecked(FireBase.getInstance().getPaidOrNot(rezervationKeyFireBase));
         paidOrNot.setOnClickListener(this);
 
 //spiner
-         numbreOfTable_spinner = (Spinner)  mRoot.findViewById(R.id.numbreOfTable_spinner);
+        numbreOfTable_spinner = (Spinner)  mRoot.findViewById(R.id.numbreOfTable_spinner);
         String[] value = getResources().getStringArray(R.array.numbers);
         ArrayAdapter<String> adapter_number_of_table = new MySpinnerAdapter(false,getActivity(),android.R.layout.simple_spinner_item,value);
         // Specify the layout to use when the list of choices appears
@@ -161,7 +224,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
         numbreOfTable_spinner.setAdapter(adapter_number_of_table);
         if (action.equals("onclick")){
-            int position = adapter_number_of_table.getPosition(String.valueOf(FireBase.getInstance().getNumberOFtable(rezervationIdString)));
+            int position = adapter_number_of_table.getPosition(String.valueOf(FireBase.getInstance().getNumberOFtable(rezervationKeyFireBase)));
             numbreOfTable_spinner.setSelection(position);
 
         }else{
@@ -171,12 +234,14 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
 //ListView
 
-        listaAddOrder = (ListView) mRoot.findViewById(R.id.listaAddOrder);
+        listaAddOrder = (RecyclerView) mRoot.findViewById(R.id.listaAddOrder);
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        adapter = new MyCustomAdatperForTheListOrder(getActivity(),rezervation,mDatabase);
+       // for (Order order: FireBase.getInstance().getListOrders(rezervationKeyFireBase)) {
+         //   adapter.addItem(new ItemOrder(order));
+        //}
 
-        adapter = new MyCustomAdatperForTheList(getActivity());
-            for (Order order: FireBase.getInstance().getListOrders(rezervationIdString)) {
-                adapter.addItem(new ItemOrder(order));
-            }
+        listaAddOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
         listaAddOrder.setAdapter(adapter);
 
 
@@ -199,7 +264,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
         Intent intent;
         switch (v.getId()){
             case R.id.split_order:
-
+/*
                 ArrayList<ItemOrder> listOfOrders = adapter.getMyList();
                 ArrayList<ItemOrder> splitListaNew = new ArrayList<ItemOrder>();
                 for(ItemOrder currOrder : listOfOrders) {
@@ -217,9 +282,9 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
                     Toast.makeText(getActivity(), getString(R.string.nemanistazasplit), Toast.LENGTH_LONG).show();
                 }
 
-                FireBase.getInstance().AddRezervation( rezervationIdString,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),splitListaNew);
-                rezervationIdString = FireBase.getInstance().newRezervation();
-                FireBase.getInstance().AddRezervation( rezervationIdString,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),ListOrdersForSplitAction);
+                FireBase.getInstance().AddRezervation(rezervationKeyFireBase,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),splitListaNew);
+                rezervationKeyFireBase = FireBase.getInstance().newRezervation();
+                FireBase.getInstance().AddRezervation(rezervationKeyFireBase,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),ListOrdersForSplitAction);
 
                 if (getActivity().getClass().equals(ActivityMainList.getInstance().getClass())){
                     ((ActivityMainList)getActivity()).callFragmentListReserAndSelection();
@@ -228,145 +293,149 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     getActivity().getApplicationContext().startActivity(intent);
-                }
+                }*/
                 //TODO
                 break;
             case R.id.make_order: //TODO make, remake order !
-                listOfOrders =adapter.getMyList();
-                FireBase.getInstance().AddRezervation(rezervationIdString,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),listOfOrders);
+               /*listOfOrders =adapter.getMyList();
+                FireBase.getInstance().AddRezervation(rezervationKeyFireBase,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),listOfOrders);
 
                 intent = new Intent(getActivity().getApplicationContext(), Activity_Selection_And_ListReservation.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().getApplicationContext().startActivity(intent);
-
+*/
                 break;
             case R.id.new_item:
-                listOfOrders =adapter.getMyList();
-                FireBase.getInstance().AddRezervation(rezervationIdString,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),listOfOrders);
-//if something is changed in rezervation , becouse it is open to user to change it using userinterface
+              //  listOfOrders =adapter.getMyList();
+               // FireBase.getInstance().AddRezervation(rezervationKeyFireBase,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),listOfOrders);
 
+//if something is changed in rezervation , becouse it is open to user to change it using userinterface
+//ovo vec bilo neidljivo
               //  intent = new Intent(getActivity().getApplicationContext(), Activity_Add_New_Item_toMenu.class);
               //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-               // intent.putExtra("rezervation_id",rezervationIdString);
+               // intent.putExtra("rezervation_id",rezervationKeyFireBase);
 
                // getActivity().getApplicationContext().startActivity(intent);
 
-                ((ActivityHost)getActivity()).callFragmentAddMenuItem("rezervation_id",rezervationIdString);
+                ((ActivityHost)getActivity()).callFragmentAddMenuItem("rezervation_id", rezervationKeyFireBase);
                 break;
             case R.id.paidOrNot:
                 if(paidOrNot.isChecked()){
                     paidOrNot.setChecked(false);
-
-
                 }else{
                     paidOrNot.setChecked(true);
-
-
                 }
                 break;
         }
 
     }
-    public class ItemOrder extends HolderAdapterItem {
 
-        private Order order;
 
-        public Order getOrder() {
-            return order;
+
+    private  class MyCustomAdatperForTheListOrder  extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+
+        private Context context;
+        private ChildEventListener mChildEventListener;
+        private DatabaseReference mDatabaseReference;
+        private List<Order> mOrders = new ArrayList<>();
+        private List<String> mRezertavionsIds = new ArrayList<>();
+
+        public MyCustomAdatperForTheListOrder(Context context, Rezervation rez,DatabaseReference ref) {
+
+            mDatabaseReference = ref;
+            this.context = context;
+
         }
 
-        public void setOrder(Order order) {
-            this.order = order;
-        }
 
-        public ItemOrder(Order order){
-            this.order = order;
+        private   class  RezervationsViewHolder extends RecyclerView.ViewHolder {
 
-
-        }
-        @Override
-        public boolean isEnabled() {//cemu sluzi
-            return true;
-        }
-
-        @Override
-        public View getView(Context context, View convertView, ViewGroup parent) {
-            return super.getView(context, convertView, parent);
-        }
-
-        @Override
-        protected int getViewLayoutResId() {
-            return R.layout.item_order;
-        }
-
-        @Override
-        protected  IViewHolder createViewHolder() {
-            return  new OrderViewHolder();
-        }
-
-        private class  OrderViewHolder implements IViewHolder<ItemOrder> {
             TextView  itemOrder,number_item_order;
             Button  remove;
             CheckedTextView innewRezervations;
 
-
-            @Override
-            public void findViews(View convertView) {
+            public RezervationsViewHolder(View convertView) {
+                super(convertView);
                 itemOrder =(TextView) convertView.findViewById(R.id.item_order);
                 number_item_order =(TextView) convertView.findViewById(R.id.number_item_order);
                 remove = (Button)convertView.findViewById(R.id.remove);
                 innewRezervations =(CheckedTextView) convertView.findViewById(R.id.in_new_order);
-
             }
-            @Override
-            public void fillData(final ItemOrder adapterItem) {
-                number_item_order.setVisibility(View.VISIBLE);
-                number_item_order.setText("komada : "+adapterItem.order.getNuberOrder());
-                itemOrder.setVisibility(View.VISIBLE);
-                itemOrder.setText(adapterItem.order.getOrder().getFood());
-                remove.setVisibility(View.VISIBLE);
 
-                innewRezervations.setVisibility(View.VISIBLE);
-                innewRezervations.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if(innewRezervations.isChecked()){
-                            innewRezervations.setChecked(false);
-                            ListOrdersForSplitAction.remove(ItemOrder.this);
-
-                        }else{
-                            innewRezervations.setChecked(true);
-                            ListOrdersForSplitAction.add(ItemOrder.this);
-
-                        }
-
-                    }
-                });
-
-                remove.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        FireBase.getInstance().removeorderForRezer(order,rezervationIdString);
-
-
-                        adapter = new MyCustomAdatperForTheList(getActivity());
-                        for (Order order: FireBase.getInstance().getListOrders(rezervationIdString)) {
-                            adapter.addItem(new ItemOrder(order));
-                        }
-                        listaAddOrder.setAdapter(adapter);
-                        ((MyCustomAdatperForTheList<ItemOrder>) listaAddOrder.getAdapter()).notifyDataSetChanged();
-                        FreagmentAddOrder.this.listaAddOrder.invalidate();
-
-
-                    }
-                });
-
-
-
-            }
         }
+
+
+        @Override
+        public RezervationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.item_order, parent, false);
+            return new RezervationsViewHolder(view);
+        }
+
+
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder h, final int position) {
+            final Order order = mOrders.get(position);
+            //holder.authorView.setText(comment.author);
+            //  holder.bodyView.setText(comment.text);
+            final RezervationsViewHolder holder = (RezervationsViewHolder)h;
+
+            holder.number_item_order.setVisibility(View.VISIBLE);
+            holder.number_item_order.setText("komada : "+order.getNuberOrder());
+            holder.itemOrder.setVisibility(View.VISIBLE);
+            holder.itemOrder.setText(order.getOrder().getFood());
+            holder.remove.setVisibility(View.VISIBLE);
+
+            holder.innewRezervations.setVisibility(View.VISIBLE);
+            holder.innewRezervations.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(holder.innewRezervations.isChecked()){
+                        holder.innewRezervations.setChecked(false);
+                       // ListOrdersForSplitAction.remove(FreagmentAddOrder.ItemOrder.this);
+                        ListOrdersForSplitAction.remove(order);
+
+                    }else{
+                        holder.innewRezervations.setChecked(true);
+                       // ListOrdersForSplitAction.add(FreagmentAddOrder.ItemOrder.this);
+                        ListOrdersForSplitAction.add(order);
+                    }
+
+                }
+            });
+
+            holder.remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    mOrders.remove(order);
+
+              /*  FireBase.getInstance().removeorderForRezer(order, rezervationKeyFireBase);
+
+
+                adapter = new MyCustomAdatperForTheList(getActivity());
+                for (Order order: FireBase.getInstance().getListOrders(rezervationKeyFireBase)) {
+                    adapter.addItem(new FreagmentAddOrder.ItemOrder(order));
+                }
+                listaAddOrder.setAdapter(adapter);
+                ((MyCustomAdatperForTheList<FreagmentAddOrder.ItemOrder>) listaAddOrder.getAdapter()).notifyDataSetChanged();
+                FreagmentAddOrder.this.listaAddOrder.invalidate();
+*/
+
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mOrders.size();
+        }
+
+
+
     }
 
 }

@@ -87,6 +87,8 @@ public class MyCustomAdatperForTheListMIL extends RecyclerView.Adapter<RecyclerV
                     fmi.setNadstavka(null);
                 }
 
+                fmi.setKey(dataSnapshot.getKey());
+
                 mFoodMeniItemsIds.add(dataSnapshot.getKey());
                 mFoodMeniItems.add(fmi);
 
@@ -197,6 +199,7 @@ public class MyCustomAdatperForTheListMIL extends RecyclerView.Adapter<RecyclerV
                     //otvori prozor fragment FreagmentAddOrder
                     Intent intent2 = new Intent(context.getApplicationContext(), ActivityDetails.class);
                     intent2.putExtra("foodItemId", Integer.toString(fmi.getId()));
+                    intent2.putExtra("keyFireBase", fmi.getKey());
                     intent2.putExtra(ActivityDetails.CHOOSEFRAGM, ActivityDetails.ADD_ITEM_MENU);
                     intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.getApplicationContext().startActivity(intent2);

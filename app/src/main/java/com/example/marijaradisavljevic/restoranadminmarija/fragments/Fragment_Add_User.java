@@ -1,5 +1,6 @@
 package com.example.marijaradisavljevic.restoranadminmarija.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,11 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMain
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by marija on 24.1.17.
@@ -37,6 +43,25 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
     private Spinner type;
 
     private Bundle extras;
+
+    private ProgressDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setCancelable(false);
+            //mProgressDialog.setMessage("Loading...");
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,32 +90,65 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
         email = (EditText) mRoot.findViewById(R.id.email);
         password = (EditText) mRoot.findViewById(R.id.password);
         final Button button_ok = (Button) mRoot.findViewById(R.id.ok_button);
-
-        if (extras!= null ) {//edit user
+        String usernameStringw = extras.getString("username");
+        if (usernameStringw!=null ) {//edit user
             String usernameString = extras.getString("username");
             String passordSrting = extras.getString("password");
-            UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
-            username.setText(ui.getUsername());
-            name.setText(ui.getName());
-            surname.setText(ui.getSurname());
-            number.setText(ui.getNumber());
-            email.setText(ui.getEmail());
-            password.setText(ui.getPassword());
-            int position = adapter_type.getPosition(ui.getType());
-            type.setSelection(position);
+            String key = extras.getString("keyForFireBase");
+
+            showProgressDialog();
+            //UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("users").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    UserInfo ui = dataSnapshot.getValue(UserInfo.class);
+                    username.setText(ui.getUsername());
+                    name.setText(ui.getName());
+                    surname.setText(ui.getSurname());
+                    number.setText(ui.getNumber());
+                    email.setText(ui.getEmail());
+                    password.setText(ui.getPassword());
+                    int position = adapter_type.getPosition(ui.getType());
+                    type.setSelection(position);
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
         }else{
             if (!getArguments().isEmpty()){
                 String usernameString = getArguments().getString("username");
                 String passordSrting = getArguments().getString("password");
-                UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
-                username.setText(ui.getUsername());
-                name.setText(ui.getName());
-                surname.setText(ui.getSurname());
-                number.setText(ui.getNumber());
-                email.setText(ui.getEmail());
-                password.setText(ui.getPassword());
-                int position = adapter_type.getPosition(ui.getType());
-                type.setSelection(position);
+                String key = getArguments().getString("keyForFireBase");
+                //UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                showProgressDialog();
+                mDatabase.child("users").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        UserInfo ui = dataSnapshot.getValue(UserInfo.class);
+                        username.setText(ui.getUsername());
+                        name.setText(ui.getName());
+                        surname.setText(ui.getSurname());
+                        number.setText(ui.getNumber());
+                        email.setText(ui.getEmail());
+                        password.setText(ui.getPassword());
+                        int position = adapter_type.getPosition(ui.getType());
+                        type.setSelection(position);
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         }
 
@@ -98,8 +156,6 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 Toast.makeText(getActivity().getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
                 button_ok.setEnabled(false);
@@ -112,22 +168,31 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
                 ui.setPassword(password.getText().toString());
                 ui.setType((String) type.getSelectedItem());
 
-                if(ui.getUsername().length()==0 || ui.getPassword().length()==0 || type.getSelectedItemPosition()==((MySpinnerAdapter)adapter_type).getStartPosition()){
+                if(ui.getUsername().length()==0 || ui.getPassword().length()==0 ){
                     Toast.makeText(getActivity().getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
                     return;
                 }
-
-                if (extras!= null) {//edit user
+                String usernameStringd = extras.getString("username");
+                if (usernameStringd!=null) {//edit user
                     String usernameString = extras.getString("username");
                     String passwordString = extras.getString("password");
-                    FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
+                    String key = extras.getString("keyForFireBase");
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("users").child(key).setValue(ui);
+                   // FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
                 }else{
                     if (!getArguments().isEmpty()){
                         String usernameString = getArguments().getString("username");
                         String passwordString = getArguments().getString("password");
-                        FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
+                        String key = getArguments().getString("keyForFireBase");
+                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("users").child(key).setValue(ui);
+                        //FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
                     }else{
-                        FireBase.getInstance().makeuserinfoIntoList(ui);
+                        //FireBase.getInstance().makeuserinfoIntoList(ui);
+                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                        String key = mDatabase.child("users").push().getKey();
+                        mDatabase.child("users").child(key).setValue(ui);
                     }
 
                 }

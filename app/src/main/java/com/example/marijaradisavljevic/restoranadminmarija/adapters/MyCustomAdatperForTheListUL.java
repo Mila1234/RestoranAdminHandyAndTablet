@@ -80,6 +80,7 @@ public class MyCustomAdatperForTheListUL extends RecyclerView.Adapter<RecyclerVi
                // HashMap<String,String> hmUserinfo = (HashMap<String, String>) userInfoObject;
                 UserInfo userInfo = new UserInfo(hmUserinfo.get("username"),hmUserinfo.get("name"),hmUserinfo.get("surname"),hmUserinfo.get("number"),hmUserinfo.get("email"),hmUserinfo.get("type"),hmUserinfo.get("password"));
 
+                userInfo.setKey(dataSnapshot.getKey());
 
                 mUserInfosIds.add(dataSnapshot.getKey());
                 mUserInfos.add(userInfo);
@@ -197,12 +198,13 @@ public class MyCustomAdatperForTheListUL extends RecyclerView.Adapter<RecyclerVi
             public void onClick(View v) {
                 if (context.getClass().equals(ActivityMainList.getInstance().getClass())){
 
-                    ((ActivityMainList)context).callUserInfoForEditUser(userinfo.getUsername(),userinfo.getPassword());
+                    ((ActivityMainList)context).callUserInfoForEditUser(userinfo.getUsername(),userinfo.getPassword(),userinfo.getKey());
                 }else {
                     Intent intent2 = new Intent(context.getApplicationContext(), ActivityDetails.class);
                     intent2.putExtra(ActivityDetails.CHOOSEFRAGM, ActivityDetails.ADD_NEW_USER);
                     intent2.putExtra("username", userinfo.getUsername());
                     intent2.putExtra("password", userinfo.getPassword());
+                    intent2.putExtra("keyForFireBase",userinfo.getKey());
                     intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent2);
                 }

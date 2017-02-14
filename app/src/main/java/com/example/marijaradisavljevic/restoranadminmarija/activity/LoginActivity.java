@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -242,7 +243,15 @@ public class LoginActivity extends AppCompatActivity  {//implements LoaderCallba
                                             Object userInfoObject = iter.next();
                                             HashMap<String,String> hmUserinfo = (HashMap<String, String>) userInfoObject;
                                             UserInfo userInfo = new UserInfo(hmUserinfo.get("username"),hmUserinfo.get("name"),hmUserinfo.get("surname"),hmUserinfo.get("number"),hmUserinfo.get("email"),hmUserinfo.get("type"),hmUserinfo.get("password"));
+
+                                            Set<String> bla = map.keySet();
+                                            Iterator iterR = bla.iterator();
+                                            String key = (String) iterR.next();
+
+                                            userInfo.setKey(key);
                                             FireBase.getInstance().setUserInfo(userInfo);
+
+
 
                                             hideProgressDialog();
 

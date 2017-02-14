@@ -100,7 +100,7 @@ mRezertavions.clear();
                         (String)rezHM.get("nameType"),
                         (Long)rezHM.get("id")  );
 
-
+currRezervation.setKey(dataSnapshot.getKey());
 
                 ArrayList<HashMap<String, Object>> orders = (ArrayList<HashMap<String, Object>>) rezHM.get("orders");
                 currRezervation.ordersFormArrayList(orders);
@@ -283,7 +283,18 @@ mRezertavions.clear();
                 //otvori prozor fragment FreagmentAddOrder
                 Intent intent2 = new Intent(context.getApplicationContext(), ActivityHost.class);
                 intent2.putExtra("name", "FreagmentAddOrder");
-                intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
+                Rezervation foud = null;
+                for(Rezervation ui :mRezertavions){
+                    String strinf = holder.id.getText().toString();
+                    if(ui.getId() == Integer.parseInt(strinf)){
+                        foud = ui;
+                        break;
+                    }
+                }
+
+                int index = mRezertavions.indexOf(foud);
+                Rezervation rez = mRezertavions.get(index);
+                intent2.putExtra("rezervationKeyFireBase", rez.getKey());
                 intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU) ;
                 intent2.putExtra("action", "onclick");
                 intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

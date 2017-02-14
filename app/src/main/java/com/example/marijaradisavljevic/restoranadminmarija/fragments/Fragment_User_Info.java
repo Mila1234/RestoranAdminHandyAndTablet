@@ -20,6 +20,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Sel
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by marija on 24.1.17.
@@ -66,7 +68,9 @@ public class Fragment_User_Info extends Fragment {
         type.setAdapter(adapter_type);
         type.setSelection(((MySpinnerAdapter)adapter_type).getStartPosition());
 
-
+        if (FireBase.getInstance().getUserInfo().getType().equals("Konobar")){
+            type.setEnabled(false);
+        }
 
         ///////////////////////////////////////////////////////////////////////
         username = (EditText) mRoot.findViewById(R.id.username);
@@ -101,6 +105,7 @@ public class Fragment_User_Info extends Fragment {
                 newUI.setEmail(email.getText().toString());
                 newUI.setPassword(password.getText().toString());
                 newUI.setType((String)type.getSelectedItem());
+                newUI.setKey(currUI.getKey());
 
                 if(newUI.getUsername().length()==0 || newUI.getPassword().length()==0 ){
                     Toast.makeText(getActivity().getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
@@ -111,6 +116,8 @@ public class Fragment_User_Info extends Fragment {
 
                 FireBase.getInstance().setUserInfo(newUI);
 
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                mDatabase.child("users").child(newUI.getKey()).setValue(newUI);
 
                 if(FireBase.getInstance().isUserAdmin()){
                     Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMainList.class);

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.marijaradisavljevic.restoranadminmarija.R;
 
+import java.util.List;
+
 public class MySpinnerAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
@@ -18,7 +20,7 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
 
     private Boolean showUndefined;
 
-    public MySpinnerAdapter(Boolean su,Context context, int textViewResourceId, String[] value) {
+    public MySpinnerAdapter(Boolean su, Context context, int textViewResourceId, String[] value) {
   super(context, textViewResourceId,value);
   // TODO Auto-generated constructor stub
         mContext = context;
