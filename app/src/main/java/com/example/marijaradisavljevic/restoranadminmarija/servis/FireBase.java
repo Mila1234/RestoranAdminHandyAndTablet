@@ -134,7 +134,7 @@ public class FireBase {
         userInfo1.setNumber("060123789");
         userInfo1.setUsername("anailic@gmail.com");
         userInfo1.setType("Konobar");
-        userInfo1.setPassword("sifra123456!");
+        userInfo1.setPassword("maricka71");
 
         listUsers.add(userInfo1);
         writeNewUser(userInfo1);
@@ -160,12 +160,12 @@ public class FireBase {
         numberItemssStrignList[6] = "broj komada";
 
         listaTable = new String[6];
-        listaTable[0] = "1";
-        listaTable[1] ="2" ;
-        listaTable[2] ="3";
-        listaTable[3] ="4";
-        listaTable[4] ="5";
-        listaTable[5] = "broj stola";
+        listaTable[5] = "5";
+        listaTable[4] ="4" ;
+        listaTable[3] ="3";
+        listaTable[2] ="2";
+        listaTable[1] ="1";
+        listaTable[0] = "broj stola";
 
 
         listFoodMenuItem = new ArrayList<FoodMenuItem>();
@@ -218,7 +218,7 @@ public class FireBase {
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
-       writeNewRezervation(ld);
+       //writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -237,7 +237,7 @@ public class FireBase {
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
-        writeNewRezervation(ld);
+        //writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -257,7 +257,7 @@ public class FireBase {
 
         ld.setTime("5.5.2016. 17:00 ");
         listOfRezervations.add(ld);
-        writeNewRezervation(ld);
+        //writeNewRezervation(ld);
 
 
     }
@@ -370,13 +370,13 @@ public class FireBase {
         String[] stringList = null;
         try{
             mutex.acquire();
-
+            returnStringList.add("kategory");
 
 
             for(FoodMenuItem foodMenuItem : listFoodMenuItem ){
                 returnStringList.add(foodMenuItem.getFood());
             }
-        returnStringList.add("kategory");
+
          stringList = new String[returnStringList.size()];
         stringList = returnStringList.toArray(stringList);
 
@@ -476,11 +476,11 @@ public class FireBase {
             mutex.acquire();
 
          returnStringList = new ArrayList<String>();
-
+            returnStringList.add("users");
         for(UserInfo ui: listUsers){
             returnStringList.add(ui.getUsername());
         }
-        returnStringList.add("users");
+
         stringList = new String[returnStringList.size()];
         stringList = returnStringList.toArray(stringList);
 

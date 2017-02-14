@@ -94,8 +94,8 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
             }
         });
 
-        all.setChecked(true);
-        UserData.getInstance().setAll(true);
+       // all.setChecked(true);
+       // UserData.getInstance().setAll(true);
 
         return mRoot;
     }
@@ -123,12 +123,12 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
 
         switch (parent.getId()) {
             case R.id.isItPaid_spinner:
-                if(position == 0 ){
-                    UserData.getInstance().setPaidOrNot_selected(false);
-                }else {
+                //if(position == 0 ){
+                    //UserData.getInstance().setPaidOrNot_selected(false);
+                //}else {
                     UserData.getInstance().setPaidOrNot_selected(true);
                     UserData.getInstance().setPaidOrNot(Boolean.parseBoolean(isItPaid.getSelectedItem().toString()));
-                }
+                //}
                 break;
             case R.id.kategory_spinner:
                 if(position == 0 ){

@@ -16,3 +16,109 @@ Map<String, Object> rezHM = (Map<String, Object>) dataSnapshot.getValue();
                 Rezervation currRezervation = new Rezervation((String)rezHM.get("time"),(String)rezHM.get("name_user"),(Integer)rezHM.get("price"),
                         (Integer) rezHM.get("numberTable"),(Boolean) rezHM.get("paidOrNot"),(String)rezHM.get("password"),(String)rezHM.get("username"),
                         (String)rezHM.get("nameType"),(Integer)rezHM.get("id")  );
+
+
+
+    public class ItemForRezervationsList extends HolderAdapterItem {
+        Rezervation rezervation;
+
+
+
+        public ItemForRezervationsList(Rezervation ld){
+
+            rezervation = ld;
+
+        }
+        @Override
+        public boolean isEnabled() {//cemu sluzi
+            return true;
+        }
+
+        @Override
+        public View getView(Context context, View convertView, ViewGroup parent) {
+            return super.getView(context, convertView, parent);
+        }
+
+        @Override
+        protected int getViewLayoutResId() {
+            return R.layout.rezervation;
+        }
+
+        @Override
+        protected  IViewHolder createViewHolder() {
+            return  new RezervationsViewHolder(this);
+        }
+
+         @Override
+                    public void findViews(View convertView) {
+                        time = (TextView)convertView.findViewById(R.id.time);
+
+                        numberTable= (TextView)convertView.findViewById(R.id.numberTable);
+                        price= (TextView)convertView.findViewById(R.id.price);
+                        itemsOrder = (TextView)convertView.findViewById(R.id.itemsOrder);
+                        paidOrNot = (TextView)convertView.findViewById(R.id.paidOrNot);
+                        edit  = (Button)convertView.findViewById(R.id.edit);
+                        remove = (Button)convertView.findViewById(R.id.remove);
+                    }
+                    @Override
+                    public void fillData(final ItemForRezervationsList adapterItem) {
+
+                        time.setVisibility(View.VISIBLE);
+                        time.setText(adapterItem.rezervation.getTime());
+
+                        numberTable.setVisibility(View.VISIBLE);
+                        numberTable.setText("Broj stola je : " + adapterItem.rezervation.getnumberTable_string());
+                        price.setVisibility(View.VISIBLE);
+                        price.setText("Cena je :   "+adapterItem.rezervation.getprice().toString());
+                        itemsOrder.setVisibility(View.VISIBLE);
+                        itemsOrder.setText(adapterItem.rezervation.getItemsOrdersInString());
+                        paidOrNot.setVisibility(View.VISIBLE);
+                        paidOrNot.setText(adapterItem.rezervation.getpaidOrNot_string());
+
+
+                        edit.setVisibility(View.VISIBLE);
+                        remove.setVisibility(View.VISIBLE);
+
+                        edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //otvori prozor fragment FreagmentAddOrder
+                                Intent intent2 = new Intent(context.getApplicationContext(), ActivityHost.class);
+                                intent2.putExtra("name", "FreagmentAddOrder");
+                                intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
+                                intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU) ;
+                                intent2.putExtra("action", "onclick");
+                                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.getApplicationContext().startActivity(intent2);
+
+                            }
+                        });
+
+                        // remove.setOnClickListener(this);
+                        remove.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // AdapterDB.getInstance().deleteRezervation(rezervation.getId());
+
+
+                                String key = mRezertavionsIds.get(mRezertavions.indexOf(rezervation));
+                                mDatabaseReference.child("listaRezervations").child(key).removeValue();
+
+                                deleteItemWithIndex(mRezertavions.indexOf(rezervation));
+
+                                /*
+                                FireBase.getInstance().removeRezer(rezervation.getId());
+                                MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(context));
+                                ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
+                                for(Rezervation rez:myList){
+                                    adapter.addItem(new ItemForRezervationsList(rez));
+                                }
+                                lvDetail.setAdapter(adapter);
+        */
+                                //////////////////
+
+                             ///   FragmentListReservations.this.lvDetail.invalidateViews();
+
+
+                            }
+                        });

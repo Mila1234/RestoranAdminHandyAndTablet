@@ -9,6 +9,7 @@ public class UserData {
     private static UserData instance = new UserData();
 
 
+
     public static UserData getInstance() {return instance; }
 
     public UserData() {
@@ -23,7 +24,7 @@ public class UserData {
    // private String user;
    // private String userType;
 
-    //selection
+    //selection for konobar type
     private String numberOfTable;
     private boolean numberOfTable_selectied=false;
 
@@ -33,7 +34,25 @@ public class UserData {
     private String kategory = "";
     private boolean kategory_selected=false;
 
+    private String user;
+    private boolean user_selected=false;
+
     private boolean all=false;
+
+
+
+    public void setSelectionRegulation(SelecionRegulations sr){
+        numberOfTable = sr.getNumberOfTable();
+        numberOfTable_selectied = sr.isNumberOfTable_selectied();
+        paidOrNot = sr.isPaidOrNot();
+        paidOrNot_selected = sr.isPaidOrNot_selected();
+        kategory = sr.getKategory();
+        kategory_selected = sr.isKategory_selected();
+        user = sr.getUser();
+        user_selected= sr.isUser_selected();
+        all = sr.isAll();
+
+    }
 
     public SelecionRegulations getSelecionRegulation (){
         SelecionRegulations sr = new SelecionRegulations();
@@ -45,10 +64,28 @@ public class UserData {
         sr.setPaidOrNot_selected(paidOrNot_selected) ;
         sr.setKategory(kategory);
         sr.setKategory_selected(kategory_selected) ;
-
+        sr.setUser(user);
+        sr.setUser_selected(user_selected);
         return sr;
     }
 
+
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public boolean isUser_selected() {
+        return user_selected;
+    }
+
+    public void setUser_selected(boolean user_selected) {
+        this.user_selected = user_selected;
+    }
     public boolean isAll() {
         return all;
     }
@@ -105,6 +142,10 @@ public class UserData {
     public void setKategory_selected(boolean kategory_selected) {
         this.kategory_selected = kategory_selected;
     }
+
+
+
+
 
 /*
     public void setUserType(String userType) {

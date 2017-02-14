@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +22,14 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDeta
 import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.HolderAdapterItem;
 import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheList;
+import com.example.marijaradisavljevic.restoranadminmarija.adapters.MyCustomAdatperForTheListSR;
+import com.example.marijaradisavljevic.restoranadminmarija.data.UserData;
 import com.example.marijaradisavljevic.restoranadminmarija.database.Rezervation;
 import com.example.marijaradisavljevic.restoranadminmarija.data.SelecionRegulations;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -33,8 +39,8 @@ import java.util.ArrayList;
 
 public class Fragment_List_Rezer_and_Selection extends Fragment implements  AdapterView.OnItemSelectedListener {
     public static final String ARG_ITEM_ID = "item_id";
-
-    ListView lvDetail;
+    Boolean has = false;
+    RecyclerView lvDetail;
     private Spinner spinnerNumberOfTable;
     private Spinner spinnerIsItPaid;
     private Spinner spinnerKategory;
@@ -46,12 +52,15 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
     private ArrayAdapter<String> adapter_kategory;
     private ArrayAdapter<String> adapterUser;
 
+
+    MyCustomAdatperForTheListSR adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_list_rezervations_selection_layout,container, false);
         getActivity().setTitle("Restoran");
-        lvDetail = (ListView) mRoot.findViewById(R.id.list_reservations);
+        lvDetail = (RecyclerView) mRoot.findViewById(R.id.list_reservations);
 
 
 
@@ -108,14 +117,16 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
         spinnerUser.setSelection(((MySpinnerAdapter)adapterUser).getStartPosition());
         spinnerUser.setOnItemSelectedListener(this);
 
+        UserData.getInstance().setSelectionRegulation(new SelecionRegulations());
 //////////list view
-        MyCustomAdatperForTheList<Fragment_List_Rezer_and_Selection.ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
-        SelecionRegulations sr = new SelecionRegulations();
+      //  MyCustomAdatperForTheList<Fragment_List_Rezer_and_Selection.ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
+      /*  SelecionRegulations sr = new SelecionRegulations();
 
 
         sr.setNumberOfTable((String) spinnerNumberOfTable.getSelectedItem());
         if(spinnerNumberOfTable.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_number_of_table).getStartPosition()){
             sr.setNumberOfTable_selectied(true);
+            sr.set
         }else{
             sr.setNumberOfTable_selectied(false);
         }
@@ -142,27 +153,88 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
         }else{
             sr.setUser_selected(false) ;
         }
+*/
 
+      //  ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(sr);
+        //for(Rezervation rez:myList){
+         //   adapter.addItem(new Fragment_List_Rezer_and_Selection.ItemForRezervationsList(rez));
+        //}
+        //lvDetail.setAdapter(adapter);
 
-        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(sr);
-        for(Rezervation rez:myList){
-            adapter.addItem(new Fragment_List_Rezer_and_Selection.ItemForRezervationsList(rez));
-        }
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+         adapter = new MyCustomAdatperForTheListSR(getActivity(),mDatabase);
+        lvDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
         lvDetail.setAdapter(adapter);
-
         return mRoot;
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        updateListvView();
+        //updateListvView();
+        SelecionRegulations sr = new SelecionRegulations();
+
+
+
+        sr.setNumberOfTable((String) spinnerNumberOfTable.getSelectedItem());
+        if(spinnerNumberOfTable.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_number_of_table).getStartPosition()){
+            sr.setNumberOfTable_selectied(true);
+            sr.setNumberOfTable(String.valueOf(spinnerNumberOfTable.getSelectedItemPosition()));
+            has = true;
+        }else{
+            sr.setNumberOfTable_selectied(false);
+        }
+
+
+        sr.setPaidOrNotString((String)spinnerIsItPaid.getSelectedItem()) ;
+        if(spinnerIsItPaid.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_isItPaid).getStartPosition()){
+            sr.setPaidOrNot_selected(true) ;
+            if (spinnerIsItPaid.getSelectedItemPosition()==1) {
+                sr.setPaidOrNot(true);
+            }else{
+                sr.setPaidOrNot(false);
+            }
+            has = true;
+
+        }else{
+            sr.setPaidOrNot_selected(false) ;
+        }
+
+        sr.setKategory((String)spinnerKategory.getSelectedItem());
+        if(spinnerKategory.getSelectedItemPosition()!= ((MySpinnerAdapter)adapter_kategory).getStartPosition()){
+            sr.setKategory_selected(true) ;
+            sr.setKategory((String)spinnerKategory.getSelectedItem());
+            has = true;
+        }else{
+            sr.setKategory_selected(false) ;
+        }
+
+
+        sr.setUser((String)spinnerUser.getSelectedItem());
+        if(spinnerUser.getSelectedItemPosition()!= ((MySpinnerAdapter)adapterUser).getStartPosition()){
+            sr.setUser_selected(true);
+            sr.setUser((String)spinnerUser.getSelectedItem());
+            has = true;
+        }else{
+            sr.setUser_selected(false) ;
+
+        }
+
+
+        if (has) {
+            UserData.getInstance().setSelectionRegulation(sr);
+            if (adapter != null) {
+                adapter.refreshList();
+            }
+        }
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
+/*
 
     public class ItemForRezervationsList extends HolderAdapterItem {
         Rezervation rezervation;
@@ -272,16 +344,17 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
 
                         //////////////////
                         lvDetail.invalidateViews();*/
-
+/*
 
                     }
                 });
             }
         }
-    }
+    }*/
+
 
     private void updateListvView() {
-        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
+       // MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(getActivity().getBaseContext());
         SelecionRegulations sr = new SelecionRegulations();
 
 
@@ -315,13 +388,17 @@ public class Fragment_List_Rezer_and_Selection extends Fragment implements  Adap
             sr.setUser_selected(false) ;
         }
 
+        UserData.getInstance().setSelectionRegulation(sr);
 
-        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(sr);
-        for(Rezervation rez:myList){
-            adapter.addItem(new ItemForRezervationsList(rez));
-        }
-        lvDetail.setAdapter(adapter);
+
+
+       // ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulationForAdmin(sr);
+        //for(Rezervation rez:myList){
+          //  adapter.addItem(new ItemForRezervationsList(rez));
+       // }
+        //lvDetail.setAdapter(adapter);
         //////////////////
-        lvDetail.invalidateViews();
+        //lvDetail.invalidateViews();
     }
+
 }

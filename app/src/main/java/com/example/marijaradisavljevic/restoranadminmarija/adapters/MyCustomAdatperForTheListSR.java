@@ -3,7 +3,9 @@ package com.example.marijaradisavljevic.restoranadminmarija.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,10 +37,12 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static android.content.ContentValues.TAG;
+import static com.example.marijaradisavljevic.restoranadminmarija.R.layout.rezervation;
+
 /*
  * Created by marija on 12.2.17.
  */
-public class MyCustomAdatperForTheListSR extends MyCustomAdatperForTheList<MyCustomAdatperForTheListSR.ItemForRezervationsList> {
+public class MyCustomAdatperForTheListSR extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 private Context context;
     private ChildEventListener mChildEventListener;
@@ -47,9 +51,26 @@ private Context context;
     private List<String> mRezertavionsIds = new ArrayList<>();
 
     public MyCustomAdatperForTheListSR(Context context,DatabaseReference ref) {
-        super(context);
+
         mDatabaseReference = ref;
         this.context = context;
+        refreshList();
+
+    }
+    public void cleanupListener() {
+mRezertavions.clear();
+
+       mRezertavionsIds.clear();
+       // notifyItemRangeRemoved(0,mRezertavions.size()-1);
+        if (mChildEventListener != null) {
+            mDatabaseReference.removeEventListener(mChildEventListener);
+        }
+    }
+
+
+    public void refreshList(){
+        cleanupListener();
+
         // Create child event listener
         // [START child_event_listener_recycler]
         ChildEventListener childEventListener = new ChildEventListener() {
@@ -60,10 +81,10 @@ private Context context;
                 // A new comment has been added, add it to the displayed list
                 //Rezervation currRezervation = dataSnapshot.getValue(Rezervation.class);
                 HashMap<String, Object> rezHM = (HashMap<String, Object>) dataSnapshot.getValue();
-               // Collection<Object> colection = map.values();
-               //Iterator iter =  colection.iterator();
-               // Object rez = iter.next();
-               // HashMap<String,Object> rezHM = (HashMap<String, Object>) rez;
+                // Collection<Object> colection = map.values();
+                //Iterator iter =  colection.iterator();
+                // Object rez = iter.next();
+                // HashMap<String,Object> rezHM = (HashMap<String, Object>) rez;
                 try {
                     Long b = (Long)rezHM.get("numberTable");
                 }catch (Exception e){
@@ -78,42 +99,78 @@ private Context context;
                         (String)rezHM.get("nameType"),
                         (Long)rezHM.get("id")  );
 
+
+
                 ArrayList<HashMap<String, Object>> orders = (ArrayList<HashMap<String, Object>>) rezHM.get("orders");
                 currRezervation.ordersFormArrayList(orders);
 
                 SelecionRegulations selecionRegulation = UserData.getInstance().getSelecionRegulation();
 
-                Boolean has = false;
-                if(selecionRegulation.isKategory_selected()){
-                    for (Order currorder :currRezervation.getOrders()){
-                        if(currorder.getOrder().getFood().equals(selecionRegulation.getKategory())){
-                           has = true;
+                int has = 0;
+                if(selecionRegulation.isKategory_selected()) {
+                    for (Order currorder : currRezervation.getOrders()) {
+                        if (currorder.getOrder().getFood().equals(selecionRegulation.getKategory())) {
+                            if (has == 0){
+                                has = 1;
+                            }else{
+                                has = 99;
+                            }
                             break;
                         }
                     }
-                }else  if(selecionRegulation.isNumberOfTable_selectied()){
-                    if(currRezervation.getnumberTable().toString().equals(selecionRegulation.getNumberOfTable())  ){
-                        has = true;
-                    }
 
-                }else{
-
-                } if(selecionRegulation.isPaidOrNot_selected() && selecionRegulation.isPaidOrNot()){
-                    //ubaci sve koji su placeni
-                    if(currRezervation.isPaidOrNot() == true ){
-                        has = true;
-                    }
-                }else {
-                    has = true;
                 }
 
+                if(selecionRegulation.isNumberOfTable_selectied()){
+                    if(currRezervation.getnumberTable().toString().equals(selecionRegulation.getNumberOfTable())  ){
+                        if (has == 1 || has ==0){
+                            has = 2;
+                        }else{
+                            has = 99;
+                        }
+                    }
+
+                }
+
+                if(selecionRegulation.isPaidOrNot_selected() && selecionRegulation.isPaidOrNot()) {
+                    //ubaci sve koji su placeni
+                    if (currRezervation.isPaidOrNot() == true) {
+                        if (has == 2 || has == 1 || has ==0){
+                            has = 3;
+                        }else{
+                            has = 99;
+                        }
+                    }
+                }
+
+                if (selecionRegulation.isUser_selected() ){
+                    if (currRezervation.getUsername().equals(selecionRegulation.getUser())){
+                        if (has == 3 || has == 2 || has == 1 || has ==0){
+                            has = 4;//to je uspesno stanje
+                        }else{
+                            has = 99;
+                        }
+                    }
+                }
+
+                if (selecionRegulation.isAll()){
+                    has = 5;//to je uspesno stanje
+                }
+
+                if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+                    if (!selecionRegulation.isKategory_selected() && !selecionRegulation.isPaidOrNot_selected() && !selecionRegulation.isUser_selected() && !selecionRegulation.isNumberOfTable_selectied()){
+                        has = 5;
+                    }
+                }
                 // [START_EXCLUDE]
                 // Update RecyclerView
 
-                if (has) {
+                if (has <= 5 && has > 0) {
                     mRezertavionsIds.add(dataSnapshot.getKey());
                     mRezertavions.add(currRezervation);
-                    addItemBla(new ItemForRezervationsList(currRezervation));
+                   // notifyItemInserted(mRezertavions.size() - 1);
+                    notifyDataSetChanged();
+                    // addItemBla(new ItemForRezervationsList(currRezervation));
                 }
                 // [END_EXCLUDE]
             }
@@ -133,7 +190,9 @@ private Context context;
 
                 // A comment has changed, use the key to determine if we are displaying this
                 // comment and if so remove it.
-
+                //  mRezertavions.remove(position);
+                /// mRezertavionsIds.remove(position);
+                // notifyItemRangeRemoved(position);
 
 
                 // [END_EXCLUDE]
@@ -155,137 +214,118 @@ private Context context;
 
             }
         };
-        ref.child("listaRezervations").addChildEventListener(childEventListener);
+        mDatabaseReference.child("listaRezervations").addChildEventListener(childEventListener);
         // [END child_event_listener_recycler]
 
         // Store reference to listener so it can be removed on app stop
         mChildEventListener = childEventListener;
 
+
+    }
+
+          private static  class  RezervationsViewHolder extends RecyclerView.ViewHolder {
+
+            TextView time, name_user, numberTable, price, itemsOrder, paidOrNot;
+            Button edit, remove;
+
+            public RezervationsViewHolder(View convertView) {
+                super(convertView);
+                time = (TextView) convertView.findViewById(R.id.time);
+                name_user = (TextView)convertView.findViewById(R.id.name_user);
+                numberTable = (TextView) convertView.findViewById(R.id.numberTable);
+                price = (TextView) convertView.findViewById(R.id.price);
+                itemsOrder = (TextView) convertView.findViewById(R.id.itemsOrder);
+                paidOrNot = (TextView) convertView.findViewById(R.id.paidOrNot);
+                edit = (Button) convertView.findViewById(R.id.edit);
+                remove = (Button) convertView.findViewById(R.id.remove);
+            }
+
+        }
+
+
+    @Override
+    public RezervationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.rezervation, parent, false);
+        return new RezervationsViewHolder(view);
     }
 
 
 
-   public void  addItemBla(ItemForRezervationsList itme){
-       this.addItem(itme);
-       notifyDataSetChanged();
-   }
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder h, final int position) {
+        final Rezervation rezervation = mRezertavions.get(position);
+        //holder.authorView.setText(comment.author);
+      //  holder.bodyView.setText(comment.text);
+        RezervationsViewHolder holder = (RezervationsViewHolder)h;
+
+        holder.time.setVisibility(View.VISIBLE);
+        holder.time.setText(rezervation.getTime());
+        holder.name_user.setText(rezervation.getUsername());
+        holder.numberTable.setVisibility(View.VISIBLE);
+        holder.numberTable.setText("Broj stola je : " + rezervation.getnumberTable_string());
+        holder.price.setVisibility(View.VISIBLE);
+        holder.price.setText("Cena je :   "+rezervation.getprice().toString());
+        holder.itemsOrder.setVisibility(View.VISIBLE);
+        holder.itemsOrder.setText(rezervation.getItemsOrdersInString());
+        holder.paidOrNot.setVisibility(View.VISIBLE);
+        holder.paidOrNot.setText(rezervation.getpaidOrNot_string());
 
 
-    public class ItemForRezervationsList extends HolderAdapterItem {
-        Rezervation rezervation;
+        holder.edit.setVisibility(View.VISIBLE);
+        holder.remove.setVisibility(View.VISIBLE);
 
-
-
-        public ItemForRezervationsList(Rezervation ld){
-
-            rezervation = ld;
-
-        }
-        @Override
-        public boolean isEnabled() {//cemu sluzi
-            return true;
-        }
-
-        @Override
-        public View getView(Context context, View convertView, ViewGroup parent) {
-            return super.getView(context, convertView, parent);
-        }
-
-        @Override
-        protected int getViewLayoutResId() {
-            return R.layout.rezervation;
-        }
-
-        @Override
-        protected  IViewHolder createViewHolder() {
-            return  new RezervationsViewHolder(this);
-        }
-
-        private class  RezervationsViewHolder implements IViewHolder<ItemForRezervationsList> {
-            ItemForRezervationsList bla;
-            TextView time, name_user, numberTable, price, itemsOrder, paidOrNot;
-            Button edit, remove;
-
-
-            public RezervationsViewHolder(ItemForRezervationsList bla) {
-                this.bla = bla;
-            }
-
+        holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void findViews(View convertView) {
-                time = (TextView)convertView.findViewById(R.id.time);
+            public void onClick(View v) {
+                //otvori prozor fragment FreagmentAddOrder
+                Intent intent2 = new Intent(context.getApplicationContext(), ActivityHost.class);
+                intent2.putExtra("name", "FreagmentAddOrder");
+                intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
+                intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU) ;
+                intent2.putExtra("action", "onclick");
+                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.getApplicationContext().startActivity(intent2);
 
-                numberTable= (TextView)convertView.findViewById(R.id.numberTable);
-                price= (TextView)convertView.findViewById(R.id.price);
-                itemsOrder = (TextView)convertView.findViewById(R.id.itemsOrder);
-                paidOrNot = (TextView)convertView.findViewById(R.id.paidOrNot);
-                edit  = (Button)convertView.findViewById(R.id.edit);
-                remove = (Button)convertView.findViewById(R.id.remove);
             }
+        });
+
+        // remove.setOnClickListener(this);
+        holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void fillData(final ItemForRezervationsList adapterItem) {
-
-                time.setVisibility(View.VISIBLE);
-                time.setText(adapterItem.rezervation.getTime());
-
-                numberTable.setVisibility(View.VISIBLE);
-                numberTable.setText("Broj stola je : " + adapterItem.rezervation.getnumberTable_string());
-                price.setVisibility(View.VISIBLE);
-                price.setText("Cena je :   "+adapterItem.rezervation.getprice().toString());
-                itemsOrder.setVisibility(View.VISIBLE);
-                itemsOrder.setText(adapterItem.rezervation.getItemsOrdersInString());
-                paidOrNot.setVisibility(View.VISIBLE);
-                paidOrNot.setText(adapterItem.rezervation.getpaidOrNot_string());
+            public void onClick(View v) {
+                // AdapterDB.getInstance().deleteRezervation(rezervation.getId());
 
 
-                edit.setVisibility(View.VISIBLE);
-                remove.setVisibility(View.VISIBLE);
+                String key = mRezertavionsIds.get(position);
+                mDatabaseReference.child("listaRezervations").child(key).removeValue();
 
-                edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //otvori prozor fragment FreagmentAddOrder
-                        Intent intent2 = new Intent(context.getApplicationContext(), ActivityHost.class);
-                        intent2.putExtra("name", "FreagmentAddOrder");
-                        intent2.putExtra("rezervationId", Integer.toString(rezervation.getId()));
-                        intent2.putExtra(ActivityDetails.CHOOSEFRAGM , ActivityDetails.ADD_ITEM_MENU) ;
-                        intent2.putExtra("action", "onclick");
-                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.getApplicationContext().startActivity(intent2);
-
-                    }
-                });
-
-                // remove.setOnClickListener(this);
-                remove.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // AdapterDB.getInstance().deleteRezervation(rezervation.getId());
+                mRezertavions.remove(position);
+                mRezertavionsIds.remove(position);
+                notifyItemRemoved(position);
 
 
-                        String key = mRezertavionsIds.get(mRezertavions.indexOf(rezervation));
-                        mDatabaseReference.child("listaRezervations").child(key).removeValue();
+                                /*
+                                FireBase.getInstance().removeRezer(rezervation.getId());
+                                MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(context));
+                                ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
+                                for(Rezervation rez:myList){
+                                    adapter.addItem(new ItemForRezervationsList(rez));
+                                }
+                                lvDetail.setAdapter(adapter);
+        */
+                //////////////////
 
-                        deleteItemWithIndex(mRezertavions.indexOf(rezervation));
-
-                        /*
-                        FireBase.getInstance().removeRezer(rezervation.getId());
-                        MyCustomAdatperForTheList<ItemForRezervationsList> adapter = new MyCustomAdatperForTheList(context));
-                        ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
-                        for(Rezervation rez:myList){
-                            adapter.addItem(new ItemForRezervationsList(rez));
-                        }
-                        lvDetail.setAdapter(adapter);
-*/
-                        //////////////////
-
-                     ///   FragmentListReservations.this.lvDetail.invalidateViews();
+                ///   FragmentListReservations.this.lvDetail.invalidateViews();
 
 
-                    }
-                });
             }
-        }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mRezertavions.size();
     }
 
 

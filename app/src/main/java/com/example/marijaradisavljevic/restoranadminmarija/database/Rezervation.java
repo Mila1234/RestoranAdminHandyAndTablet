@@ -286,6 +286,8 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     @Exclude
     public void ordersFormArrayList( ArrayList<HashMap<String, Object>> ordAL) {
+        if (ordAL ==null)return;
+
         orders = new LinkedList<Order>();
         try {
             for (HashMap<String, Object> currhm : ordAL) {

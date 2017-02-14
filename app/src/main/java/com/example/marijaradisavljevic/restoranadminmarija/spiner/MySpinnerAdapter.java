@@ -30,7 +30,7 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
     public int getStartPosition(){
         int count = super.getCount();
 
-        return count>0 ? count-1 : count ;
+        return count>0 ? 0 : count ;
 
     }
 

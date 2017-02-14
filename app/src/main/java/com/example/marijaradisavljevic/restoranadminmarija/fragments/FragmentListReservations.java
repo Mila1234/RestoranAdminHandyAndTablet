@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -35,17 +37,25 @@ import java.util.ArrayList;
  */
 public class FragmentListReservations extends Fragment {
 
-    private ListView lvDetail;
+    private RecyclerView lvDetail;
 
 
+   private MyCustomAdatperForTheListSR adapter;
 
-
+   // @Override
+    //public void onResume() {
+      //  super.onResume();
+       // if (null != adapter) {
+         //   adapter.refreshList();
+        //}
+    //}
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStop() {
+        super.onStop();
 
+        // Clean up comments listener
+       // adapter.cleanupListener();
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,15 +67,16 @@ public class FragmentListReservations extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_list_rezervations_layout, container, false);
         getActivity().setTitle("Restoran");
-        lvDetail = (ListView)mRoot.findViewById(R.id.list_reservations);
+        lvDetail = (RecyclerView)mRoot.findViewById(R.id.list_reservations);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        MyCustomAdatperForTheListSR adapter = new MyCustomAdatperForTheListSR(getActivity(),mDatabase);
+         adapter = new MyCustomAdatperForTheListSR(getActivity(),mDatabase);
        // ArrayList<Rezervation> myList = FireBase.getInstance().getRezervationsWithRegulation(UserData.getInstance().getSelecionRegulation());
         //for(Rezervation rez:myList){
           //  adapter.addItem(new ItemForRezervationsList(rez));
         //}
+        lvDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
         lvDetail.setAdapter(adapter);
 
         return mRoot;
