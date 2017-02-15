@@ -199,7 +199,7 @@ public class ActivityHost extends AppCompatActivity {
                 FragmentManager fm = getSupportFragmentManager();
                 FreagmentAddOrder freagmentAddOrder = FreagmentAddOrder.getInstance();
                 Bundle bundle = new Bundle();
-                bundle.putString("rezervationId", rezervationId);
+                bundle.putString("rezervationKeyFireBase", rezervationId);
                 bundle.putString("action", "onclick");
                 freagmentAddOrder.setArguments(bundle);
                 fm.beginTransaction().replace(R.id.container_menu, freagmentAddOrder).commit();

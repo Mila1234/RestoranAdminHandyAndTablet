@@ -94,8 +94,14 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
             }
         });
 
-       // all.setChecked(true);
-       // UserData.getInstance().setAll(true);
+        if(UserData.getInstance().isAll()){
+            all.setChecked(true);
+            UserData.getInstance().setAll(true);
+
+        }else{
+            all.setChecked(false);
+            UserData.getInstance().setAll(false);
+        }
 
         return mRoot;
     }
@@ -123,12 +129,15 @@ public class FragmentSelection extends Fragment implements AdapterView.OnItemSel
 
         switch (parent.getId()) {
             case R.id.isItPaid_spinner:
-                //if(position == 0 ){
-                    //UserData.getInstance().setPaidOrNot_selected(false);
-                //}else {
+                 if ( isItPaid.getSelectedItem().toString().equals("placena")){
+                    UserData.getInstance().setPaidOrNot(true);
                     UserData.getInstance().setPaidOrNot_selected(true);
-                    UserData.getInstance().setPaidOrNot(Boolean.parseBoolean(isItPaid.getSelectedItem().toString()));
-                //}
+                }else if ( isItPaid.getSelectedItem().toString().equals("ne placena")) {
+                    UserData.getInstance().setPaidOrNot(false);
+                    UserData.getInstance().setPaidOrNot_selected(true);
+                }else{
+                    UserData.getInstance().setPaidOrNot_selected(false);
+                }
                 break;
             case R.id.kategory_spinner:
                 if(position == 0 ){

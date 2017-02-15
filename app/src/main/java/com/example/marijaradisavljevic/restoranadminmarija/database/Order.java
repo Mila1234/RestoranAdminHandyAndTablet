@@ -64,7 +64,7 @@ public class Order implements Cloneable {
     }
 
 
-    public Order(int id, FoodMenuItem order, int nuberOrder) {
+    public Order( FoodMenuItem order, int nuberOrder) {
         this.order = order;
         this.nuberOrder = nuberOrder;
         this.id = ukid++;

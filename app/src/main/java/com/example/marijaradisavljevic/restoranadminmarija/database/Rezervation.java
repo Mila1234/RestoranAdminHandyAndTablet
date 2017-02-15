@@ -1,5 +1,7 @@
 package com.example.marijaradisavljevic.restoranadminmarija.database;
 
+import android.content.Intent;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -45,7 +47,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         this.key = key;
     }
 
-    public Rezervation (String time, String name_user,  Long numberTable, Boolean paidOrNot, String password,String username,String nameType,Long id){
+    public Rezervation (String time, String name_user, Long numberTable, Boolean paidOrNot, String password, String username, String nameType, Long id){
         this.time = time;
         this.name_user = name_user;
        // this.price = price;
@@ -55,6 +57,18 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
         this.username = username;
         this.nameType = nameType;
         this.id = Integer.valueOf(id.intValue());
+    }
+
+    public Rezervation (String time, String name_user,  Integer numberTable, Boolean paidOrNot, String password,String username,String nameType){
+        this.time = time;
+        this.name_user = name_user;
+        // this.price = price;
+        this.numberTable = Integer.valueOf(numberTable.intValue());
+        this.paidOrNot = paidOrNot;
+        this.password = password;
+        this.username = username;
+        this.nameType = nameType;
+        this.id =ukid++;
     }
     // [START post_to_map]
     @Exclude
@@ -231,16 +245,20 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     public Integer getprice() {
 
-
+        if (orders != null) {
             Iterator<Order> iter = orders.iterator();
             price = 0;
             while (iter.hasNext()) {
                 price = price + iter.next().getOrder().getPrice();
             }
-
-
-
             return price;
+        }else{
+            return 0;
+        }
+
+
+
+
 
     }
 
@@ -266,6 +284,7 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
 
     @Exclude
     public String getItemsOrdersInString(){
+        if (orders!=null) {
 
             Iterator<Order> iter = orders.iterator();
             StringBuilder builder = new StringBuilder();
@@ -278,22 +297,14 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
             }
 
             return builder.toString();
-
-    }
-
-
-
-    public void removeOrders(ArrayList<Order> listOrdersForSplitAction) {
-
-        for(Order currOrder: orders){
-            for(Order orderForErase: listOrdersForSplitAction){
-                if (currOrder.getId()== orderForErase.getId()){
-                    orders.remove(currOrder);
-                }
-            }
-
+        }else{
+            return "";
         }
+
     }
+
+
+
 
     @Exclude
     public void ordersFormArrayList( ArrayList<HashMap<String, Object>> ordAL) {
@@ -314,11 +325,12 @@ public class Rezervation implements  Cloneable{//TODO DB komunication
                 fmi.setPrice( Integer.valueOf(((Long)foodMenuItemHM.get("price")).intValue()));
 
                 HashMap<String, Object> nadstavkaHM = (HashMap<String, Object>) foodMenuItemHM.get("nadstavka");
-                nadstavka.setId( Integer.valueOf(((Long)nadstavkaHM.get("id")).intValue()));
-                nadstavka.setFood( (String)nadstavkaHM.get("food"));
-                nadstavka.setPrice( Integer.valueOf(((Long)nadstavkaHM.get("price")).intValue()));
-                fmi.setNadstavka(nadstavka);
-
+                if(nadstavkaHM !=null) {
+                    nadstavka.setId(Integer.valueOf(((Long) nadstavkaHM.get("id")).intValue()));
+                    nadstavka.setFood((String) nadstavkaHM.get("food"));
+                    nadstavka.setPrice(Integer.valueOf(((Long) nadstavkaHM.get("price")).intValue()));
+                    fmi.setNadstavka(nadstavka);
+                }
                 currOrder.setOrder(fmi);
                 orders.add(currOrder);
             }

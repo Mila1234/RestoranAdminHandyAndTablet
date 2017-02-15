@@ -100,7 +100,7 @@ mRezertavions.clear();
                         (String)rezHM.get("nameType"),
                         (Long)rezHM.get("id")  );
 
-currRezervation.setKey(dataSnapshot.getKey());
+                currRezervation.setKey(dataSnapshot.getKey());
 
                 ArrayList<HashMap<String, Object>> orders = (ArrayList<HashMap<String, Object>>) rezHM.get("orders");
                 currRezervation.ordersFormArrayList(orders);
@@ -133,9 +133,17 @@ currRezervation.setKey(dataSnapshot.getKey());
 
                 }
 
-                if(selecionRegulation.isPaidOrNot_selected() && selecionRegulation.isPaidOrNot()) {
+                if(selecionRegulation.isPaidOrNot_selected() ) {
                     //ubaci sve koji su placeni
-                    if (currRezervation.isPaidOrNot() == true) {
+                    if (selecionRegulation.isPaidOrNot() && (currRezervation.isPaidOrNot() == true) ) {
+                        if (has == 2 || has == 1 || has ==0){
+                            has = 3;
+                        }else{
+                            has = 99;
+                        }
+                    }
+
+                    if (!selecionRegulation.isPaidOrNot() && (currRezervation.isPaidOrNot() == false) ) {
                         if (has == 2 || has == 1 || has ==0){
                             has = 3;
                         }else{

@@ -122,7 +122,7 @@ public class FireBase {
         userInfo1.setUsername("marijarad89@gmail.com");
         userInfo1.setType("Admin");
         userInfo1.setPassword("maricka71");
-        writeNewUser(userInfo1);
+       // writeNewUser(userInfo1);
       userInfo = userInfo1;
 
 
@@ -137,7 +137,7 @@ public class FireBase {
         userInfo1.setPassword("maricka71");
 
         listUsers.add(userInfo1);
-        writeNewUser(userInfo1);
+       // writeNewUser(userInfo1);
 
         userInfo1 = new UserInfo();
         userInfo1.setEmail("paja@gmail.com");
@@ -148,7 +148,7 @@ public class FireBase {
         userInfo1.setType("Konobar");
         userInfo1.setPassword("sifra!23456");
         listUsers.add(userInfo1);
-        writeNewUser(userInfo1);
+       // writeNewUser(userInfo1);
 
         numberItemssStrignList = new String[7];
         numberItemssStrignList[0] = "1";
@@ -159,7 +159,8 @@ public class FireBase {
         numberItemssStrignList[5] = "6";
         numberItemssStrignList[6] = "broj komada";
 
-        listaTable = new String[6];
+        listaTable = new String[7];
+        listaTable[6] = "6";
         listaTable[5] = "5";
         listaTable[4] ="4" ;
         listaTable[3] ="3";
@@ -172,29 +173,29 @@ public class FireBase {
         FoodMenuItem nadtavka  = new FoodMenuItem(null,"pice", 100);
         listFoodMenuItem.add(nadtavka);
         String key = mDatabase.child("listaRezervations").push().getKey();
-       mDatabase.child("foodMenu").child(key).setValue(nadtavka);
+     //  mDatabase.child("foodMenu").child(key).setValue(nadtavka);
 
         FoodMenuItem fmt1 = new FoodMenuItem(nadtavka,"1 type food", 100);
         listFoodMenuItem.add(fmt1);
          key = mDatabase.child("listaRezervations").push().getKey();
-        mDatabase.child("foodMenu").child(key).setValue(fmt1);
+        //mDatabase.child("foodMenu").child(key).setValue(fmt1);
 
         FoodMenuItem fmt2 = new FoodMenuItem(nadtavka,"2 type food", 100);
         listFoodMenuItem.add(fmt2);
          key = mDatabase.child("listaRezervations").push().getKey();
-       mDatabase.child("foodMenu").child(key).setValue(fmt2);
+      /// mDatabase.child("foodMenu").child(key).setValue(fmt2);
 
 
         FoodMenuItem fmt3 = new FoodMenuItem(nadtavka,"3 type food", 100);
         listFoodMenuItem.add(fmt3);
          key = mDatabase.child("listaRezervations").push().getKey();
-        mDatabase.child("foodMenu").child(key).setValue(fmt3);
+       // mDatabase.child("foodMenu").child(key).setValue(fmt3);
 
 
         FoodMenuItem fmt4 = new FoodMenuItem(nadtavka,"4 type food", 100);
         listFoodMenuItem.add(fmt4);
          key = mDatabase.child("listaRezervations").push().getKey();
-        mDatabase.child("foodMenu").child(key).setValue(fmt4);
+       // mDatabase.child("foodMenu").child(key).setValue(fmt4);
 
 
 
@@ -212,9 +213,9 @@ public class FireBase {
         ld.setName_user("marija radisavljevic");
         ///ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
         ArrayList<Order> listOrders = new ArrayList<Order>();
-        listOrders.add(new Order(1,fmt1,1));
-        listOrders.add(new Order(3,fmt2,1));
-        listOrders.add(new Order(4,fmt3,1));
+        listOrders.add(new Order(fmt1,1));
+        listOrders.add(new Order(fmt2,1));
+        listOrders.add(new Order(fmt3,1));
 
         ld.setOrders(listOrders);
         ld.setNumberTable(3);
@@ -223,7 +224,7 @@ public class FireBase {
         ld.setTime("5.5.2016. 17:30 ");
         ld.setId(555);
         listOfRezervations.add(ld);
-       writeNewRezervation(ld);
+       //writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -232,9 +233,9 @@ public class FireBase {
         ld.setName_user("Ana Ilic");
         //ld.setItemsOrder(new ArrayList(Arrays.asList("kapucino , truska kafa, lenja pita sa jabukama")));
         listOrders = new ArrayList<Order>();
-        listOrders.add(new Order(1,fmt1,9));
-        listOrders.add(new Order(3,fmt2,9));
-        listOrders.add(new Order(4,fmt3,9));
+        listOrders.add(new Order(fmt1,9));
+        listOrders.add(new Order(fmt2,9));
+        listOrders.add(new Order(fmt3,9));
         ld.setOrders(listOrders);
         ld.setNumberTable(2);
         ld.setPaidOrNot(true);
@@ -242,7 +243,7 @@ public class FireBase {
         ld.setId(22);
         ld.setTime("5.5.2016. 18:30 ");
         listOfRezervations.add(ld);
-       writeNewRezervation(ld);
+       //writeNewRezervation(ld);
 
 
         ld = new Rezervation();
@@ -252,9 +253,9 @@ public class FireBase {
         ld.setPassword("sifra!23456");
         //  ld.setItemsOrder(new ArrayList(Arrays.asList("jelen pivo ,crveno vino , lenja pita sa jabukama")));
         listOrders = new ArrayList<Order>();
-        listOrders.add(new Order(1,fmt1,12));
-        listOrders.add(new Order(3,fmt2,13));
-        listOrders.add(new Order(4,fmt3,13));
+        listOrders.add(new Order(fmt1,12));
+        listOrders.add(new Order(fmt2,13));
+        listOrders.add(new Order(fmt3,13));
         ld.setOrders(listOrders);
         ld.setNumberTable(1);
         ld.setId(7);
@@ -262,7 +263,7 @@ public class FireBase {
 
         ld.setTime("5.5.2016. 17:00 ");
         listOfRezervations.add(ld);
-       writeNewRezervation(ld);
+     // writeNewRezervation(ld);
 
 
     }
