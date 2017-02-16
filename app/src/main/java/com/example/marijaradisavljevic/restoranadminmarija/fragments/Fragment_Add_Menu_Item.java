@@ -159,7 +159,7 @@ public class Fragment_Add_Menu_Item extends Fragment {
 
         extras = getActivity().getIntent().getExtras();
 
-        if ( (null != extras) && (!extras.isEmpty())) {//edit user
+        if ( (null != extras) && (!extras.isEmpty()) && extras.getString("foodItemId")!=null) {//edit user
             //String foodItemId = extras.getString("foodItemId");
             String foodItemId = extras.getString("foodItemId");
             String key = extras.getString("keyFireBase");
@@ -185,7 +185,7 @@ public class Fragment_Add_Menu_Item extends Fragment {
           //  FoodMenuItem fmi = FireBase.getInstance().getFootMenuItem(foodItemId);
 
 
-        }else        if ( (null != getArguments()) && (!getArguments().isEmpty())) {//edit user
+        }else        if ( (null != getArguments()) && (!getArguments().isEmpty()) && getArguments().getString("foodItemId")!=null) {//edit user
             //String foodItemId = extras.getString("foodItemId");
             String foodItemId = getArguments().getString("foodItemId");
             String key = getArguments().getString("keyFireBase");
@@ -232,7 +232,7 @@ public class Fragment_Add_Menu_Item extends Fragment {
                     return;
                 }
 
-                if (( extras!= null) && (!extras.isEmpty())) {//edit user
+                if (( extras!= null) && (!extras.isEmpty()) && extras.getString("foodItemId")!=null) {//edit user
                     String foodItemId =  extras.getString("foodItemId");
                     String key = extras.getString("keyFireBase");
                     //FireBase.getInstance().updateFoodMenuItem( foodItemId , kategoryString , nameString , priceString );

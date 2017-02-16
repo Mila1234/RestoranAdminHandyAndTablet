@@ -44,6 +44,8 @@ import java.util.List;
  */
 public class ActivityMainList  extends AppCompatActivity  {
 
+
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

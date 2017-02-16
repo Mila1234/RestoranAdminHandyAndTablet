@@ -16,6 +16,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.R;
 import com.example.marijaradisavljevic.restoranadminmarija.activity.LoginActivity;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * Created by marija on 24.1.17.
  */
@@ -48,7 +50,8 @@ public class Fragment_Log_Out extends Fragment {
                 Toast.makeText(getActivity(), "Odjava", Toast.LENGTH_LONG).show();
 
                 Intent intent2 = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|FLAG_ACTIVITY_NEW_TASK);
+
                 getActivity().getApplicationContext().startActivity(intent2);
 
             }
@@ -69,7 +72,7 @@ public class Fragment_Log_Out extends Fragment {
         return mRoot;
     }
 
-
+/*
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if(!FireBase.getInstance().isUserAdmin()) {
@@ -78,5 +81,5 @@ public class Fragment_Log_Out extends Fragment {
             menu.findItem(R.id.action_add).setVisible(true);
         }
         super.onPrepareOptionsMenu(menu);
-    }
+    }*/
 }

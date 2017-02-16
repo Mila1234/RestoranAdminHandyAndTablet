@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -115,6 +116,13 @@ public class LoginActivity extends AppCompatActivity  {//implements LoaderCallba
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //here you can handle orientation change
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,9 +235,10 @@ public class LoginActivity extends AppCompatActivity  {//implements LoaderCallba
                             Log.w(TAG, "signInWithEmail", task.getException());
                             Toast.makeText(LoginActivity.this, R.string.atentifitacionFaild,
                                     Toast.LENGTH_SHORT).show();
+                            hideProgressDialog();
                         }else{
                             //uspesna prijava inicijalizuj fareBase instace
-                            Boolean value =  FireBase.getInstance().logIN(email, password);
+                            Boolean value =  FireBase.getInstance().inicijalizacija(email, password);
 
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             mDatabase.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(
@@ -527,7 +536,7 @@ public class LoginActivity extends AppCompatActivity  {//implements LoaderCallba
                 }
             }
 
-            Boolean value =  FireBase.getInstance().logIN(mEmail, mPassword);
+            Boolean value =  FireBase.getInstance().inicijalizacija(mEmail, mPassword);
 
             return value;
 

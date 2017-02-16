@@ -338,7 +338,7 @@ public class FragmentLogin extends Fragment implements LoaderManager.LoaderCallb
 
 
 
-           return FireBase.getInstance().logIN(mEmail, mPassword);
+           return FireBase.getInstance().inicijalizacija(mEmail, mPassword);
             // TODO: register the new account here.
             //return true;
         }
@@ -383,14 +383,14 @@ public class FragmentLogin extends Fragment implements LoaderManager.LoaderCallb
 
     }
 
-
+/*
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_user_info).setVisible(false);
         menu.findItem(R.id.action_add).setVisible(false);
         super.onPrepareOptionsMenu(menu);
-    }
+    }*/
 
 
 }

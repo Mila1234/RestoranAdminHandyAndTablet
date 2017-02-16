@@ -299,14 +299,14 @@ public class Fragment_Add_New_Item_Rezerv extends Fragment {
         }else return instance;
 
     }
-
+/*
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_logout).setVisible(true);
-        menu.findItem(R.id.action_user_info).setVisible(true);
-        menu.findItem(R.id.action_add).setVisible(false);
+       // menu.findItem(R.id.action_logout).setVisible(true);
+       // menu.findItem(R.id.action_user_info).setVisible(true);
+        //menu.findItem(R.id.action_add).setVisible(false);
         super.onPrepareOptionsMenu(menu);
-    }
+    }*/
     private String[] napraviNiz(List<FoodMenuItem> mFoodMeniItems) {
         String [] retrunStringArray = new String[mFoodMeniItems.size()+1];
         retrunStringArray[0] = "kategorija";

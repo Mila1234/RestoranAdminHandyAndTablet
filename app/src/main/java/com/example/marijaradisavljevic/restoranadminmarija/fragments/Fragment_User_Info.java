@@ -90,6 +90,9 @@ public class Fragment_User_Info extends Fragment {
         email.setText(currUI.getEmail());
         password.setText(currUI.getPassword());
 
+        password.setEnabled(false);
+
+
         int position = adapter_type.getPosition(currUI.getType());
         type.setSelection(position);
 
@@ -140,13 +143,13 @@ public class Fragment_User_Info extends Fragment {
 
 
 
-
+/*
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_logout).setVisible(true);
         menu.findItem(R.id.action_user_info).setVisible(true);
         menu.findItem(R.id.action_add).setVisible(false);
         super.onPrepareOptionsMenu(menu);
-    }
+    }*/
 
 }

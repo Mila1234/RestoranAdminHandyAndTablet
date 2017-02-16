@@ -3,8 +3,10 @@ package com.example.marijaradisavljevic.restoranadminmarija.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +22,17 @@ import com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMain
 import com.example.marijaradisavljevic.restoranadminmarija.database.UserInfo;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 import com.example.marijaradisavljevic.restoranadminmarija.spiner.MySpinnerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by marija on 24.1.17.
@@ -42,7 +50,7 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
 
     private Spinner type;
 
-    private Bundle extras;
+
 
     private ProgressDialog mProgressDialog;
 
@@ -66,7 +74,7 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.fragment_user_info_layout,container, false);
-        extras = getActivity().getIntent().getExtras();
+
         getActivity().setTitle("Dodaj korisnika");
         ////////////////////spinner//////////////////////////
         type = (Spinner) mRoot.findViewById(R.id.typeSpiner);
@@ -89,12 +97,15 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
         number = (EditText) mRoot.findViewById(R.id.number);
         email = (EditText) mRoot.findViewById(R.id.email);
         password = (EditText) mRoot.findViewById(R.id.password);
+        password.setEnabled(true);
         final Button button_ok = (Button) mRoot.findViewById(R.id.ok_button);
-        String usernameStringw = extras.getString("username");
-        if (usernameStringw!=null ) {//edit user
-            String usernameString = extras.getString("username");
-            String passordSrting = extras.getString("password");
-            String key = extras.getString("keyForFireBase");
+        String usernameStringw;
+
+
+        if (getActivity().getIntent().getExtras()!=null && getActivity().getIntent().getExtras().getString("username")!=null ) {//edit user
+            String usernameString = getActivity().getIntent().getExtras().getString("username");
+            String passordSrting = getActivity().getIntent().getExtras().getString("password");
+            String key = getActivity().getIntent().getExtras().getString("keyForFireBase");
 
             showProgressDialog();
             //UserInfo ui = FireBase.getInstance().getUserInfofromList(usernameString, passordSrting);
@@ -108,7 +119,14 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
                     surname.setText(ui.getSurname());
                     number.setText(ui.getNumber());
                     email.setText(ui.getEmail());
-                    password.setText(ui.getPassword());
+                    if (FireBase.getInstance().getUserInfo().getUsername().equals(ui.getUsername())){
+                        password.setText(ui.getPassword());
+                        password.setEnabled(true);
+                    }else{
+                        password.setEnabled(false);
+                        password.setText(ui.getPassword());
+                    }
+
                     int position = adapter_type.getPosition(ui.getType());
                     type.setSelection(position);
                     hideProgressDialog();
@@ -122,7 +140,7 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
 
 
         }else{
-            if (!getArguments().isEmpty()){
+            if (!getArguments().isEmpty() && getArguments().getString("username")!=null){
                 String usernameString = getArguments().getString("username");
                 String passordSrting = getArguments().getString("password");
                 String key = getArguments().getString("keyForFireBase");
@@ -138,7 +156,14 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
                         surname.setText(ui.getSurname());
                         number.setText(ui.getNumber());
                         email.setText(ui.getEmail());
-                        password.setText(ui.getPassword());
+                        if (FireBase.getInstance().getUserInfo().getUsername().equals(ui.getUsername())){
+                            password.setText(ui.getPassword());
+                            password.setEnabled(true);
+                        }else{
+                            password.setEnabled(false);
+                            password.setText(ui.getPassword());
+                        }
+
                         int position = adapter_type.getPosition(ui.getType());
                         type.setSelection(position);
                         hideProgressDialog();
@@ -159,7 +184,7 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
 
                 Toast.makeText(getActivity().getApplicationContext(), getString(R.string.snimljeno), Toast.LENGTH_LONG).show();
                 button_ok.setEnabled(false);
-                UserInfo ui = new UserInfo();
+                final UserInfo ui = new UserInfo();
                 ui.setUsername(username.getText().toString());
                 ui.setName(name.getText().toString());
                 ui.setSurname(surname.getText().toString());
@@ -172,27 +197,43 @@ public class Fragment_Add_User extends Fragment  implements  AdapterView.OnItemS
                     Toast.makeText(getActivity().getApplicationContext(), getString(R.string.obavezniparametri), Toast.LENGTH_LONG).show();
                     return;
                 }
-                String usernameStringd = extras.getString("username");
-                if (usernameStringd!=null) {//edit user
-                    String usernameString = extras.getString("username");
-                    String passwordString = extras.getString("password");
-                    String key = extras.getString("keyForFireBase");
+                if (getActivity().getIntent().getExtras()!=null && getActivity().getIntent().getExtras().getString("username")!=null) {//edit user
+                    String usernameString = getActivity().getIntent().getExtras().getString("username");
+                    String passwordString = getActivity().getIntent().getExtras().getString("password");
+                    String key = getActivity().getIntent().getExtras().getString("keyForFireBase");
                     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("users").child(key).setValue(ui);
                    // FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
                 }else{
-                    if (!getArguments().isEmpty()){
+                    if (!getArguments().isEmpty() && getArguments().getString("username")!=null){
                         String usernameString = getArguments().getString("username");
                         String passwordString = getArguments().getString("password");
                         String key = getArguments().getString("keyForFireBase");
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
                         mDatabase.child("users").child(key).setValue(ui);
                         //FireBase.getInstance().updateUserInfoFromList(ui, usernameString,passwordString);
                     }else{
                         //FireBase.getInstance().makeuserinfoIntoList(ui);
-                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                        String key = mDatabase.child("users").push().getKey();
-                        mDatabase.child("users").child(key).setValue(ui);
+                        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        mAuth.createUserWithEmailAndPassword(ui.getEmail()  , ui.getPassword())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
+
+
+                                        if (task.isSuccessful()) {
+                                            String key = mDatabase.child("users").push().getKey();
+                                            mDatabase.child("users").child(key).setValue(ui);
+                                        } else {
+                                            Log.d(TAG, "createUser:onComplete:" + task.getException().getMessage());
+                                        }
+                                    }
+                                });
+
+
                     }
 
                 }

@@ -15,6 +15,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="nosensor"
+            android:noHistory="true"
+            android:launchMode="singleTop"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,26 +26,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityAddmenuItem">
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails"
+            android:configChanges="keyboardHidden|orientation"
+            android:noHistory="true"
+            android:screenOrientation="nosensor">
         </activity>
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityAddUser">
-        </activity>
-        <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityDetails">
-        </activity>
-        <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList">
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityMainList"
+            android:screenOrientation="nosensor"
+            android:launchMode="singleTop"
+            >
         </activity>
         Activity_Selection_And_ListReservation
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation">
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.Activity_Selection_And_ListReservation"
+            android:configChanges="keyboardHidden|orientation"
+            android:noHistory="true"
+            android:screenOrientation="nosensor">
         </activity>
 
 
         <activity
-            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost">
+            android:name="com.example.marijaradisavljevic.restoranadminmarija.activity.ActivityHost"
+            android:configChanges="keyboardHidden|orientation"
+            android:noHistory="true"
+            android:screenOrientation="nosensor">
         </activity>
     </application>
 

@@ -96,7 +96,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
         setHasOptionsMenu(true);
     }
-
+/*
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -114,7 +114,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
             super.onPrepareOptionsMenu(menu);
         }
-    }
+    }*/
 
     @Nullable
     @Override
@@ -196,11 +196,11 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
                             }else{
                                 numbreOfTable_spinner.setSelection(0);//
                             }
-
+                            paidOrNot.setChecked(rezervation.isPaidOrNot());
 
                             if (action.equals("onclick")){
 
-                               if (rezervation.getNameType().equals("Admin")){
+                               if (FireBase.getInstance().isUserAdmin()){
 
                                     time.setText(rezervation.getTime()+" "+rezervation.getNameType()+" "+rezervation.getname_user());
 
@@ -247,7 +247,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
         make_order = (Button) mRoot.findViewById(R.id.make_order);
         make_order.setOnClickListener(this);
         if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
-            make_order.setVisibility(View.GONE);
+          //  make_order.setVisibility(View.GONE);
 
 
         }
@@ -260,7 +260,7 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
 
 //CheckedTextView
         paidOrNot  = (CheckedTextView) mRoot.findViewById(R.id.paidOrNot);
-        paidOrNot.setChecked(FireBase.getInstance().getPaidOrNot(rezervationKeyFireBase));
+        paidOrNot.setChecked(false);
         paidOrNot.setOnClickListener(this);
 
 //spiner
@@ -354,10 +354,19 @@ public class FreagmentAddOrder extends Fragment implements View.OnClickListener 
                /*listOfOrders =adapter.getMyList();
                 FireBase.getInstance().AddRezervation(rezervationKeyFireBase,time.getText().toString(), numbreOfTable_spinner.getSelectedItem().toString(),paidOrNot.isChecked(),listOfOrders);
 */
-                intent = new Intent(getActivity().getApplicationContext(), Activity_Selection_And_ListReservation.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().getApplicationContext().startActivity(intent);
 
+                if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+                    //  make_order.setVisibility(View.GONE);
+                    intent = new Intent(getActivity().getApplicationContext(), ActivityMainList.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().getApplicationContext().startActivity(intent);
+
+
+                }else {
+                    intent = new Intent(getActivity().getApplicationContext(), Activity_Selection_And_ListReservation.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().getApplicationContext().startActivity(intent);
+                }
                 break;
             case R.id.new_item:
 

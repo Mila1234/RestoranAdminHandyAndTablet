@@ -2,6 +2,7 @@ package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ import com.example.marijaradisavljevic.restoranadminmarija.fragments.Fragment_Us
 import com.example.marijaradisavljevic.restoranadminmarija.fragments.FreagmentAddOrder;
 import com.example.marijaradisavljevic.restoranadminmarija.servis.FireBase;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 
 /**
  * Created by marija.radisavljevic on 5/16/2016.
@@ -28,6 +31,12 @@ public class ActivityHost extends AppCompatActivity {
 //    private Fragment fragment;
     Toolbar toolbar;
 
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //here you can handle orientation change
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +91,7 @@ public class ActivityHost extends AppCompatActivity {
                         FragmentLogin fragmentLogin = FragmentLogin.getInstance();
                         fm.beginTransaction().replace(R.id.container_menu, fragmentLogin).commit();*/
                         Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|FLAG_ACTIVITY_NEW_TASK);
                         getApplicationContext().startActivity(intent2);
                     }
                 }
@@ -94,7 +103,7 @@ public class ActivityHost extends AppCompatActivity {
                 FragmentLogin fragmentLogin = FragmentLogin.getInstance();
                 fm.beginTransaction().replace(R.id.container_menu, fragmentLogin).commit();*/
                 Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent2);
             }
         }else
@@ -103,7 +112,7 @@ public class ActivityHost extends AppCompatActivity {
             FragmentLogin fragmentLogin = FragmentLogin.getInstance();
             fm.beginTransaction().replace(R.id.container_menu, fragmentLogin).commit();*/
             Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
-            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent2);
 
         }
@@ -115,7 +124,7 @@ public class ActivityHost extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.manu_gui, menu);
+       // getMenuInflater().inflate(R.menu.manu_gui, menu);
         return true;
     }
 
@@ -150,7 +159,7 @@ public class ActivityHost extends AppCompatActivity {
                 intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent2);
                 */
-                callAddOrder("bla","bla");
+                callAddOrder("action","plusbutton");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

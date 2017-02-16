@@ -1,6 +1,7 @@
 package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -53,7 +54,11 @@ public class Activity_Selection_And_ListReservation extends AppCompatActivity {
     private ViewPager mViewPager;
     private boolean mTwoPane = false;
 
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //here you can handle orientation change
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

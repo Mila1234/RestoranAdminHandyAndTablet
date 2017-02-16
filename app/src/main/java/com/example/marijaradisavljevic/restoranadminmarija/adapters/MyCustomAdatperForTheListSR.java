@@ -109,14 +109,16 @@ mRezertavions.clear();
 
                 int has = 0;
                 if(selecionRegulation.isKategory_selected()) {
-                    for (Order currorder : currRezervation.getOrders()) {
-                        if (currorder.getOrder().getFood().equals(selecionRegulation.getKategory())) {
-                            if (has == 0){
-                                has = 1;
-                            }else{
-                                has = 99;
+                    if (currRezervation.getOrders()!=null) {
+                        for (Order currorder : currRezervation.getOrders()) {
+                            if (currorder.getOrder().getFood().equals(selecionRegulation.getKategory())) {
+                                if (has == 0) {
+                                    has = 1;
+                                } else {
+                                    has = 99;
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
 
@@ -153,6 +155,7 @@ mRezertavions.clear();
                 }
 
                 if (selecionRegulation.isUser_selected() ){
+
                     if (currRezervation.getUsername().equals(selecionRegulation.getUser())){
                         if (has == 3 || has == 2 || has == 1 || has ==0){
                             has = 4;//to je uspesno stanje
@@ -166,7 +169,7 @@ mRezertavions.clear();
                     has = 5;//to je uspesno stanje
                 }
 
-                if (FireBase.getInstance().getUserInfo().getType().equals("Admin")){
+                if (FireBase.getInstance().getUserInfo().getType().equals("Admin")|| context.getResources().getConfiguration().orientation==2){
                     if (!selecionRegulation.isKategory_selected() && !selecionRegulation.isPaidOrNot_selected() && !selecionRegulation.isUser_selected() && !selecionRegulation.isNumberOfTable_selectied()){
                         has = 5;
                     }
@@ -175,12 +178,25 @@ mRezertavions.clear();
                 // Update RecyclerView
 
                 if (has <= 5 && has > 0) {
-                    mRezertavionsIds.add(dataSnapshot.getKey());
-                    mRezertavions.add(currRezervation);
-                   // notifyItemInserted(mRezertavions.size() - 1);
-                    notifyDataSetChanged();
+
+                    if (!FireBase.getInstance().isUserAdmin()){
+
+                        if (currRezervation.getUsername().equals(FireBase.getInstance().getUserInfo().getUsername())){
+                            mRezertavionsIds.add(dataSnapshot.getKey());
+                            mRezertavions.add(currRezervation);
+                            // notifyItemInserted(mRezertavions.size() - 1);
+                            notifyDataSetChanged();
+                        }
+                    }else
+                    {
+                        mRezertavionsIds.add(dataSnapshot.getKey());
+                        mRezertavions.add(currRezervation);
+                        // notifyItemInserted(mRezertavions.size() - 1);
+                        notifyDataSetChanged();
+                    }
                     // addItemBla(new ItemForRezervationsList(currRezervation));
                 }
+                notifyDataSetChanged();
                 // [END_EXCLUDE]
             }
 

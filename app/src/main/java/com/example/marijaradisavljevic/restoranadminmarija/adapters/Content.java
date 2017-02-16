@@ -42,8 +42,8 @@ public class Content {
 
         addItemKOnobar(createMainItem("1", "licne informacije"));
         addItemKOnobar(createMainItem("2","lista narudzbina" ));
-        addItemKOnobar(createMainItem("3", "nova narudzbina"));
-        addItemKOnobar(createMainItem("4", "odjavi se"));
+       // addItemKOnobar(createMainItem("3", "nova narudzbina"));
+        //addItemKOnobar(createMainItem("4", "odjavi se"));
 
 
     }

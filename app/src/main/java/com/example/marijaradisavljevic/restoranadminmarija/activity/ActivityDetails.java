@@ -1,5 +1,6 @@
 package com.example.marijaradisavljevic.restoranadminmarija.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,12 @@ public class ActivityDetails extends AppCompatActivity {
 
 
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //here you can handle orientation change
     }
 
     @Override
@@ -83,7 +90,7 @@ public class ActivityDetails extends AppCompatActivity {
 
             if (fragment != null) {
                 fragment.setArguments(arguments);
-                getSupportFragmentManager().beginTransaction().add(R.id.container_menu, fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_menu, fragment).commit();
             }
         }
 
